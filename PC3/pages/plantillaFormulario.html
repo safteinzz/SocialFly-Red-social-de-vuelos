@@ -57,9 +57,141 @@
 	</nav>
 	<!-- FIN NAV - MENU -->
 		
+	<span class="ir-arriba fas fa-chevron-up"></span>
 	
-	<!-- INICIO CONTENIDO -->
-	<div class="col-md-12" id="contenedor">
+	<!-- INICIO CONTENIDO FORMULARIO-->
+	<div class="col-md-12" id="contenedorFormulario">
+	
+		<div class="row">
+			<div class="col-md-6 colFormulario">
+				<!-- INICIO RADIO GENERO -->
+				<div class="input-group">
+					<label class="label">genero</label>
+					<!-- Si en el siguiente div ponemos la clase "disabled" deshabilitaremos todos los inputs de tipo radio dentro -->
+					<!--
+						<div id="divGenero" class="radio-style disabled">
+					-->
+					<div id="divGenero" class="radio-style">
+						<div class="custom-control custom-radio custom-control-inline">
+							<input type="radio" class="custom-control-input" id="customRadioHombre" name="genero" value="generoHombre">
+							<label class="custom-control-label" for="customRadioHombre">Hombre <i class="fas fa-mars iconGenero" style="color: #00d3ff;"></i></label>
+						</div>
+						<div class="custom-control custom-radio custom-control-inline">
+							<input type="radio" class="custom-control-input" id="customRadioMujer" name="genero" value="generoMujer">
+							<label class="custom-control-label" for="customRadioMujer">Mujer <i class="fas fa-venus iconGenero" style="color: pink;"></i></label>
+						</div>
+					</div>
+				</div>
+				<!-- FIN RADIO GENERO -->
+			</div>
+			<div class="col-md-6 colFormulario">
+				<!-- INICIO INPUT DNI -->
+				<div class="input-group">
+					<label class="label">dni</label>
+					<input id="inputDNI" class="input--style-4" type="text" name="dni" placeholder="DNI">
+				</div>
+				<!-- FIN INPUT DNI -->
+			</div>
+		</div>
+	
+		<div class="row">
+			<div class="col-md-6 colFormulario">
+				<!-- INICIO INPUT NOMBRE -->
+				<div class="input-group">
+					<label class="label">nombre</label>
+					<input id="inputNombre" class="input--style-4" type="text" name="nombre" placeholder="Nombre">
+				</div>
+				<!-- FIN INPUT NOMBRE -->
+			</div>
+			<div class="col-md-6 colFormulario">
+				<!-- INICIO INPUT APELLIDOS -->
+				<div class="input-group">
+					<label class="label">apellidos</label>
+					<input id="inputApellidos" class="input--style-4" type="text" name="apellidos" placeholder="Apellidos">
+				</div>
+				<!-- FIN INPUT APELLIDOS -->
+			</div>
+		</div>
+		
+		
+		
+		<div class="row">
+			<div class="col-md-6 colFormulario">
+				<!-- INICIO SELECT PAIS -->
+				<div class="input-group">
+					<label class="label">País</label>
+					<select id="selectPais" name="cars" class="custom-select input--style-4">
+					  <option selected disabled>-- Seleccionar --</option>
+					  <option value="volvo">España</option>
+					  <option value="fiat">Francia</option>
+					  <option value="audi">Portugal</option>
+					</select>
+				</div>
+				<!-- FIN SELECT PAIS -->
+			</div>
+			<div class="col-md-6 colFormulario">
+				<!-- INICIO SELECT CIUDAD -->
+				<div class="input-group">
+					<label class="label">Ciudad</label>
+					<select id="selectCiudad" name="cars" class="custom-select input--style-4">
+					  <option selected disabled>-- Seleccionar --</option>
+					  <option value="volvo">Madrid</option>
+					  <option value="fiat">Toledo</option>
+					  <option value="audi">Valencia</option>
+					</select>
+				</div>
+				<!-- FIN SELECT CIUDAD -->
+			</div>
+			
+		</div>
+		
+		<div class="row">
+			<div class="col-md-12 colFormulario">
+				<!-- INICIO TEXTAREA DESCRIPCION -->
+				<div class="input-group">
+					<label class="label">Descripción</label>
+					<textarea class="input--style-4" id="textAreaDescripcion" placeholder="Introduce una descripción sobre tí" rows="3"></textarea>
+				</div>
+				<!-- FIN TEXTAREA DESCRIPCION -->
+			</div>
+			
+		</div>
+		
+		<div class="row">
+			<div class="col-md-12 colFormulario">
+				<!-- INICIO CHECKBOX ACTIVIDADES -->
+				<div class="input-group">
+					<label class="label">¿Qué actividades te gusta hacer?</label>
+					<div id="divActividades" class="checkbox-style disabled">
+						<div class="custom-control custom-checkbox custom-control-inline">
+							<input type="checkbox" class="custom-control-input" id="checkDeporte" name="example1">
+							<label class="custom-control-label" for="checkDeporte">Deporte <i class="fas fa-swimmer iconGenero"></i></label>
+						</div>
+						<div class="custom-control custom-checkbox custom-control-inline">
+							<input type="checkbox" class="custom-control-input" id="checkComida" name="example1">
+							<label class="custom-control-label" for="checkComida">Comida <i class="fas fa-utensils iconGenero"></i></label>
+						</div>
+						<div class="custom-control custom-checkbox custom-control-inline">
+							<input type="checkbox" class="custom-control-input" id="checkLectura" name="example1">
+							<label class="custom-control-label" for="checkLectura">Lectura <i class="fas fa-book iconGenero"></i></label>
+						</div>
+						<div class="custom-control custom-checkbox custom-control-inline">
+							<input type="checkbox" class="custom-control-input" id="checkCine" name="example1">
+							<label class="custom-control-label" for="checkCine">Cine <i class="fas fa-video iconGenero"></i></label>
+						</div>
+						<div class="custom-control custom-checkbox custom-control-inline">
+							<input type="checkbox" class="custom-control-input" id="checkComprarRopa" name="example1">
+							<label class="custom-control-label" for="checkComprarRopa">Comprar ropa <i class="fas fa-tshirt iconGenero"></i></label>
+						</div>
+					</div>
+				</div>
+				<!-- FIN CHECKBOX ACTIVIDADES -->
+			</div>
+			
+		</div>
+		
+		
+		
 		
 		
 	</div>

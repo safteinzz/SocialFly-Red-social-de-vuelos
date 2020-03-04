@@ -52,6 +52,20 @@
 			/** FIN BOTON SUBIR PANTALLA */
 			
 			
+			/** INICIO ELIMINAR POST */
+			$(".abrirModalDelete").on('click', function(event){
+				var idPOST = $(this).data('id');
+				$("#btnEliminarPost").attr("data-id",idPOST);
+			});
+			
+			$("#btnEliminarPost").on('click', function(event){
+				var idPOST = $(this).data('id');
+				$("#" + idPOST).remove();
+			});
+			/** FIN ELIMINAR POST */
+			
+			
+			/** INICIO CARGAR IMAGEN EN EL MODAL */
 			$(".abrirModalIMG").on('click', function(event){
 				var imagenParaModal = $(this).data('id');
 				$("#imagenDelModal").attr("src",imagenParaModal);
@@ -62,7 +76,7 @@
 				$("#imagenDelModal").attr("src",imagenParaModal);
 				$('#modalIMG').modal('show');
 			});
-			
+			/** FIN CARGAR IMAGEN EN EL MODAL */
 			
 			/** INICIO METODO PARA QUITAR/PONER LA LUPA DE LOS SEARCH CUANDO SE HACE FOCUS*/
 			$('.has-search .form-control').focus(function(){
@@ -117,7 +131,9 @@
 				var spanContadorMegusta = $("#" + idPost + " .contadorMegusta");
 				
 				// Cambio de colores y muestra de mensaje segun si ya le gustaba el post o no
-				if(divTeGusta.hasClass("d-none")){
+				if(divTeGusta.hasClass("dislike")){
+					
+				} else if(divTeGusta.hasClass("d-none")){
 					//Si tiene la clase es porque todavia no le gusta
 					divTeGusta.removeClass("d-none");
 					divTeGusta.removeAttr("style");
@@ -155,9 +171,10 @@
 					var idPost = $(this).data('id');
 					var divTeGusta = $("#" + idPost + " .teGustaPost");
 					var divIconoMeGusta = $("#" + idPost + " .iconoMeGusta");
-
+					divIconoMeGusta.css("cursor","pointer");
 					if(divTeGusta.hasClass("dislike")){
 					//No tiene funcion porque cuando este en rojo (dislike) no queremos que haga nada
+						divIconoMeGusta.css("cursor","no-drop");
 					} else if(divTeGusta.hasClass("d-none")){
 					//Si tiene la clase es porque todavia no le gusta
 						divIconoMeGusta.css("color","#0056b3");
@@ -187,6 +204,17 @@
 			
 			
 			/** FIN ACCION BOTON ME GUSTA */
+			
+			
+			
+			/** INICIO DESHABILITAR RADIO BUTTON DISABLED */
+			$('.disabled input[type=radio]').attr('disabled', 'disabled');			
+			/** FIN DESHABILITAR RADIO BUTTON DISABLED */
+			
+			/** INICIO DESHABILITAR RADIO CHECKBOX DISABLED */
+			$('.disabled input[type=checkbox]').attr('disabled', 'disabled');			
+			/** FIN DESHABILITAR RADIO CHECKBOX DISABLED */
+			
 			
 		});
 		/** FIN METODO INICIAR PANTALLA */

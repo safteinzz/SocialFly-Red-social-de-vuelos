@@ -74,6 +74,11 @@
 			<!-- INICIO POST -->
 			<div class="post" id="post1">
 				<div class="header">
+					<div class="float-right botones botonDelete">
+						<a href="#" class="abrirModalDelete" data-target="#modalDelete" data-toggle="modal" data-id="post1" >
+							<i class="fas fa-trash-alt"></i>
+						</a>
+					</div>
 					<a href="#" data-target="#modalIMG" data-toggle="modal" data-id="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg" class="color-gray-darker c6 td-hover-none abrirModalIMG" style="text-decoration: none;float:left;">
 						<img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg" width="60" height="60" class="rounded-circle">
 					</a>
@@ -405,7 +410,8 @@ Sociis sed potenti eu lectus praesent sociosqu facilisis quis ridiculus, suscipi
 	<!-- FIN MODAL IMAGEN -->
 	
 	
-	<!-- INICIO MODAL IMAGEN -->
+	
+	<!-- INICIO MODAL COMENTARIO -->
 	<div aria-hidden="true" aria-labelledby="modalComent" class="modal fade" id="modalComent" role="dialog" tabindex="-1">
 		<div class="modal-dialog modal-lg" role="document">
 			<div class="modal-content">
@@ -419,8 +425,23 @@ Sociis sed potenti eu lectus praesent sociosqu facilisis quis ridiculus, suscipi
 			</div>
 		</div>
 	</div>
-	<!-- FIN MODAL IMAGEN -->
+	<!-- FIN MODAL COMENTARIO -->
 	
+	<!-- INICIO MODAL BORRAR POST -->
+	<div aria-hidden="true" aria-labelledby="modalDelete" class="modal fade" id="modalDelete" role="dialog" tabindex="-1">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-body mb-0 p-0">
+					¿Estás seguro que desea eliminar la publicación?
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-outline-primary btn-rounded btn-md ml-4 text-center btn-close" data-dismiss="modal" type="button">Cancelar</button>
+					<button id="btnEliminarPost" class="btn btn-outline-primary btn-rounded btn-md ml-4 text-center" data-dismiss="modal" type="button">Confirmar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- FIN MODAL BORRAR POST -->
 	
 	<!-- INICIO PIE DE PAGINA -->
 	<footer id="footer" class="d-flex-column text-center">
