@@ -182,8 +182,33 @@
 	
 	/* CONTENIDO */
 	
+	.muroIzquierda{
+		display: block;
+		left:0px;
+		position:fixed;
+		transition:all 0.5s linear;
+		top:72px;
+		z-index: 1;
+		padding: 0px;
+	}
+	
+	.iconReload{
+		font-size: 25px;
+		color: white;
+		background: #4dde76 !important;
+		padding: 0px 5px;
+		padding-bottom: 2px;
+		border-radius: 10%;
+	}
+	
+	.iconReload:hover{
+		color: white;
+		background: #42a05d !important;
+	}
+	
 	.muroDerecha{
 		display: block;
+		right:0px;
 		position:fixed;
 		transition:all 0.5s linear;
 		top:72px;
@@ -193,6 +218,7 @@
 		box-shadow: 3px 3px 6px 0 #dddcdc, -3px 3px 6px 0 #dddcdc;
 		padding-bottom: 20px;
 		margin-bottom: 90px;
+		margin-left: 8.333333%;
 	}
 	
 	.muro:hover{
@@ -364,9 +390,20 @@
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	/* FORMULARIO */
 	#contenedorFormulario{
 		padding: 25px 100px;
+		margin-bottom: 90px;
 	}
 	
 	.label {
@@ -464,8 +501,42 @@
 	
 	
 	
+	/* ESTILO TABLAS */
+	.table-hover tbody tr:hover {
+		background-color: #4dde7638 !important;
+	}
 	
+	.bootstrap-table .btn-secondary{
+		background: #4dde76 !important;
+		border-color: #1dbb4a !important;
+	}
 	
+	.bootstrap-table .btn-secondary:hover{
+		background: #42a05d !important;
+	}
+	
+	.bootstrap-table .search-input:focus{
+		outline: 0;
+		box-shadow: inset 0 1px 2px rgba(0,0,0,.075),0 0 8px rgba(128,189,255,.5);
+		border: 1px solid #80bdff;
+	}
+	
+	.recuadroTabla{
+		border: 1px solid #1dbb4a;
+		padding: 0px 5px;
+	}
+	
+	.headerTabla {
+		text-align: center;
+		padding: 15px 0px;
+		border: 1px solid #1dbb4a;
+		background: #1dbb4a;
+		border-top-left-radius: 10px;
+		border-top-right-radius: 10px;
+		font-size: 30px;
+		font-weight: bold;
+		text-transform: uppercase;
+	}
 	
 	
 	
@@ -488,7 +559,7 @@
 		width: 100%;
 		position: fixed;
 		bottom: 0;
-		z-index:1;
+		z-index:10;
 		background: white;
 	}
 	
@@ -682,7 +753,7 @@
 	
 	/* MEDIA RESPONSIVE MENOR QUE 767PX */
 	@media (max-width:767px) {
-		.muroDerecha{
+		.muroIzquierda, .muroDerecha{
 			display: none;
 		}
 		
@@ -736,6 +807,7 @@
 		#contenedorFormulario, .muro{
 			border: 0px;
 			margin-bottom: 60px;
+			margin-left: 0px;
 		}
 	
 		hr{
