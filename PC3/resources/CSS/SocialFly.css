@@ -148,7 +148,16 @@
 		box-shadow: 0 0 0 .2rem rgba(0, 255, 22, 0.5);
 	}
 	
+	.btn-principal {
+		background-color: #4dde76 !important;
+		border-color: #42a05d;
+		color: black;
+		margin: 0px !important;
+	}
 	
+	.btn-principal:hover {
+		background-color: #42a05d !important;
+	}
 	
 	/* BOTON CERRAR */
 	.btn-close{
@@ -173,7 +182,11 @@
 		box-shadow: 0 0 0 .2rem rgba(255, 0, 0, 0.5);
 	}
 	
-	
+	.btn.focus, .btn:focus {
+		outline: 0;
+		box-shadow: inset 0 1px 2px rgba(0,0,0,.075),0 0 8px rgba(128,189,255,.5);
+		border: 1px solid #80bdff;
+	}
 	
 	
 	
@@ -213,15 +226,33 @@
 		transition:all 0.5s linear;
 		top:72px;
 	}
+	
+	.contenedorCentral {
+		margin-bottom: 90px;
+		margin-left: 8.333333%;
+		padding-left: 0px;
+		padding-right: 0px;
+	}
 			
 	.muro {
 		box-shadow: 3px 3px 6px 0 #dddcdc, -3px 3px 6px 0 #dddcdc;
-		padding-bottom: 20px;
-		margin-bottom: 90px;
-		margin-left: 8.333333%;
+		padding-left: 15px;
+		padding-right: 15px;
 	}
 	
 	.muro:hover{
+		box-shadow: 3px 3px 6px 0 #b3b3b3, -3px 3px 6px 0 #b3b3b3;
+	}
+	
+	.muroComentario {
+		box-shadow: 3px 3px 6px 0 #dddcdc, -3px 3px 6px 0 #dddcdc;
+		padding-left: 15px;
+		padding-right: 15px;
+		padding-bottom: 5px;
+		margin-bottom: 10px;
+	}
+	
+	.muroComentario:hover{
 		box-shadow: 3px 3px 6px 0 #b3b3b3, -3px 3px 6px 0 #b3b3b3;
 	}
 	
@@ -496,6 +527,44 @@
 	
 	
 	
+	.btn-choose, .btn-reset {
+		height: 50px;
+	}
+	
+	.btn-choose{
+		border-radius: 5px;
+		border-top-right-radius: 0px;
+		border-bottom-right-radius: 0px;
+		background-color: #4dde76 !important;
+	}
+	
+	.btn-choose:hover{
+		background-color: #42a05d !important;
+	}
+	
+	.btn-choose:focus{
+		outline: 0;
+		box-shadow: inset 0 1px 2px rgba(0,0,0,.075),0 0 8px rgba(128,189,255,.5);
+		border: 1px solid #80bdff;
+	}
+	
+	.btn-reset {
+		border-radius: 5px;
+		border-top-left-radius: 0px;
+		border-bottom-left-radius: 0px;
+	}
+	
+	.divSubirArchivo .inputSubirArchivo {
+		height: 50px;
+		border-radius: 0px !important;
+		background: #eee;
+	}
+	
+	.inputSubirArchivo:focus {
+		outline: 0;
+		box-shadow: inset 0 1px 2px rgba(0,0,0,.075),0 0 8px rgba(128,189,255,.5) !important;
+		border: 1px solid #80bdff;
+	}
 	
 	
 	
@@ -804,10 +873,14 @@
 			margin-bottom: 15px;
 		}
 	
-		#contenedorFormulario, .muro{
+		#contenedorFormulario, .contenedorCentral{
 			border: 0px;
 			margin-bottom: 60px;
 			margin-left: 0px;
+		}
+		
+		.muro {
+			padding-bottom: 25px;
 		}
 	
 		hr{
@@ -852,6 +925,7 @@
 	  .contendorMostrarOpciones{
 			display:block;
 		}
+		
 
 	}
 
