@@ -36,7 +36,7 @@
 			$('.ir-arriba').click(function(){
 				$('body, html').animate({
 					scrollTop: '0px'
-				}, 300);
+				}, 1000);
 			});
 		 
 			$(window).scroll(function(){
@@ -50,20 +50,6 @@
 				}
 			});
 			/** FIN BOTON SUBIR PANTALLA */
-			
-			
-			/** INICIO ELIMINAR POST */
-			$(".abrirModalDelete").on('click', function(event){
-				var idPOST = $(this).data('id');
-				$("#btnEliminarPost").attr("data-id",idPOST);
-			});
-			
-			$("#btnEliminarPost").on('click', function(event){
-				var idPOST = $(this).data('id');
-				$("#" + idPOST).remove();
-			});
-			/** FIN ELIMINAR POST */
-			
 			
 			/** INICIO CARGAR IMAGEN EN EL MODAL */
 			$(".abrirModalIMG").on('click', function(event){
@@ -88,6 +74,12 @@
 			});
 			/** FIN METODO PARA QUITAR/PONER LA LUPA DE LOS SEARCH CUANDO SE HACE FOCUS*/
 			
+			/** INICIO ELIMINAR POST */
+			$("#btnEliminarPost").on('click', function(event){
+				var idPOST = $(this).data('id');
+				$("#" + idPOST).remove();
+			});
+			/** FIN ELIMINAR POST */
 			
 			/** INICIO BUSCADOR DEL PERFIL - VERSION MOVIL */
 			$('.buscadorMenu input#search').focus(function(){
@@ -188,7 +180,13 @@
 		/** FIN METODO INICIAR PANTALLA */
 		
 		
+		/** INICIO ELIMINAR POST */
+		function abrirModalDelete(idPOST){
+			$("#btnEliminarPost").attr("data-id",idPOST);
+		}
+		/** FIN ELIMINAR POST */
 		
+		/** INICIO EVENTOS ICONO ME GUSTA DEL POST */
 		function agregarEventoIconoMeGusta(){
 			$(".iconoMeGusta").on('click', function(event){
 				clickIconoMeGusta($(this).data('id'));
@@ -233,17 +231,26 @@
 				//Metodo para restar un comentario por parte del usuario logeado
 			}
 		}
+		/** FIN EVENTOS ICONO ME GUSTA DEL POST */
 		
-		
-		
+		/** INICIO BUSCADOR DE ARCHIVOS */
 		function bs_input_file() {
 			$(".input-file").before(
 				function() {
 					if ( ! $(this).prev().hasClass('input-ghost') ) {
-						var element = $("<input type='file' class='input-ghost' style='visibility:hidden; height:0'>");
+						var element = $("<input type='file' class='input-ghost' style='visibility:hidden; height:0' multiple>");
 						element.attr("name",$(this).attr("name"));
 						element.change(function(){
-							element.next(element).find('input').val((element.val()).split('\\').pop());
+							var namesFile;
+							//var names = [];
+							for (var i = 0; i < $(element).get(0).files.length; ++i) {
+								//names.push($(element).get(0).files[i].name);
+								namesFile += $(element).get(0).files[i].name;
+								if(i < ($(element).get(0).files.length - 1)){
+									namesFile += "; ";
+								}
+							}
+							element.next(element).find('input').val(namesFile);
 						});
 						$(this).find("button.btn-choose").click(function(){
 							element.click();
@@ -262,20 +269,17 @@
 				}
 			);
 		}
+		/** FIN BUSCADOR DE ARCHIVOS */
 		
-		function ocultarDiv(varIdDiv){
-			$(varIdDiv).css('display','none');
-		}
-		
-		
+		/** INICIO CREAR NUEVO POST */
 		var varContadorPost = 5;
 		
 		function crearPost(varComentario){
-			$('#messagesComentario').css('display','none');
+			$('.muroComentario #messagesComentario').css('display','none');
 			
 			if(varComentario == ""){
-				$('#messagesComentario').css('display','block');
-				$('#contenidoMensaje').html("<b>ERROR:</b> Es obligatorio escribir algún <u>comentario</u>.");
+				$('.muroComentario #messagesComentario').css('display','block');
+				$('.muroComentario #contenidoMensaje').html("<b>ERROR:</b> Es obligatorio escribir algún <u>comentario</u>.");
 			} else {
 				
 				
@@ -283,16 +287,24 @@
 				var varUrlImgPerfil = "https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg";
 				var varNomUser = "Sergio Fortes Campillo";
 				var varSalida = "Barajas(Madrid) 15:00 20/20/20";
-				var varRetrasoSalida = false;
+				var varRetrasoSalida = true;
 				var varDestino = "El Prat(Barcelona) 17:00 20/20/20";
 				var varRetrasoDestino = true;
-				var varFechaComentario = "9:58 20/20/20";
-				var varContMG = 586;
-				var varContComent = 1329;
+				var dt = new Date();
+				var varFechaComentario = formatDate(dt);
+				var varContMG = 0;
+				var varContComent = 0;
+				var varCarrousel = [
+									"https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg",
+									"https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg",
+									"https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg"
+									];
+				var varStringCarrousel = crearCarrousel(varCarrousel, varIdPOST);
+				
 				var stringPOST = "<div class='post' id='" + varIdPOST + "'> "
 					+ "<div class='header'>"
 					+ "<div class='float-right botones botonDelete'>"
-					+ "			<a href='#' class='abrirModalDelete' data-target='#modalDelete' data-toggle='modal' data-id='" + varIdPOST + "' >"
+					+ "			<a href='#' class='abrirModalDelete' data-target='#modalDelete' data-toggle='modal' onclick='abrirModalDelete(\"" + varIdPOST + "\");'>"
 					+ "				<i class='fas fa-trash-alt'></i>"
 					+ "			</a>"
 					+ "		</div>"
@@ -332,6 +344,10 @@
 					+ "		<p>"
 							+ varComentario
 					+ "		</p>"
+					
+					// Agregamos la parte del carrousel, si no tiene imagenes vendra un string vacio
+					+ varStringCarrousel
+					
 					+ "	</div>"
 					+ "	<div class='pie'>"
 					+ "		<div class='informacionPost'>"
@@ -354,4 +370,126 @@
 				
 				varContadorPost++;
 			}
+		}
+		/** FIN CREAR NUEVO POST */
+		
+		/** INICIO CREAR CARROUSEL */
+		function crearCarrousel(varCarrousel, varIdPOST){
+			var varStringCarrousel = "";
+			var varIdCarrousel= "carrousel" + varIdPOST;
+			
+			if(varCarrousel.length > 0){
+				
+				// 	<!-- INICIO CAROUSEL -->
+				varStringCarrousel = 
+					"	<div id='" + varIdCarrousel + "' class='carousel slide' data-ride='carousel'>"
+					+ "		<ol class='carousel-indicators'>";
+					
+					for (var x = 0; x < varCarrousel.length; x++) {
+						if( x == 0){
+							varStringCarrousel += "<li data-target='#" + varIdCarrousel + "' data-slide-to='" + x + "' class='active'></li>";
+						} else {
+							varStringCarrousel += "<li data-target='#" + varIdCarrousel + "' data-slide-to='" + x + "'></li>";
+						}
+					} 
+					
+				varStringCarrousel +=
+					"		</ol>"
+					+ "		<div class='carousel-inner'>";
+					
+					for (var x = 0; x < varCarrousel.length; x++) {
+						if( x == 0){
+							varStringCarrousel += "			<div class='carousel-item active'>"
+						} else {
+							varStringCarrousel += "			<div class='carousel-item'>"
+						}
+						
+						
+						varStringCarrousel += 
+					 "				<img class='d-block w-100 mx-auto imagenCarousel' data-id='" + varCarrousel[x] + "' src='" + varCarrousel[x] + "' alt='" + x + " slide'>"
+					+ "			</div>";
+						
+					} 
+				
+				varStringCarrousel +=
+					 "		</div>"
+					+ "		<a class='carousel-control-prev' href='#" + varIdCarrousel + "' role='button' data-slide='prev'>"
+					+ "			<span class='carousel-control-prev-icon fas fa-chevron-left' aria-hidden='true'></span>"
+					+ "			<span class='sr-only'>Previous</span>"
+					+ "		</a>"
+					+ "		<a class='carousel-control-next' href='#" + varIdCarrousel + "' role='button' data-slide='next'>"
+					+ "			<span class='carousel-control-next-icon fas fa-chevron-right' aria-hidden='true'></span>"
+					+ "			<span class='sr-only'>Next</span>"
+					+ "		</a>"
+					+ "	</div>";
+				//	<!-- FIN CAROUSEL -->
+			}
+			
+			return varStringCarrousel;
+		}
+		/** FIN CREAR CARROUSEL */
+		
+		
+		
+		
+		/** INICIO CREAR COMENTARIO */
+		var varContadorComment = 5;
+		
+		function crearComentario(varTextoComentario){
+			$('#modalComent #messagesComentario').css('display','none');
+			
+			if(varTextoComentario == ""){
+				$('#modalComent #messagesComentario').css('display','block');
+				$('#modalComent #messagesComentario #contenidoMensaje').html("<b>ERROR:</b> Es obligatorio escribir algún <u>comentario</u>.");
+			} else {
+				var varNomUser = "Sergio Fortes Campillo";
+				var varUrlImgPerfil = "https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg";
+				var idComment = "comment" + varContadorComment;
+				
+				var dt = new Date();
+				var varFechaComentario = formatDate(dt);
+
+				
+				
+				var stringComment = 
+						"<div class='comentarioPOST comentarioUsuarioLogeado' id='comment2'>"
+					+ "		<div class='header'>"
+					+ "			<a href='#' class='color-gray-darker c6 td-hover-none imagenPerfil' style='text-decoration: none;'>"
+					+ "				<img src='"
+										+ varUrlImgPerfil
+					+ "					' width='30' height='30' class='rounded-circle'>"
+					+ "			</a>"
+					+ "			<a href='#' class='usuarioPost'>"
+									+ varNomUser
+					+ "			</a>"
+					+ "		</div>"
+					+ "		<p class='comentarioLogeado'>"
+								+ varTextoComentario
+					+ "		</p>"
+					+ "		<div class='fecha'>"
+								+ varFechaComentario
+					+ "		</div>"
+					+ "	</div>";
+				
+				$('.contenidoMensajes .comentarioPOST').last().after(stringComment);
+				
+				varContadorComment++;
+				
+				// Hace que el scroll baje hasta abajo cada vez que se añada un comentario nuevo
+				$('#modalComent .contenidoMensajes').animate({
+					scrollTop: $('#modalComent .contenidoMensajes')[0].scrollHeight
+				}, 1000);
+				
+			}
+		}
+		/** FIN CREAR COMENTARIO */
+		
+		function ocultarDiv(varIdDiv){
+			$(varIdDiv).css('display','none');
+		}
+		
+		function formatDate(varDate){
+			var datestring = varDate.getDate()  + "/" + (varDate.getMonth()+1) + "/" + varDate.getFullYear() + " " +
+					varDate.getHours() + ":" + varDate.getMinutes();
+			return datestring;
 		}

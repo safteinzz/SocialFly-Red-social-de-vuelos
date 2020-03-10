@@ -32,7 +32,45 @@
 				console.log($('#inputImagenes').val());
 				
 				crearPost($('#textAreaNuevoComentario').val());
+				$('#textAreaNuevoComentario').val("")
 			});
+			
+			$("#btnCrearComentario").on('click', function(event){
+				crearComentario($('#textAreaNuevaRespuesta').val());
+				$('#textAreaNuevaRespuesta').val("")
+			});
+			
+			/** INICIO EVENTO PARA EL MENU MOSTRAR OPCIONES - SOLO DISPONIBLE PARA VERSION MOVIL */
+			$("#mostrarOpciones").on('click', function(event){
+			
+				// Comprobamos el value del display del boton reload
+				//entendemos que este boton siempre se va a mostrar
+				var varValueDisplayReload = $('#btnReload').css('display');
+				
+				if(varValueDisplayReload == "none"){
+					// Si estaba oculto lo mostramos
+					$('#btnReload').css('display', 'block');
+				} else {
+					// Si se mostraba lo ocultamos
+					$('#btnReload').css('display', 'none');
+				}
+				
+				// Para el boton de subir el scrol hacia arriba primero tenemos que comprobar
+				//que el scroll sea superior a 60 ya que es cuando empieza a mostrarse
+				if($(window).scrollTop() > 60){
+					// Comprobamos el value del display del boton ir arriba
+					var varValueDisplayArriba = $('#irArriba').css('display');
+					
+					if(varValueDisplayArriba == "none"){
+						// Si estaba oculto lo mostramos
+						$('#irArriba').css('display', 'block');
+					} else {
+						// Si se mostraba lo ocultamos
+						$('#irArriba').css('display', 'none');
+					}
+				}
+			});
+			/** FIN EVENTO PARA EL MENU MOSTRAR OPCIONES - SOLO DISPONIBLE PARA VERSION MOVIL */
 		}
 	</script>
 </head>
@@ -44,6 +82,15 @@
 			<img src="../resources/images/iconAvion.png" width="30" height="30" alt="logo">
 			SocialFly
 		</a>
+		
+		<div class="box">
+			<div class="buscadorMenu">
+				
+				<input type="search" id="search" placeholder="Search..." />
+				<span class="icon"><i class="fa fa-search"></i></span>
+			</div>
+		</div>
+		
 		<ul class="navbar-nav">
 			<li class="nav-item dropdown">
 				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -65,23 +112,19 @@
 				</div>
 			</li>   
 		</ul>
-		<div class="box">
-				<div class="buscadorMenu">
-					
-					<input type="search" id="search" placeholder="Search..." />
-					<span class="icon"><i class="fa fa-search"></i></span>
-				</div>
-			</div>
 		
 	</nav>
 	<!-- FIN NAV - MENU -->
 	
+	<!-- INICIO BOTON SUBIR SCROLL -->
+	<span id="irArriba" class="ir-arriba fas fa-chevron-up"></span>
+	<!-- FIN BOTON SUBIR SCROLL -->
 	
-	<span class="ir-arriba fas fa-chevron-up"></span>
-	
-	
-	
-	
+	<!-- INICIO BOTON REFRESCAR PAGINA -->
+	<a id="btnReload" href="plantilla.html">
+		<span class="btnReload fas fa-sync-alt"></span>
+	</a>
+	<!-- FIN BOTON REFRESCAR PAGINA -->
 	
 	
 	<!-- INICIO CONTENIDO -->
@@ -135,7 +178,7 @@
 								<span class="input-group-btn">
 									<button class="btn btn-default btn-choose" type="button">Adjuntar <i class="fas fa-paperclip"></i></button>
 								</span>
-								<input id="inputImagenes" type="text" class="form-control inputSubirArchivo" placeholder='Selecciona algún archivo...' />
+								<input id="inputImagenes" type="text" class="form-control inputSubirArchivo" placeholder='Selecciona algún archivo...' multiple />
 								<span class="input-group-btn">
 									<button class="btn btn-warning btn-reset" type="button">Borrar <i class="fas fa-times"></i></button>
 								</span>
@@ -504,12 +547,72 @@
 	<div aria-hidden="true" aria-labelledby="modalComent" class="modal fade" id="modalComent" role="dialog" tabindex="-1">
 		<div class="modal-dialog modal-lg" role="document">
 			<div class="modal-content">
-				<div class="modal-body">
-					<img id="imagenDelModal" src="" alt="" style="width:100%">
+				<div class="modal-body" style="padding:0px;">
+					<div class="contenidoMensajes">
+						<!-- INICIO COMENTARIO DE UN USUARIO -->
+						<div class="comentarioPOST comentarioUsuario" id="comment1">
+							<div class="header">
+								<a href="#" class="color-gray-darker c6 td-hover-none" style="text-decoration: none;float:left;">
+									<img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg" width="30" height="30" class="rounded-circle">
+								</a>
+								<a href="#" class="usuarioPost">
+									Sergio Fortes Campillo
+								</a>
+							</div>
+							<p class="comentarioPersonal">For example, <code>&lt;p&gt;[text]&lt;/p&gt;</code>.</p>
+							<div class="fecha">
+								9:58 20/20/20
+							</div>
+						</div>
+						<!-- FIN COMENTARIO DE UN USUARIO -->
+						
+						
+						<!-- INICIO COMENTARIO DE USUARIO LOGEADO -->
+						<div class="comentarioPOST comentarioUsuarioLogeado" id="comment2">
+							<div class="header">
+								<a href="#" class="color-gray-darker c6 td-hover-none imagenPerfil" style="text-decoration: none;">
+									<img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg" width="30" height="30" class="rounded-circle">
+								</a>
+								<a href="#" class="usuarioPost">
+									Sergio Fortes Campillo
+								</a>
+							</div>
+							<p class="comentarioLogeado">For example, <code>&lt;p&gt;[text]&lt;/p&gt;</code>.</p>
+							<div class="fecha">
+								9:58 20/20/20
+							</div>
+						</div>
+						<!-- FIN COMENTARIO DE USUARIO LOGEADO -->
+						
+						
+					</div>
+				</div>
+				<div style="border-top: 1px solid #e9ecef;padding: 5px 10px;">
+					<div style="margin-bottom: 10px;">
+						<div class="col-md-12">
+							Escribe tu comentario:
+						</div>
+					</div>
+					<div style="margin-bottom: 10px;">
+						<div class="col-md-12">
+							<div class="input-group">
+								<textarea class="input--style-4" id="textAreaNuevaRespuesta" placeholder="Introduce un comentario" rows="1"></textarea>
+							</div>
+						</div>
+					</div>
+					<!-- INICIO DIV MENSAJE ALERTA -->
+					<div id="messagesComentario" class="alert alert-danger alert-dismissible" style="display:none;">
+						<button type="button" class="close" onclick="ocultarDiv('#modalComent #messagesComentario');">&times;</button>
+						<div id="contenidoMensaje"></div>
+					</div>
+					<!-- FIN DIV MENSAJE ALERTA -->
+					
+					<div style="margin-bottom:10px;padding-right: 15px;padding-left: 15px;">
+						<button id="btnCrearComentario" class=" btn-principal btn btn-rounded btn-md ml-4" type="button" style="width:100%;">Enviar</button>
+					</div>
 				</div>
 				<div class="modal-footer">
 					<button class="btn btn-outline-primary btn-rounded btn-md ml-4 text-center btn-close" data-dismiss="modal" type="button">Close</button>
-					<button class="btn btn-outline-primary btn-rounded btn-md ml-4 text-center" data-dismiss="modal" type="button">Enviar</button>
 				</div>
 			</div>
 		</div>
