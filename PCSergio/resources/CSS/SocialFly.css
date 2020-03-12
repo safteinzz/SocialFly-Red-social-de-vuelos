@@ -332,7 +332,7 @@
 		font-size: 24px;
 	}
 	
-	.publicidad{
+	.contenedorCentral .publicidad{
 		display: none;
 	}
 	
@@ -927,7 +927,7 @@
 			display: none;
 		}
 		
-		.publicidad{
+		.contenedorCentral .publicidad{
 			display: block;
 		}
 		

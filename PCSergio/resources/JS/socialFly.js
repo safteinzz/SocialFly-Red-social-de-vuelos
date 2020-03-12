@@ -51,19 +51,6 @@
 			});
 			/** FIN BOTON SUBIR PANTALLA */
 			
-			/** INICIO CARGAR IMAGEN EN EL MODAL */
-			$(".abrirModalIMG").on('click', function(event){
-				var imagenParaModal = $(this).data('id');
-				$("#imagenDelModal").attr("src",imagenParaModal);
-			});
-			
-			$(".imagenCarousel").on('click', function(event){
-				var imagenParaModal = $(this).data('id');
-				$("#imagenDelModal").attr("src",imagenParaModal);
-				$('#modalIMG').modal('show');
-			});
-			/** FIN CARGAR IMAGEN EN EL MODAL */
-			
 			/** INICIO METODO PARA QUITAR/PONER LA LUPA DE LOS SEARCH CUANDO SE HACE FOCUS*/
 			$('.has-search .form-control').focus(function(){
 				$(".form-control-feedback").css("display", "none");
@@ -179,6 +166,18 @@
 		});
 		/** FIN METODO INICIAR PANTALLA */
 		
+		/** INICIO CARGAR IMAGEN EN EL MODAL */
+				
+		function abrirModalIMG(imagenParaModal){
+			$("#imagenDelModal").attr("src",imagenParaModal);
+		}
+		
+		function abrirModalIMGCarrousel(imagenParaModal){
+			$("#imagenDelModal").attr("src",imagenParaModal);
+			$('#modalIMG').modal('show');
+		}
+		/** FIN CARGAR IMAGEN EN EL MODAL */
+		
 		
 		/** INICIO ELIMINAR POST */
 		function abrirModalDelete(idPOST){
@@ -282,7 +281,6 @@
 				$('.muroComentario #contenidoMensaje').html("<b>ERROR:</b> Es obligatorio escribir algún <u>comentario</u>.");
 			} else {
 				
-				
 				var varIdPOST = "POST" + varContadorPost;
 				var varUrlImgPerfil = "https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg";
 				var varNomUser = "Sergio Fortes Campillo";
@@ -308,7 +306,7 @@
 					+ "				<i class='fas fa-trash-alt'></i>"
 					+ "			</a>"
 					+ "		</div>"
-					+ "		<a href='#' data-target='#modalIMG' data-toggle='modal' data-id='" + varUrlImgPerfil + "' class='color-gray-darker c6 td-hover-none abrirModalIMG' style='text-decoration: none;float:left;'>"
+					+ "		<a onclick='abrirModalIMG(\"" + varUrlImgPerfil + "\");' data-target='#modalIMG' data-toggle='modal' class='color-gray-darker c6 td-hover-none abrirModalIMG' style='text-decoration: none;float:left;'>"
 					+ "			<img src='" + varUrlImgPerfil + "' width='60' height='60' class='rounded-circle'>"
 					+ "		</a>"
 					+ "		<a href='#' class='usuarioPost'>"
@@ -342,7 +340,7 @@
 					+ "	</div>"
 					+ "	<div class='comentario'>"
 					+ "		<p>"
-							+ varComentario
+							+ varComentario.replace(new RegExp("\n","g"), "<br/>")
 					+ "		</p>"
 					
 					// Agregamos la parte del carrousel, si no tiene imagenes vendra un string vacio
@@ -365,6 +363,16 @@
 					+ "		</div>"
 					+ "	</div>"
 					+ "	</div>";
+					
+				
+				// Sumamos uno al contador del post
+				varContadorPostPublicidad++;
+				
+				// Si ya tenemos tres post sumamos un post de publicidad entre medias del muro (PARA VERSION MOVIL)
+				if(varContadorPostPublicidad == 4){
+					stringPOST += crearPublicidadMuroCentral(true);
+					varContadorPostPublicidad = 0;
+				}
 					
 				$('.muro .post').first().before(stringPOST);
 				
@@ -406,7 +414,7 @@
 						
 						
 						varStringCarrousel += 
-					 "				<img class='d-block w-100 mx-auto imagenCarousel' data-id='" + varCarrousel[x] + "' src='" + varCarrousel[x] + "' alt='" + x + " slide'>"
+					 "				<img onclick='abrirModalIMGCarrousel(\"" + varCarrousel[x] + "\");' class='d-block w-100 mx-auto imagenCarousel' src='" + varCarrousel[x] + "' alt='" + x + " slide'>"
 					+ "			</div>";
 						
 					} 
@@ -464,7 +472,7 @@
 					+ "			</a>"
 					+ "		</div>"
 					+ "		<p class='comentarioLogeado'>"
-								+ varTextoComentario
+								+ varTextoComentario.replace(new RegExp("\n","g"), "<br/>")
 					+ "		</p>"
 					+ "		<div class='fecha'>"
 								+ varFechaComentario
@@ -483,6 +491,66 @@
 			}
 		}
 		/** FIN CREAR COMENTARIO */
+		
+		
+		/** INICIO CREAR PUBLICIDAD MURO CENTRAL - VERSION MOVIL */
+		var varContadorPostPublicidad = 0; //Este contador cuando llegue a tres es cuando meterá una post de publicidad
+		
+		function crearPublicidadMuroCentral(isMuroCentral){
+			
+			var varNombreEmpresa = "McDonalds";
+			var varNombreAeropuerto = "Barajas(Madrid)";
+			var varComentarioPublicidad = "El mejor restaurante del mundo ven a visitarnos."
+			var varIdPOST = "publicidad" + varNombreEmpresa;
+			
+			var varCarrousel = [
+									"https://i1.wp.com/www.sopitas.com/wp-content/uploads/2015/07/Mc-Trio-McDonalds.jpg",
+									"https://www.dream-alcala.com/wp-content/uploads/2018/12/mcdonalds_hamburguesas_menu.jpg"
+									];
+			var varStringCarrousel = crearCarrousel(varCarrousel, varIdPOST);
+			
+			var stringComment = 
+			"	<div class='post publicidad'>"
+			+ "		<div class='header'>";
+			
+			if(isMuroCentral){
+				stringComment += "			<div class='tituloPublicidad'>Publicidad</div>";
+			}
+			
+			stringComment += "			<a href='#' class='usuarioPost'>"
+							+ varNombreEmpresa
+			+ "			</a>"
+			+ "			<div class='datosVuelo'>"
+			+ "				<a href='#' style='text-decoration: none;'>"
+			+ "					<div class='salidaVuelo'>"
+									+ varNombreAeropuerto
+			+ "					</div>"
+			+ "				</a>"
+			+ "			</div>"
+			+ "		</div>"
+			+ "		<div class='comentario'>"
+			+ "			<p>"
+							+ varComentarioPublicidad
+			+ "			</p>"
+												
+						+	varStringCarrousel;
+			+ "		</div>"
+			+ "	</div>";
+			
+			return stringComment;
+		}
+		/** FIN CREAR PUBLICIDAD MURO CENTRAL - VERSION MOVIL */
+		
+		/** INICIO CREAR PUBLICIDAD MURO DERECHA - VERSION ORDENADOR */
+		
+		function crearPublicidadMuroDerecha(){
+			var varStringPublicidad = crearPublicidadMuroCentral(false);
+			$('.muroDerecha .post').first().after(varStringPublicidad);
+			$('.muroDerecha .post').first().after(varStringPublicidad);
+		}
+		
+		/** FIN CREAR PUBLICIDAD MURO DERECHA - VERSION ORDENADOR */
+		
 		
 		function ocultarDiv(varIdDiv){
 			$(varIdDiv).css('display','none');
