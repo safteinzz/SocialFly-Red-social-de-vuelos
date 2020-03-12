@@ -20,25 +20,45 @@
 	<script>
 		function initPantalla(){
 			
+			/** INICIO EVENTOS PARA EL TEXT AREA DE NUEVO COMENTARIO EN EL POST */
+			// Cada vez que se deje de pulsar una tecla, este evento será lanzado y mirará el tamaño del texto de su interior
+			//si es mayor que 0 me muestra el resto de elementos (botones, select, etc) si es 0 me los oculta
+			$("#textAreaNuevoComentario").keyup(function() {
+				if($(this).val().length > 0){
+					$('#elementosComentario').removeClass('ocultarDiv');
+					$('#elementosComentario').addClass('mostrarDiv');
+				} else {
+					$('#elementosComentario').removeClass('mostrarDiv');
+					$('#elementosComentario').addClass('ocultarDiv');
+				}
+            }); 
+			
+			// Si tengo el focus en el textarea este se me hará más grande
 			$("#textAreaNuevoComentario").focus(function(){
 				$("#textAreaNuevoComentario").attr('rows', '4');		
 			});
-		
 			
+			// Si pierdo el focus en el textArea y no tiene contenido, este se volverá pequeño
+			$("#textAreaNuevoComentario").blur(function(){
+				if($(this).val().length == 0){
+					$("#textAreaNuevoComentario").attr('rows', '1');	
+				}
+			});
+			/** FIN EVENTOS PARA EL TEXT AREA DE NUEVO COMENTARIO EN EL POST */
 			
+			/** INICIO CREAR POST SEGÚN EL CONTENIDO */
 			$("#btnCrearPost").on('click', function(event){
-				console.log($('#textAreaNuevoComentario').val());
-				console.log($('#selectVuelosComentario').val());
-				console.log($('#inputImagenes').val());
-				
 				crearPost($('#textAreaNuevoComentario').val());
 				$('#textAreaNuevoComentario').val("")
 			});
+			/** FIN CREAR POST SEGÚN EL CONTENIDO */
 			
+			/** INICIO CREAR COMENTARIO EN EL MODAL DE COMENTARIOS DE UN POST */
 			$("#btnCrearComentario").on('click', function(event){
 				crearComentario($('#textAreaNuevaRespuesta').val());
 				$('#textAreaNuevaRespuesta').val("")
 			});
+			/** FIN CREAR COMENTARIO EN EL MODAL DE COMENTARIOS DE UN POST */
 			
 			/** INICIO EVENTO PARA EL MENU MOSTRAR OPCIONES - SOLO DISPONIBLE PARA VERSION MOVIL */
 			$("#mostrarOpciones").on('click', function(event){
@@ -151,57 +171,60 @@
 		</div>
 		<div class="col-md-9 float-left contenedorCentral">
 			<div class="muroComentario">
-				<h2>Escribe tu comentario</h2>
-				<div class="row" style="margin-bottom: 10px;">
-					<div class="col-md-12 colFormulario">
-						<div class="input-group">
-							<textarea class="input--style-4" id="textAreaNuevoComentario" placeholder="Introduce un comentario" rows="1"></textarea>
-						</div>
-					</div>
-				</div>
-				<div class="row" style="margin-bottom: 10px;">
-					<div class="col-md-6 colFormulario">
-						<!-- INICIO SELECT PAIS -->
-						<div class="input-group">
-							<label class="label">Vuelos asociados</label>
-							<select id="selectVuelosComentario" name="vuelos" class="custom-select input--style-4">
-							  <option selected disabled>-- Seleccionar --</option>
-							  <option value="125">Barajas - El prat</option>
-							  <option value="138">Barajas - Francia</option>
-							  <option value="855">Barajas - Suiza</option>
-							</select>
-						</div>
-						<!-- FIN SELECT PAIS -->
-					</div>
-					<div class="col-md-6 colFormulario">
-						<!-- INICIO SUBIR ARCHIVOS -->
-						<div class="input-group divSubirArchivo">
-							<label class="label">Adjuntar imagenes / videos</label>
-							<div class="input-group input-file" name="Fichier1">
-								<span class="input-group-btn">
-									<button class="btn btn-default btn-choose" type="button">Adjuntar <i class="fas fa-paperclip"></i></button>
-								</span>
-								<input id="inputImagenes" type="text" class="form-control inputSubirArchivo" placeholder='Selecciona algún archivo...' multiple />
-								<span class="input-group-btn">
-									<button class="btn btn-warning btn-reset" type="button">Borrar <i class="fas fa-times"></i></button>
-								</span>
+				<div id="divComentario">
+					<h2>Escribe tu comentario</h2>
+					<div class="row" style="margin-bottom: 10px;">
+						<div class="col-md-12 colFormulario">
+							<div class="input-group">
+								<textarea class="input--style-4" id="textAreaNuevoComentario" placeholder="Introduce un comentario" rows="1"></textarea>
 							</div>
 						</div>
-						<!-- FIN SUBIR ARCHIVOS -->
+					</div>
+					<div id="elementosComentario" class="ocultarDiv">
+						<div class="row" style="margin-bottom: 10px;">
+							<div class="col-md-6 colFormulario">
+								<!-- INICIO SELECT PAIS -->
+								<div class="input-group">
+									<label class="label">Vuelos asociados</label>
+									<select id="selectVuelosComentario" name="vuelos" class="custom-select input--style-4">
+									  <option selected disabled>-- Seleccionar --</option>
+									  <option value="125">Barajas - El prat</option>
+									  <option value="138">Barajas - Francia</option>
+									  <option value="855">Barajas - Suiza</option>
+									</select>
+								</div>
+								<!-- FIN SELECT PAIS -->
+							</div>
+							<div class="col-md-6 colFormulario">
+								<!-- INICIO SUBIR ARCHIVOS -->
+								<div class="input-group divSubirArchivo">
+									<label class="label">Adjuntar imagenes / videos</label>
+									<div class="input-group input-file" name="Fichier1">
+										<span class="input-group-btn">
+											<button class="btn btn-default btn-choose" type="button">Adjuntar <i class="fas fa-paperclip"></i></button>
+										</span>
+										<input id="inputImagenes" type="text" class="form-control inputSubirArchivo" placeholder='Selecciona algún archivo...' multiple />
+										<span class="input-group-btn">
+											<button class="btn btn-warning btn-reset" type="button">Borrar <i class="fas fa-times"></i></button>
+										</span>
+									</div>
+								</div>
+								<!-- FIN SUBIR ARCHIVOS -->
+							</div>
+						</div>
+						
+						<!-- INICIO DIV MENSAJE ALERTA -->
+						<div id="messagesComentario" class="alert alert-danger alert-dismissible" style="display:none;">
+							<button type="button" class="close" onclick="ocultarDiv('#messagesComentario');">&times;</button>
+							<div id="contenidoMensaje"></div>
+						</div>
+						<!-- FIN DIV MENSAJE ALERTA -->
+						
+						<div class="row" style="margin-bottom:10px;padding-right: 15px;padding-left: 15px;">
+							<button id="btnCrearPost" class=" btn-principal btn btn-rounded btn-md ml-4" data-dismiss="modal" type="button" style="width:100%;">Enviar</button>
+						</div>
 					</div>
 				</div>
-				
-				<!-- INICIO DIV MENSAJE ALERTA -->
-				<div id="messagesComentario" class="alert alert-danger alert-dismissible" style="display:none;">
-					<button type="button" class="close" onclick="ocultarDiv('#messagesComentario');">&times;</button>
-					<div id="contenidoMensaje"></div>
-				</div>
-				<!-- FIN DIV MENSAJE ALERTA -->
-				
-				<div class="row" style="margin-bottom:10px;padding-right: 15px;padding-left: 15px;">
-					<button id="btnCrearPost" class=" btn-principal btn btn-rounded btn-md ml-4" data-dismiss="modal" type="button" style="width:100%;">Enviar</button>
-				</div>
-				
 			</div>
 		
 			<div class="muro">

@@ -415,8 +415,20 @@
 		cursor:pointer;
 	}
 	
+	.mostrarDiv {
+		display: block;
+		opacity: 1;
+	}
 	
+	.ocultarDiv {
+		opacity: 0;
+		display: none;
+	}
 	
+	#elementosComentario {
+		-webkit-animation: slide-down .3s ease-out;
+		-moz-animation: slide-down .3s ease-out;
+	}
 	
 	
 	
@@ -912,11 +924,6 @@
 		overflow-y: scroll;
 		padding: 1rem;
 	}
-	
-	
-	
-	
-	
 	
 	
 	
