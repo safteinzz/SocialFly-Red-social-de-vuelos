@@ -1,10 +1,22 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Welcome to Firebase Hosting</title>
+    <title>Acceso</title>
+	
+	
+	<!--------------------------------------- CDN ------------------------------------------>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	
+	<!--------------------------------------- LIBS ------------------------------------------>
+	<link rel="stylesheet" href="./resources/lib/foundation-icons/foundation-icons.css" />
+    <link rel="stylesheet" href="./resources/lib/bootstrap/css/bootstrap.min.css">
+    <script src="./resources/lib/jquery-3.4.1.js"></script>
+    <script src="./resources/lib/bootstrap/js/bootstrap.min.js"></script>
 
+    <!--------------------------------------- SCRIPTS ------------------------------------------>
     <!-- update the version number as needed -->
     <script defer src="/__/firebase/7.14.0/firebase-app.js"></script>
     <!-- include only the Firebase features as you need -->
@@ -15,51 +27,142 @@
     <!-- initialize the SDK after all desired features are loaded -->
     <script defer src="/__/firebase/init.js"></script>
 
-    <style media="screen">
-      body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
-      #message { background: white; max-width: 360px; margin: 100px auto 16px; padding: 32px 24px; border-radius: 3px; }
-      #message h2 { color: #ffa100; font-weight: bold; font-size: 16px; margin: 0 0 8px; }
-      #message h1 { font-size: 22px; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0 0 16px;}
-      #message p { line-height: 140%; margin: 16px 0 24px; font-size: 14px; }
-      #message a { display: block; text-align: center; background: #039be5; text-transform: uppercase; text-decoration: none; color: white; padding: 16px; border-radius: 4px; }
-      #message, #message a { box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
-      #load { color: rgba(0,0,0,0.4); text-align: center; font-size: 13px; }
-      @media (max-width: 600px) {
-        body, #message { margin-top: 0; background: white; box-shadow: none; }
-        body { border-top: 16px solid #ffa100; }
-      }
-    </style>
-  </head>
-  <body>
-    <div id="message">
-      <h2>Welcome</h2>
-      <h1>Firebase Hosting Setup Complete</h1>
-      <p>You're seeing this because you've successfully setup Firebase Hosting. Now it's time to go build something extraordinary!</p>
-      <a target="_blank" href="https://firebase.google.com/docs/hosting/">Open Hosting Documentation</a>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-analytics.js"></script>
+    <script src="resources/js/scripts.js"></script>
+
+    <!--------------------------------------- CSS ------------------------------------------>
+    <link rel="stylesheet" type="text/css" href="./resources/css/styles.css">
+
+</head>
+
+<body>
+    <!--------------------------------------- BODY ------------------------------------------>
+    <div class="container-fluid px-0 fondoAcceso align-items-center px-1 d-flex align-items-center justify-content-center">
+
+        <div class="container">
+            <div class="d-flex justify-content-center h-100">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Acceder</h3>
+                        <div class="d-flex justify-content-end social_icon">
+                            <span><i class="fi-social-facebook"></i></span>
+                            <span><i class="fi-social-google-plus"></i></span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            <div class="input-group form-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-user"></i></span>
+                                </div>
+                                <input type="text" class="form-control" placeholder="usuario">
+
+                            </div>
+                            <div class="input-group form-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-key"></i></span>
+                                </div>
+                                <input type="password" class="form-control" placeholder="contraseña">
+                            </div>
+                            <div class="row align-items-center remember">
+                                <input type="checkbox">Recordarme
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" value="Login" class="btn float-right login_btn">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card-footer">
+                        <div class="d-flex justify-content-center links">
+                            No tienes cuenta?<a href="#" data-toggle="modal" data-target="#modalRegistro">Registrate</a>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <a href="#" data-toggle="modal" data-target="#modalOlvidoPass">Se te olvido la contraseña?</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <p id="load">Firebase SDK Loading&hellip;</p>
 
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
-        // // The Firebase SDK is initialized and available here!
-        //
-        // firebase.auth().onAuthStateChanged(user => { });
-        // firebase.database().ref('/path/to/ref').on('value', snapshot => { });
-        // firebase.messaging().requestPermission().then(() => { });
-        // firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
-        //
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
+    <!--------------------------------------- MODAL REGISTRO ------------------------------------------>
+    <div class="modal fade" id="modalRegistro" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark" id="exampleModalLabel">Formulario de registro</h5>
 
-        try {
-          let app = firebase.app();
-          let features = ['auth', 'database', 'messaging', 'storage'].filter(feature => typeof app[feature] === 'function');
-          document.getElementById('load').innerHTML = `Firebase SDK loaded with ${features.join(', ')}`;
-        } catch (e) {
-          console.error(e);
-          document.getElementById('load').innerHTML = 'Error loading the Firebase SDK, check the console.';
-        }
-      });
-    </script>
-  </body>
+                </div>
+                <div class="modal-body">
+                    <form class="text-dark">
+                        <div class="input-group form-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="Email">
+                        </div>
+                        <div class="input-group form-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-user"></i></span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="Nombre de usuario">
+                        </div>
+                        <div class="input-group form-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-key"></i></span>
+                            </div>
+                            <input type="password" class="form-control" placeholder="Contraseña">
+                        </div>
+                        <div class="input-group form-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-lock"></i></span>
+                            </div>
+                            <input type="password" class="form-control" placeholder="Repite contraseña">
+                        </div>
+                        <div class="row align-items-center remember mt-4">
+                            <input type="checkbox">Aceptar <a href="#" class="ml-1">Terminos y condiciones del registro</a>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <button type="button" class="btn-lg btn-warning " data-dismiss="modal">Registrarse</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--------------------------------------- MODAL OLVIDO CONTRASEÑA ------------------------------------------>
+    <div class="modal fade" id="modalOlvidoPass" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark" id="exampleModalLabel">Recuperación de cuenta</h5>
+
+                </div>
+                <div class="modal-body">
+                    <p class="text-dark"> Introduzca a continuación su dirección de correo electronico para que se le envie su nueva contraseña </p>
+                    <form class="text-dark">
+                        <div class="input-group form-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="Email">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <button type="button" class="btn-lg btn-warning " data-dismiss="modal">Enviar contraseña</button>
+                </div>
+            </div>
+        </div>
+    </div>    
+</body>
+
+</html>
+
 </html>
