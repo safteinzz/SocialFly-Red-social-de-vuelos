@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Acceso</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" href="pics/favicon.ico">
+
+    <!-- CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- LIBS -->
+    <link rel="stylesheet" href="../resources/lib/foundation-icons/foundation-icons.css" />
+    <link rel="stylesheet" href="../resources/lib/bootstrap/css/bootstrap.min.css">
+    <script src="../resources/lib/jquery-3.4.1.js"></script>
+    <script src="../resources/lib/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="../resources/CSS/styles.css">
+</head>
+
+<body>
+
+	<!--------------------------------------- NAV BAR ------------------------------------------>
+    
+
+	<!--------------------------------------- BODY ------------------------------------------>
+    <div class="container-fluid px-0 fondo align-items-center px-1 d-flex align-items-center justify-content-center">
+
+        <div class="container">
+            <div class="d-flex justify-content-center h-100">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Acceder</h3>
+                        <div class="d-flex justify-content-end social_icon">
+                            <span><i class="fi-social-facebook"></i></span>
+                            <span><i class="fi-social-google-plus"></i></span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            <div class="input-group form-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-user"></i></span>
+                                </div>
+                                <input type="text" class="form-control" placeholder="usuario">
+
+                            </div>
+                            <div class="input-group form-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-key"></i></span>
+                                </div>
+                                <input type="password" class="form-control" placeholder="contraseña">
+                            </div>
+                            <div class="row align-items-center remember">
+                                <input type="checkbox">Recordarme
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" value="Login" class="btn float-right login_btn">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card-footer">
+                        <div class="d-flex justify-content-center links">
+                            No tienes cuenta?<a href="#" data-toggle="modal" data-target="#modalRegistro">Registrate</a>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <a href="#" data-toggle="modal" data-target="#modalOlvidoPass">Se te olvido la contraseña?</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+	<!--------------------------------------- MODAL REGISTRO ------------------------------------------>
+    <div class="modal fade" id="modalRegistro" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark" id="exampleModalLabel">Formulario de registro</h5>
+
+                </div>
+                <div class="modal-body">
+                    <form class="text-dark">
+                        <div class="input-group form-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="Email">
+                        </div>
+                        <div class="input-group form-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-user"></i></span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="Nombre de usuario">
+                        </div>
+                        <div class="input-group form-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-key"></i></span>
+                            </div>
+                            <input type="password" class="form-control" placeholder="Contraseña">
+                        </div>
+                        <div class="input-group form-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-lock"></i></span>
+                            </div>
+                            <input type="password" class="form-control" placeholder="Repite contraseña">
+                        </div>
+                        <div class="row align-items-center remember mt-4">
+                            <input type="checkbox">Aceptar <a href="#" class="ml-1">Terminos y condiciones del registro</a>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <button type="button" class="btn-lg btn-warning " data-dismiss="modal">Registrarse</button>
+                </div>
+            </div>
+        </div>
+    </div>
+	
+	<!--------------------------------------- MODAL OLVIDO CONTRASEÑA ------------------------------------------>
+	<div class="modal fade" id="modalOlvidoPass" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark" id="exampleModalLabel">Recuperación de cuenta</h5>
+
+                </div>
+                <div class="modal-body">
+					<p class="text-dark"> Introduzca a continuación su dirección de correo electronico para que se le envie su nueva contraseña </p>
+                    <form class="text-dark">
+                        <div class="input-group form-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="Email">
+                        </div>                        
+                    </form>
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <button type="button" class="btn-lg btn-warning " data-dismiss="modal">Enviar contraseña</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
