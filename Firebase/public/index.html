@@ -33,7 +33,7 @@
     <!-- TODO: Add SDKs for Firebase products that you want to use
      https://firebase.google.com/docs/web/setup#available-libraries -->
     <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-analytics.js"></script>
-    <script src="resources/js/scripts.js"></script>
+    <script defer src="resources/js/scripts.js"></script>
 
     <!--------------------------------------- CSS ------------------------------------------>
     <link rel="stylesheet" type="text/css" href="./resources/css/styles.css">
@@ -42,8 +42,9 @@
 
 <body>
     <!--------------------------------------- BODY ------------------------------------------>
+	
     <div class="container-fluid px-0 fondoAcceso align-items-center px-1 d-flex align-items-center justify-content-center">
-
+<p id="load">Firebase SDK Loading&hellip;</p>
         <div class="container">
             <div class="d-flex justify-content-center h-100">
                 <div class="card">
