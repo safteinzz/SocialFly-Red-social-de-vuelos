@@ -168,8 +168,8 @@
 							alert('Tienes que rellenar todos los campos');
 						} else {
 							console.log('todo rellenado');
-							registroUser();
-							$('#modalRegistro').modal('hide');
+							if (registroUser())
+								$('#modalRegistro').modal('hide');
 						}
 					});
 				</script>
