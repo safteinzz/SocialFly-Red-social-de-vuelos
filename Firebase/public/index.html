@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html>
 
 <head>
@@ -122,38 +121,58 @@
                     <h5 class="modal-title text-dark" id="exampleModalLabel">Formulario de registro</h5>
 
                 </div>
-                <div class="modal-body">                    
+                <div class="modal-body">  
+					
 					<div class="input-group form-group">
 						<div class="input-group-prepend">
 							<span class="input-group-text"><i class="fa fa-envelope"></i></span>
 						</div>
-						<input id="mail" type="text" class="form-control" placeholder="Email">
+						<input id="mail" type="text" class="form-control registro" placeholder="Email" required>
 					</div>
 					<div class="input-group form-group">
 						<div class="input-group-prepend">
 							<span class="input-group-text"><i class="fa fa-user"></i></span>
 						</div>
-						<input id="username" type="text" class="form-control" placeholder="Nombre de usuario">
+						<input id="username" type="text" class="form-control registro" placeholder="Nombre de usuario" required>
 					</div>
 					<div class="input-group form-group">
 						<div class="input-group-prepend">
 							<span class="input-group-text"><i class="fa fa-key"></i></span>
 						</div>
-						<input id="pass" type="password" class="form-control" placeholder="Contraseña">
+						<input id="pass" type="password" class="form-control registro" placeholder="Contraseña" required>
 					</div>
 					<div class="input-group form-group">
 						<div class="input-group-prepend">
 							<span class="input-group-text"><i class="fa fa-lock"></i></span>
 						</div>
-						<input id="repitePass" type="password" class="form-control" placeholder="Repite contraseña">
+						<input id="repitePass" type="password" class="form-control registro" placeholder="Repite contraseña" required>
 					</div>
 					<div class="row align-items-center remember mt-4 text-dark">
 						<input id="terminos" type="checkbox">Aceptar <a href="#" class="ml-1">Terminos y condiciones del registro</a>
 					</div>                    
                 </div>
                 <div class="modal-footer d-flex justify-content-center">
-                    <button onclick="registro()" type="button" class="btn-lg btn-warning" data-dismiss="modal">Registrarse</button>
+                    <button id="registro" type="button" class="btn-lg btn-warning">Registrarse</button>
                 </div>
+				<script>
+					$('#registro').on('click', function () {
+						//DEBUG
+						var reqlength = $('.registro').length; 
+						console.log(reqlength);
+						//--
+						var value = $('.registro').filter(function () {
+							return this.value != '';
+						});
+
+						if (value.length>=0 && (value.length !== reqlength)) {
+							alert('Tienes que rellenar todos los campos');
+						} else {
+							console.log('todo rellenado');
+							registroUser();
+							$('#modalRegistro').modal('hide');
+						}
+					});
+				</script>
             </div>
         </div>
     </div>
@@ -184,7 +203,5 @@
         </div>
     </div>    
 </body>
-
-</html>
 
 </html>
