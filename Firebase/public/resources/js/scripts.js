@@ -26,51 +26,50 @@ function registroUser()
 {
 	var user =
 	{
-		mail:document.getElementById('mail').value,
-		username:document.getElementById('username').value,
-		pass:document.getElementById('pass').value,
+		mail:document.getElementById("mail").value,
+		username:document.getElementById("username").value,
+		pass:document.getElementById("pass").value,
 	};
 	
 	
-	//Comprobar usuario inexistente (por correo)
-	const query = dbRef.child('users').orderByChild('mail').equalTo(document.getElementById('mail').value);	
-	query.once ('value', snap =>
+	dbRef.child("users").orderByChild("mail").equalTo(document.getElementById("mail").value).once("value",snapshot => 
 	{
-		console.log(snap.val());
-		if (snap.val() != null)
+		if (snapshot.exists())
 		{
-			console.log('usuario ya existe');
+			const userData = snapshot.val();
+			console.log("usuario ya existe", userData);
+			alert("Ese mail ya esta registrado");
 			return false;
 		}
+		else
+		{
+			//Comprobar acepto terminos y condiciones
+			if (document.getElementById("terminos").checked == false)
+			{
+				alert("Tienes que aceptar los terminos de registro");
+				return false;
+			}
+			
+			//Comprobar pass repetida
+			if (!(document.getElementById("pass").value == document.getElementById("repitePass").value))
+			{
+				alert("Las contraseñas son diferentes");
+				return false;		
+			}			
+			
+			
+			//Si ha llegado hasta aqui crear el usuario
+			var newUsers = dbRef.child("users").push().key;
+			var updates = {};
+			updates["/users/" + newUsers] = user;
+			
+			var result = dbRef.update(updates);
+			console.log(result);
+			
+			console.log("Registrado");
+			return true;
+		}
 	});
-	
-	//Comprobar acepto terminos y condiciones
-	if (document.getElementById('terminos').checked == false)
-	{
-		alert('Tienes que aceptar los terminos de registro');
-		return false;
-	}
-	
-	//Comprobar pass repetida
-	if (!(document.getElementById('pass').value == document.getElementById('repitePass').value))
-	{
-		alert('Las contraseñas son diferentes');
-		return false;		
-	}
-	
-	
-	
-	//Si ha llegado hasta aqui crear el usuario
-	var newUsers = dbRef.child('users').push().key;
-	var updates = {};
-	updates['/users/' + newUsers] = user;
-	
-	var result = dbRef.update(updates);
-	console.log(result);
-	
-	//TEST
-	console.log('Registrado');
-	return true;
 }
 
 

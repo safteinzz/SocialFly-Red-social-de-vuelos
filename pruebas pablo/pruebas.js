@@ -26,3 +26,16 @@ onclick="registroUser()"
 							console.log('some fields are empty!');
 						}
 					});	
+					
+					//Comprobar usuario inexistente (por correo)
+	/*const query = dbRef.child("users").orderByChild("mail").equalTo(document.getElementById("mail").value);	
+	query.once ("value", snap =>
+	{
+		console.log(snap.val());
+		if (snap.val() != null)
+		{
+			console.log("usuario ya existe");
+			return false;
+		}
+	});
+	*/
