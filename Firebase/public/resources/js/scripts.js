@@ -1,4 +1,4 @@
-//<!--------------------------------------- RUNUP BASE DATOS ------------------------------------------>
+// <!--------------------------------------- RUNUP BASE DATOS ------------------------------------------>
 if (!firebase.apps.length) {
    firebase.initializeApp({
 		apiKey: "AIzaSyDxV4yqlAmYT8tw8LqTtYlMQngYs10795o",
@@ -15,16 +15,55 @@ if (!firebase.apps.length) {
 //firebase.analytics();
 
 
-//<!--------------------------------------- VARIABLES ------------------------------------------>
+// <!--------------------------------------- FACEBOOK SDK ------------------------------------------>
+
+// window.fbAsyncInit = function() {
+// FB.init({
+	// appId      : '{your-app-id}',
+	// cookie     : true,
+	// xfbml      : true,
+	// version    : '{api-version}'
+// });
+
+// FB.AppEvents.logPageView();
+
+// };
+
+// (function(d, s, id){
+	// var js, fjs = d.getElementsByTagName(s)[0];
+	// if (d.getElementById(id)) {return;}
+	// js = d.createElement(s); js.id = id;
+	// js.src = "https://connect.facebook.net/en_US/sdk.js";
+	// fjs.parentNode.insertBefore(js, fjs);
+	// }(document, 'script', 'facebook-jssdk'));
+
+// https://developers.facebook.com/apps/655702978552052/fb-login/quickstart/
+
+
+
+
+
+
+// <!--------------------------------------- VARIABLES ------------------------------------------>
 const dbRef = firebase.database().ref();
 var usuarioLogeado;
 
 
+// <!--------------------------------------- Eventos ------------------------------------------>
 
-//<!--------------------------------------- FUNCIONES ------------------------------------------>
+// Salir de la session
+$('#logOut').unbind('click').click(function () {
+	// FirebaseAuth.getInstance().signOut();
+	sessionStorage.clear();
+	firebase.auth().signOut();
+	window.location.href = "/";
+});
 
 
-//<!--------------------------------------- LOGIN ------------------------------------------>
+// <!--------------------------------------- FUNCIONES ------------------------------------------>
+
+
+// <!--------------------------------------- LOGIN ------------------------------------------>
 
 /** AUTH
  * usuarioLogeado.displayName
@@ -33,7 +72,7 @@ var usuarioLogeado;
  * usuarioLogeado.uid
 */
 
-//<<!------------------- Google / Facebook ---------------------->
+// <<!------------------- Google / Facebook ---------------------->
 function login(tipo) {
 	function nuevoLogin(usuarioLogeado) {
 		if (usuarioLogeado) {
@@ -44,40 +83,29 @@ function login(tipo) {
 			window.location.href = "main.html";
 		}
 		else if (tipo == "google") {
-			// Using a popup.
-			var provider = new firebase.auth.GoogleAuthProvider();
-			provider.addScope("profile");
-			provider.addScope("email");
-			firebase.auth().signInWithPopup(provider).then(function(result) {
-				// This gives you a Google Access Token.
-				var token = result.credential.accessToken;
-				// The signed-in user info.
-				usuarioLogeado = result.user;
-				
-			});
+			var provider = new firebase.auth.GoogleAuthProvider();		
 		}
 		else {
-			// Sign in using a popup.
-			var provider = new firebase.auth.FacebookAuthProvider();
-			provider.addScope("user_birthday");
-			firebase.auth().signInWithPopup(provider).then(function(result) {
-				// This gives you a Facebook Access Token.
-				var token = result.credential.accessToken;
-				// The signed-in user info.
-				usuarioLogeado = result.user;
-			});
+			var provider = new firebase.auth.FacebookAuthProvider();			
 		}
+		firebase.auth().signInWithPopup(provider).then(function(result) {
+			// This gives you a Google Access Token.
+			var token = result.credential.accessToken;
+			// The signed-in user info.
+			usuarioLogeado = result.user;
+				
+		});
 	}
 	firebase.auth().onAuthStateChanged(nuevoLogin);
 }
 
-//<!------------------- Email / Pass ---------------------->
+// <!------------------- Email / Pass ---------------------->
 
 
 
 
 
-//<!--------------------------------------- Registro ------------------------------------------>
+// <!--------------------------------------- Registro ------------------------------------------>
 function registroUser()
 {	
 	//Comprobar acepto terminos y condiciones
