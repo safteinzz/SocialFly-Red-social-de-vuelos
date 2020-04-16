@@ -37,6 +37,10 @@ var usuarioLogeado;
 function login(tipo) {
 	function nuevoLogin(usuarioLogeado) {
 		if (usuarioLogeado) {
+			sessionStorage.setItem("userUID", usuarioLogeado.uid);
+			sessionStorage.setItem("userNombre", usuarioLogeado.displayName);
+			sessionStorage.setItem("userFoto", usuarioLogeado.photoURL);
+			sessionStorage.setItem("userMail", usuarioLogeado.email);
 			window.location.href = "main.html";
 		}
 		else if (tipo == "google") {
@@ -49,6 +53,7 @@ function login(tipo) {
 				var token = result.credential.accessToken;
 				// The signed-in user info.
 				usuarioLogeado = result.user;
+				
 			});
 		}
 		else {

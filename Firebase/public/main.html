@@ -41,11 +41,10 @@
 
 <body>
 	<h1 class="text-dark">Hola <span id="nombreUser"></span></h1>
-	<img id="fotoUser" src="">
-	<script>	
-		
-		document.getElementById("nombreUser").innerHTML = usuarioLogeado.displayName;
-		document.getElementById("fotoUser").setAttribute("src", usuarioLogeado.photoURL);
+	<img id="fotoUser" src="" alt="Error Cargar foto usuario">
+	<script>			
+		document.getElementById("nombreUser").innerHTML = sessionStorage.getItem("userNombre");
+		document.getElementById("fotoUser").setAttribute("src", sessionStorage.getItem("userFoto"));
 	</script>
 	
 </body>
