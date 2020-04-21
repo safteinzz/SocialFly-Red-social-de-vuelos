@@ -1,3 +1,7 @@
+
+
+
+
 /** INICIO METODO CONTADOR DE NOTIFICACION */
 		var contadorNotificacion = 0;
 	
@@ -25,12 +29,19 @@
 		}
 		/** FIN METODO CONTADOR DE NOTIFICACION */
 		
-		
+		function writeUserData(userId, name, email, imageUrl) {
+		  firebase.database().ref('users/' + userId).set({
+			username: name,
+			email: email,
+			profile_picture : imageUrl
+		  });
+		}
 		
 		
 		
 		/** INICIO METODO INICIAR PANTALLA */
-		$(document).ready(function(){
+		function initPrincipal(){
+				
  
 			/** INICIO BOTON SUBIR PANTALLA */
 			$('.ir-arriba').click(function(){
@@ -163,7 +174,7 @@
 			
 			bs_input_file();
 			
-		});
+		}
 		/** FIN METODO INICIAR PANTALLA */
 		
 		/** INICIO CARGAR IMAGEN EN EL MODAL */
@@ -237,7 +248,7 @@
 			$(".input-file").before(
 				function() {
 					if ( ! $(this).prev().hasClass('input-ghost') ) {
-						var element = $("<input type='file' class='input-ghost' style='visibility:hidden; height:0' multiple>");
+						var element = $("<input id='inputFileImagen' type='file' class='input-ghost' style='visibility:hidden; height:0' multiple>");
 						element.attr("name",$(this).attr("name"));
 						element.change(function(){
 							var namesFile;
@@ -561,3 +572,7 @@
 					varDate.getHours() + ":" + varDate.getMinutes();
 			return datestring;
 		}
+		
+		
+		
+		

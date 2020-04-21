@@ -14,6 +14,15 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 	<!-- CSS -->
 	<link rel="stylesheet" type="text/css" href="../resources/CSS/socialFly.css" />
+	
+	
+	<script src="https://www.gstatic.com/firebasejs/7.10.0/firebase-app.js"></script>
+	  
+	<script defer src="https://www.gstatic.com/firebasejs/7.10.0/firebase.js"></script>
+
+	<script defer src="../resources/JS/firebase.js"></script>
+  
+	
 	<!-- JS -->
 	<script src="../resources/JS/socialFly.js"></script>
 	
@@ -118,7 +127,7 @@
 			<li class="nav-item dropdown">
 				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					Sergio Fortes
-					<img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg" width="40" height="40" class="rounded-circle">
+					<img id="imagenPerfil" src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg" width="40" height="40" class="rounded-circle">
 					<span class="badge" id="navNotificacion">5</span>
 				</a>
 				<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
@@ -187,10 +196,7 @@
 								<div class="input-group">
 									<label class="label">Vuelos asociados</label>
 									<select id="selectVuelosComentario" name="vuelos" class="custom-select input--style-4">
-									  <option selected disabled>-- Seleccionar --</option>
-									  <option value="125">Barajas - El prat</option>
-									  <option value="138">Barajas - Francia</option>
-									  <option value="855">Barajas - Suiza</option>
+									  <option selected>Ninguno</option>
 									</select>
 								</div>
 								<!-- FIN SELECT PAIS -->
@@ -221,7 +227,7 @@
 						<!-- FIN DIV MENSAJE ALERTA -->
 						
 						<div class="row" style="margin-bottom:10px;padding-right: 15px;padding-left: 15px;">
-							<button id="btnCrearPost" class=" btn-principal btn btn-rounded btn-md ml-4" data-dismiss="modal" type="button" style="width:100%;">Enviar</button>
+							<button id="btnCrearPost" onclick="upload();" class=" btn-principal btn btn-rounded btn-md ml-4" data-dismiss="modal" type="button" style="width:100%;">Enviar</button>
 						</div>
 					</div>
 				</div>
@@ -782,6 +788,13 @@
 		<!--/.Copyright-->
 	</footer>
 	<!-- FIN PIE DE PAGINA -->
+	
+	
+	
+	<script>
+		
+	</script>
+	
 </body>
 
 </head>
