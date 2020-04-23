@@ -224,6 +224,8 @@
 				//Metodo para sumar un me gusta al comentario por parte del usuario logeado
 				var numeroContador = parseInt(spanContadorMegusta.text()) + 1;
 				spanContadorMegusta.text(numeroContador);
+				
+				agregarMeGusta(idPost);
 			} else {
 				//Si no tiene la clase es porque ya le gustaba el post
 				divTeGusta.removeClass("like");
@@ -239,6 +241,8 @@
 				}, 2000);
 				
 				//Metodo para restar un comentario por parte del usuario logeado
+				var varIdLike = $("#" + idPost + " #inputIdLike").val();
+				eliminarMeGusta(varIdLike);
 			}
 		}
 		/** FIN EVENTOS ICONO ME GUSTA DEL POST */
@@ -284,47 +288,31 @@
 		/** INICIO CREAR NUEVO POST */
 		var varContadorPost = 5;
 		
-		function crearPost(varComentario){
-			$('.muroComentario #messagesComentario').css('display','none');
+		function crearPostHTML(varIdPOST, varComentario, varUrlImgPerfil, varNomUser, varSalida, varRetrasoSalida,
+			varDestino, varRetrasoDestino, varFechaComentario, varContMG, varContComent, varCarrousel, varMeGustaUsuarioLogeado, varIdLikeUsuario){
 			
-			if(varComentario == ""){
-				$('.muroComentario #messagesComentario').css('display','block');
-				$('.muroComentario #contenidoMensaje').html("<b>ERROR:</b> Es obligatorio escribir algún <u>comentario</u>.");
-			} else {
 				
-				var varIdPOST = "POST" + varContadorPost;
-				var varUrlImgPerfil = "https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg";
-				var varNomUser = "Sergio Fortes Campillo";
-				var varSalida = "Barajas(Madrid) 15:00 20/20/20";
-				var varRetrasoSalida = true;
-				var varDestino = "El Prat(Barcelona) 17:00 20/20/20";
-				var varRetrasoDestino = true;
-				var dt = new Date();
-				var varFechaComentario = formatDate(dt);
-				var varContMG = 0;
-				var varContComent = 0;
-				var varCarrousel = [
-									"https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg",
-									"https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg",
-									"https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg"
-									];
-				var varStringCarrousel = crearCarrousel(varCarrousel, varIdPOST);
 				
-				var stringPOST = "<div class='post' id='" + varIdPOST + "'> "
-					+ "<div class='header'>"
-					+ "<div class='float-right botones botonDelete'>"
-					+ "			<a href='#' class='abrirModalDelete' data-target='#modalDelete' data-toggle='modal' onclick='abrirModalDelete(\"" + varIdPOST + "\");'>"
-					+ "				<i class='fas fa-trash-alt'></i>"
-					+ "			</a>"
-					+ "		</div>"
-					+ "		<a onclick='abrirModalIMG(\"" + varUrlImgPerfil + "\");' data-target='#modalIMG' data-toggle='modal' class='color-gray-darker c6 td-hover-none abrirModalIMG' style='text-decoration: none;float:left;'>"
-					+ "			<img src='" + varUrlImgPerfil + "' width='60' height='60' class='rounded-circle'>"
-					+ "		</a>"
-					+ "		<a href='#' class='usuarioPost'>"
-								+ varNomUser 
-					+ "		</a>"
-							
-					+ "		<div class='datosVuelo'>"
+			var varStringCarrousel = crearCarrousel(varCarrousel, varIdPOST);
+			
+			var stringPOST = "<div class='post' id='" + varIdPOST + "'> "
+				+ "<div class='header'>"
+				+ "<div class='float-right botones botonDelete'>"
+				+ "			<a href='#' class='abrirModalDelete' data-target='#modalDelete' data-toggle='modal' onclick='abrirModalDelete(\"" + varIdPOST + "\");'>"
+				+ "				<i class='fas fa-trash-alt'></i>"
+				+ "			</a>"
+				+ "		</div>"
+				+ "		<a onclick='abrirModalIMG(\"" + varUrlImgPerfil + "\");' data-target='#modalIMG' data-toggle='modal' class='color-gray-darker c6 td-hover-none abrirModalIMG' style='text-decoration: none;float:left;'>"
+				+ "			<img src='" + varUrlImgPerfil + "' width='60' height='60' class='rounded-circle'>"
+				+ "		</a>"
+				+ "		<a href='#' class='usuarioPost'>"
+							+ varNomUser 
+				+ "		</a>";
+			
+
+			if(varSalida != ""){
+			
+				stringPOST+= "		<div class='datosVuelo'>"
 					+ "			<a href='#' style='text-decoration: none;'>"
 					+ "				<div class='salidaVuelo'>"
 					+ "					<i class='fas fa-plane-departure'></i>" + varSalida;
@@ -344,51 +332,75 @@
 					
 					stringPOST+= "				</div>"
 					+ "			</a>"
-					+ "		</div>"
-					+ "	</div>"
-					+ "	<div class='fecha'>"
-							+ varFechaComentario
-					+ "	</div>"
-					+ "	<div class='comentario'>"
-					+ "		<p>"
-							+ varComentario.replace(new RegExp("\n","g"), "<br/>")
-					+ "		</p>"
-					
-					// Agregamos la parte del carrousel, si no tiene imagenes vendra un string vacio
-					+ varStringCarrousel
-					
-					+ "	</div>"
-					+ "	<div class='pie'>"
-					+ "		<div class='informacionPost'>"
-					+ "			<div class='informacionMG float-left'>"
-					+ "				<span class='contadorMegusta'>" + varContMG + "</span> me gusta/s, <span class='contadorComentarios'>" + varContComent + "</span> comentario/s"
-					+ "			</div>"
-					+ "			<div class='botones float-right'>"
-					+ "				<a class='iconoMeGusta' style='margin-right:15px;' onclick='clickIconoMeGusta(\"" + varIdPOST + "\");'><i class='fas fa-thumbs-up'></i></a>"
-					+ "				<a href='#' data-target='#modalComent' data-toggle='modal' data-id='" + varIdPOST + "' >"
-					+ "					<i class='fas fa-comments'></i>"
-					+ "				</a>"
-									
-					+ "			</div>"
-					+ "			<div class='teGustaPost d-none'></div>"
-					+ "		</div>"
-					+ "	</div>"
-					+ "	</div>";
-					
-				
-				// Sumamos uno al contador del post
-				varContadorPostPublicidad++;
-				
-				// Si ya tenemos tres post sumamos un post de publicidad entre medias del muro (PARA VERSION MOVIL)
-				if(varContadorPostPublicidad == 4){
-					stringPOST += crearPublicidadMuroCentral(true);
-					varContadorPostPublicidad = 0;
-				}
-					
-				$('.muro .post').first().before(stringPOST);
-				
-				varContadorPost++;
+					+ "		</div>";
+			} else {
+				stringPOST+= "		<div class='datosVuelo' style='height: 63.2px;'></div>"
 			}
+			
+			
+			stringPOST+= "	</div>"
+				+ "	<div class='fecha'>"
+						+ varFechaComentario
+				+ "	</div>"
+				+ "	<div class='comentario'>"
+				+ "		<p>"
+						+ varComentario.replace(new RegExp("\n","g"), "<br/>")
+				+ "		</p>"
+				
+				// Agregamos la parte del carrousel, si no tiene imagenes vendra un string vacio
+				+ varStringCarrousel
+				
+				+ "	</div>"
+				+ "	<div class='pie'>"
+				+ "		<div class='informacionPost'>"
+				+ "			<div class='informacionMG float-left'>"
+				+ "				<span class='contadorMegusta'>" + varContMG + "</span> me gusta/s, <span class='contadorComentarios'>" + varContComent + "</span> comentario/s"
+				+ "			</div>";
+				+ "			<div class='botones float-right'>"
+				+ "				<a class='iconoMeGusta' style='margin-right:15px;' onclick='clickIconoMeGusta(\"" + varIdPOST + "\");'><i class='fas fa-thumbs-up'></i></a>"
+				+ "				<a href='#' data-target='#modalComent' data-toggle='modal' data-id='" + varIdPOST + "' >"
+				+ "					<i class='fas fa-comments'></i>"
+				+ "				</a>"
+								
+				+ "			</div>";
+				
+				if(varMeGustaUsuarioLogeado){
+					stringPOST+=  "			<div class='botones float-right'>"
+								+ "				<a class='iconoMeGusta' style='margin-right:15px; color:#4dde76;' onclick='clickIconoMeGusta(\"" + varIdPOST + "\");'><i class='fas fa-thumbs-up'></i></a>"
+								+ "				<a href='#' data-target='#modalComent' data-toggle='modal' data-id='" + varIdPOST + "' >"
+								+ "					<i class='fas fa-comments'></i>"
+								+ "				</a>"
+												
+								+ "			</div>"
+								+ "			<div class='teGustaPost like'><input type='hidden' id='inputIdLike' value='" + varIdLikeUsuario + "'></div>";
+				} else {
+					stringPOST+=  "			<div class='botones float-right'>"
+								+ "				<a class='iconoMeGusta' style='margin-right:15px;' onclick='clickIconoMeGusta(\"" + varIdPOST + "\");'><i class='fas fa-thumbs-up'></i></a>"
+								+ "				<a href='#' data-target='#modalComent' data-toggle='modal' data-id='" + varIdPOST + "' >"
+								+ "					<i class='fas fa-comments'></i>"
+								+ "				</a>"
+												
+								+ "			</div>"
+								+ "			<div class='teGustaPost d-none'><input type='hidden' id='inputIdLike' value='" + varIdLikeUsuario + "'></div>";
+				}
+				
+				stringPOST+= "		</div>"
+				+ "	</div>"
+				+ "	</div>";
+				
+			
+			// Sumamos uno al contador del post
+			varContadorPostPublicidad++;
+			
+			// Si ya tenemos tres post sumamos un post de publicidad entre medias del muro (PARA VERSION MOVIL)
+			if(varContadorPostPublicidad == 4){
+				stringPOST += crearPublicidadMuroCentral(true);
+				varContadorPostPublicidad = 0;
+			}
+				
+			$('.muro .post').first().before(stringPOST);
+			
+			varContadorPost++;
 		}
 		/** FIN CREAR NUEVO POST */
 		
@@ -397,7 +409,7 @@
 			var varStringCarrousel = "";
 			var varIdCarrousel= "carrousel" + varIdPOST;
 			
-			if(varCarrousel.length > 0){
+			if(varCarrousel != null && varCarrousel.length > 0){
 				
 				// 	<!-- INICIO CAROUSEL -->
 				varStringCarrousel = 
@@ -425,7 +437,7 @@
 						
 						
 						varStringCarrousel += 
-					 "				<img onclick='abrirModalIMGCarrousel(\"" + varCarrousel[x] + "\");' class='d-block w-100 mx-auto imagenCarousel' src='" + varCarrousel[x] + "' alt='" + x + " slide'>"
+					 "				<img onclick='abrirModalIMGCarrousel(\"https://firebasestorage.googleapis.com/v0/b/pruebafirebase-b91ce.appspot.com/o/" + varCarrousel[x] + "?alt=media\");' class='d-block w-100 mx-auto imagenCarousel' src='https://firebasestorage.googleapis.com/v0/b/pruebafirebase-b91ce.appspot.com/o/" + varCarrousel[x] + "?alt=media' alt='" + x + " slide'>"
 					+ "			</div>";
 						
 					} 
