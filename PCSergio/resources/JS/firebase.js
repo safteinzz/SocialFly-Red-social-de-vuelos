@@ -136,6 +136,9 @@ async function getUsuario() {
 		usuarioLogeado.nombrePerfil = val.name;
 		console.log("getUsuario() => usuarioLogeado.dni: "+usuarioLogeado.dni);
 		
+		//Cargar la imagen de perfil
+		$(".imagenPerfil").attr("src",getImagenStorage(usuarioLogeado.dni + '/', 'perfil.png'));
+		
 		//Cargar los vuelos_personas del usuario logeado
 		var snap_vuePer=await queryVuelosPers.orderByChild("dni_persona").equalTo(val.dni).once("value");
 		
