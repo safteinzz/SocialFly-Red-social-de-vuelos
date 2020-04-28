@@ -61,15 +61,20 @@ async function getPublicidad(){
 	console.log("INICIO - Recuperar publicidad de BD");
 	var queryPublicidad = dbRef.child("publicidad");
 	
-	var snap_publi = await queryPublicidad.orderByChild("id_tipo_actividad").equalTo(1).once("value");
-	if (snap_publi.val() != null) {
+	for(var x = 0; x < usuarioLogeado.actividades.length; x++){
 		
-		snap_publi.forEach((child) => {
-			varArrayPublicidad.push([child,
-			false, false] //el booleano indicará si ya se ha mostrado la publicidad, el primero es para la publicidad del muro derecho y el segundo para la publicidad del muro central (versión movil)
-			);
-		});
-	}		
+		var snap_publi = await queryPublicidad.orderByChild("id_tipo_actividad").equalTo(usuarioLogeado.actividades[x]).once("value");
+		if (snap_publi.val() != null) {
+			
+			snap_publi.forEach((child) => {
+				varArrayPublicidad.push([child,
+				false, false] //el booleano indicará si ya se ha mostrado la publicidad, el primero es para la publicidad del muro derecho y el segundo para la publicidad del muro central (versión movil)
+				);
+			});
+		}		
+	}
+	
+	
 	
 	console.log("FIN - Recuperar publicidad de BD");
 }
@@ -247,6 +252,7 @@ async function getUsuario() {
 	   
 		usuarioLogeado.dni = val.dni;
 		usuarioLogeado.nombrePerfil = val.name + " " + val.lastname;
+		usuarioLogeado.actividades = val.actividades;
 		console.log("getUsuario() => usuarioLogeado.dni: "+usuarioLogeado.dni);
 		
 		//Cargar la imagen de perfil
