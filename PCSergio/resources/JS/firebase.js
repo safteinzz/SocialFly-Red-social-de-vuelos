@@ -31,22 +31,135 @@ $(document).ready(function() {
 	
 	getUsuario();
 	console.log("DNI usuario: " + usuarioLogeado.dni);
-	console.log("URL: " + getImagenStorage('123/', 'flag_usa.png'));
 	
 	
-	
-	
-	/**
-	var imagen = storageRef.child('/images/70562.png');
-	imagen.getDownloadURL().then(function(url) {
-			// Insert url into an <img> tag to "download"
-			
-			$("#imagenPerfil").attr("src",url);
-		}).catch(function(error) {
-
-		});
-		*/
 });
+
+async function cargarMuro(){
+	await getPublicidad();
+	
+	console.log("INICIO - Carga de publicidad");
+	cargarPublicidad();
+	console.log("FIN - Carga de publicidad");
+	
+	console.log("INICIO - Carga de post");
+	await cargarPost();
+	console.log("FIN - Carga de post");
+	
+	console.log("INICIO - Mostrar post");
+	agregarPost();
+	console.log("FIN - Mostrar post");
+}
+
+var varArrayPublicidad = [];
+
+async function cargarPublicidad(){
+	await cargarMuroPublicidadDerecha();
+}
+
+async function getPublicidad(){
+	console.log("INICIO - Recuperar publicidad de BD");
+	var queryPublicidad = dbRef.child("publicidad");
+	
+	var snap_publi = await queryPublicidad.orderByChild("id_tipo_actividad").equalTo(1).once("value");
+	if (snap_publi.val() != null) {
+		
+		snap_publi.forEach((child) => {
+			varArrayPublicidad.push([child,
+			false, false] //el booleano indicará si ya se ha mostrado la publicidad, el primero es para la publicidad del muro derecho y el segundo para la publicidad del muro central (versión movil)
+			);
+		});
+	}		
+	
+	console.log("FIN - Recuperar publicidad de BD");
+}
+
+/** INICIO CREAR PUBLICIDAD MURO DERECHA - VERSION ORDENADOR */
+function cargarMuroPublicidadDerecha(){
+	for(var x = 0; x < 2 && x < varArrayPublicidad.length; x++){
+		var continuarWhile = true;
+		do {
+			var numAleatorio = Math.floor(Math.random() * varArrayPublicidad.length);
+			
+			if (!varArrayPublicidad[numAleatorio][1]){
+				//Comprobamos que el primer booleano del array es false, si es false todavía no está en uso
+				
+				var value = varArrayPublicidad[numAleatorio][0].val(); 
+				var varStringPublicidad = crearPublicidadMuroCentral(false, varArrayPublicidad[numAleatorio][0].key, value.nombre_usuario, value.id_usuario, value.nombre_aeropuerto,
+											value.comentario, value.carrousel);
+											
+				$('.muroDerecha .post').first().after(varStringPublicidad);
+				
+				varArrayPublicidad[numAleatorio][1] = true;
+				continuarWhile = false;
+			}
+		} while (continuarWhile);
+	}
+}
+/** FIN CREAR PUBLICIDAD MURO DERECHA - VERSION ORDENADOR */
+
+/** INICIO CREAR PUBLICIDAD MURO CENTRAL - VERSION MOVIL */
+var contadorPublicidadMuroCentral = 0;
+function crearPublicidadMuro(){
+	
+	var stringReturn = "";
+	
+	do {
+		var numAleatorio = Math.floor(Math.random() * varArrayPublicidad.length);
+		
+		console.log("numero aleatorio " + numAleatorio + " tamaño " + varArrayPublicidad.length);
+		if (!varArrayPublicidad[numAleatorio][2]){
+			//Comprobamos que el primer booleano del array es false, si es false todavía no está en uso
+			console.log("Entramos PUBLICIDAD MURO CENTRAL");
+			var value = varArrayPublicidad[numAleatorio][0].val(); 
+			stringReturn = crearPublicidadMuroCentral(true, varArrayPublicidad[numAleatorio][0].key, value.nombre_usuario, value.id_usuario, value.nombre_aeropuerto,
+										value.comentario, value.carrousel);
+			
+			varArrayPublicidad[numAleatorio][2] = true;
+			contadorPublicidadMuroCentral++;
+			continuarWhile = false;
+		}
+	} while (continuarWhile);
+	
+	if(contadorPublicidadMuroCentral > (varArrayPublicidad.length / 2 )){
+		// Si se han creado post de publicidad más veces que la mitad del tamaño del array entonces ponemos los valores a false del array de publicidad
+		//de esta forma se consigue que a partir de ese numero se pueda repetir la publicidad otra vez pero además tardará menos en buscar un numero aleatorio no usado
+		contadorPublicidadMuroCentral = 0;
+		for(var x = 0; x < varArrayPublicidad.length; x++){
+			varArrayPublicidad[x][2] = false;
+		}
+	}
+	
+	return stringReturn;
+}
+/** FIN CREAR PUBLICIDAD MURO CENTRAL - VERSION MOVIL */
+
+function crearPublicidad(){
+	
+	var array = [];
+	array.push("imagen1");
+	array.push("imagen2");
+	
+	var publicidad = {
+		id_usuario: "123",
+		comentario: "Las mejores pizzas del mundo",
+		carrousel: array,
+		hastag: "cualquiera",
+		nombre_usuario: "Dominos pizza",
+		nombre_aeropuerto: "Barajas (Madrid)",
+		id_tipo_actividad: 1
+	};
+
+	 /// => The user does not exist => CREATING USER
+	  var newPublicidad = dbRef.child("publicidad").push().key;
+
+	  // Write the new post´s data simultaeously in the posts list and the user´s post list
+	  var updates = {};
+	  updates["/publicidad/" + newPublicidad] = publicidad;
+
+	  var result = dbRef.update(updates);
+	  console.log(result);
+}
 
 function getStringHora(){
 	var fullDate = new Date();
@@ -133,11 +246,13 @@ async function getUsuario() {
 		var val = Object.values(snap_user.val())[0];            
 	   
 		usuarioLogeado.dni = val.dni;
-		usuarioLogeado.nombrePerfil = val.name;
+		usuarioLogeado.nombrePerfil = val.name + " " + val.lastname;
 		console.log("getUsuario() => usuarioLogeado.dni: "+usuarioLogeado.dni);
 		
 		//Cargar la imagen de perfil
 		$(".imagenPerfil").attr("src",getImagenStorage(usuarioLogeado.dni + '/', 'perfil.png'));
+		//Cargar nombre del usuario
+		$('#nombrePerfil').text(val.name + " " + val.lastname);
 		
 		//Cargar los vuelos_personas del usuario logeado
 		var snap_vuePer=await queryVuelosPers.orderByChild("dni_persona").equalTo(val.dni).once("value");
@@ -148,6 +263,8 @@ async function getUsuario() {
 				mydataSet_vuePer.push(child.val().id_vuelo);
 			});
 			
+			usuarioLogeado.vuelosAsociados = [];
+			
 			for(i=0; i<mydataSet_vuePer.length; i++){
 				console.log("getUsuario() => Buscar los datos del vuelo " + mydataSet_vuePer[i]);
 				//Cargamos los datos de los vuelos que tiene relacionados
@@ -156,9 +273,10 @@ async function getUsuario() {
 				if (snap_vuelos.val() != null) {
 					var key_vuelos = Object.keys(snap_vuelos.val())[0];  
 					var val_vuelos = Object.values(snap_vuelos.val())[0];    
-
+	
 					//Cargamos la lista del select del muro con los datos de los vuelos relacionados
 					vuelosAsociados(val_vuelos.id_vuelo, val_vuelos.origen + " " + val_vuelos.fecha_salida, val_vuelos.destino + " " + val_vuelos.fecha_llegada);
+					usuarioLogeado.vuelosAsociados.push(val_vuelos);
 				} else {
 					console.log("getUsuario() => El vuelo con id " + mydataSet_vuePer[i] + " no existe en BD");
 				}
@@ -168,15 +286,32 @@ async function getUsuario() {
 			console.log("getUsuario() => El usuario no tiene vuelos relacionados");
 		}
 		
+		cargarAmigos();
+		
+		cargarMuro();
+		
 		console.log("fin getUsuario");
-
-		console.log("llamada a cargarPost");
-		cargarPost();
 	}
 	else{
 		console.log("getUsuario() => Usuario no encontrado");
 	}
 		
+}
+
+
+var mydataSet_amigos = [];
+async function cargarAmigos(){
+	
+	var queryAmigos = dbRef.child("amigos");
+	var snap_amigos=await queryAmigos.orderByChild("dni").equalTo(usuarioLogeado.dni).once("value");
+	mydataSet_amigos.push(usuarioLogeado.dni);
+	if (snap_amigos.val() != null) {
+		console.log("cargarPost => hay post con ese dni");
+		// paso 1: añadimos los resultados en un array        
+		snap_amigos.forEach((child) => {
+			mydataSet_amigos.push(child.val().dni_amigo);
+		});
+	}
 }
  
  
@@ -195,11 +330,9 @@ function getImagenStorage(carpeta, nombreImagen){
 	
 	
 	var carpetaRemplazada = carpeta.replace("/", separarCarpeta);
-	console.log(carpetaRemplazada);
 	
 	var urlReturn = stringHost + carpetaRemplazada + nombreImagen + "?alt=media";
 	
-	console.log("URL FINAL: " + urlReturn);
 	
 	return urlReturn;
 }
@@ -231,23 +364,10 @@ function uploadImageAsPromise (carpeta, imageFile, nombreFile) {
         //Upload file
         var task = storageRef.put(imageFile);
 
-        //Update progress bar
-        task.on('state_changed',
-            function progress(snapshot){
-                var percentage = snapshot.bytesTransferred / snapshot.totalBytes * 100;
-            },
-            function error(err){
-
-            },
-            function complete(){
-                var downloadURL = task.snapshot.downloadURL;
-				console.log(downloadURL);
-            }
-        );
     });
 }
 
-function crearPost(varComentario) {
+async function crearPost(varComentario) {
 	$('.muroComentario #messagesComentario').css('display','none');
 			
 	if(varComentario == ""){
@@ -255,38 +375,35 @@ function crearPost(varComentario) {
 		$('.muroComentario #contenidoMensaje').html("<b>ERROR:</b> Es obligatorio escribir algún <u>comentario</u>.");
 	} else {
 	
+		var varCarrousel = upload();
+	
 		var id_vuelo = $("#selectVuelosComentario" ).val();
-		
 		var varSalida = "";
 		var varRetrasoSalida = false;
 		var varDestino = "";
 		var varRetrasoDestino = false;
 		
 		if(id_vuelo != 'Ninguno'){
-			console.log(id_vuelo);
-			var refVuelos = db.ref("vuelos");
 			
-			refVuelos.orderByChild("id_vuelo").equalTo(id_vuelo).on("child_added", function(snapshotVuelos) {
-				console.log("ORIGEN: ");
-				console.log(snapshotVuelos.val().origen);
-				console.log("DESTINO: ");
-				console.log(snapshotVuelos.val().destino);
-				
-				varSalida = snapshotVuelos.val().origen + " " + snapshotVuelos.val().fecha_salida;
-				varRetrasoSalida = snapshotVuelos.val().retrasoSalida;
-				varDestino = snapshotVuelos.val().destino + " " + snapshotVuelos.val().fecha_llegada;
-				varRetrasoDestino = snapshotVuelos.val().retrasoLlegada;	
-			});
+			for(var x = 0; x < usuarioLogeado.vuelosAsociados.length; x++){
+				if(id_vuelo == usuarioLogeado.vuelosAsociados[x].id_vuelo){
+					varSalida = usuarioLogeado.vuelosAsociados[x].origen + " " + usuarioLogeado.vuelosAsociados[x].fecha_salida;
+					varRetrasoSalida = usuarioLogeado.vuelosAsociados[x].retrasoSalida;
+					varDestino = usuarioLogeado.vuelosAsociados[x].destino + " " + usuarioLogeado.vuelosAsociados[x].fecha_llegada;
+					varRetrasoDestino = usuarioLogeado.vuelosAsociados[x].retrasoLlegada;
+				}
+			}
 		}
 		
 		var varUrlImgPerfil = getImagenStorage(usuarioLogeado.dni + '/', 'perfil.png');
 		var varNomUser = usuarioLogeado.nombrePerfil;
 		var dt = new Date();
 		var varFechaComentario = formatDate(dt);
-		var varContMG = 0;
 		var varContComent = 0;
-		var varCarrousel = upload();
 		
+		var varContMG = 0;
+		var varMeGustaUsuarioLogeado = false;;
+		var varIdLikeUsuario = null;
 		
 		var post = {
 			id_usuario: usuarioLogeado.dni,
@@ -303,7 +420,6 @@ function crearPost(varComentario) {
 			carrousel: varCarrousel
 		};
 
-
 		/// => The post does not exist => CREATING post
 		var newPosts = dbRef.child("posts").push().key;
 		console.log("KEY: " + newPosts);
@@ -314,95 +430,161 @@ function crearPost(varComentario) {
 		var result = dbRef.update(updates);
 		console.log(result);
 
-		crearPostHTML(newPosts, varComentario, varUrlImgPerfil, varNomUser, varSalida, varRetrasoSalida,
-			varDestino, varRetrasoDestino, varFechaComentario, varContMG, varContComent, varCarrousel);
+		console.log("PRUEBA FECHA: " + varFechaComentario);
+
+		crearPostHTML(newPosts, varComentario, varUrlImgPerfil, varNomUser, usuarioLogeado.dni, varSalida, varRetrasoSalida,
+			varDestino, varRetrasoDestino, varFechaComentario, varContMG, varContComent, varCarrousel, varMeGustaUsuarioLogeado, varIdLikeUsuario,  false);
+		
+		
+		$("#selectVuelosComentario" ).val('Ninguno');
+		$('button.btn-reset').click();
 	}
 }
 
+var mydataSet_post = [];
+var mostrarPost = 5;
+var varContadorPost = 0;
 
-async function getAllEvents(idPost) {
-	var refLikes = db.ref("likes");
-    const eventsArray = [];
+//Metodo para agregar los post que hay en el array de post al final del muro
+async function agregarPost(){
+	var refLikes = dbRef.child("likes");
+	
+	for(var x = 1; x <= mostrarPost && varContadorPost < mydataSet_post.length; x++){
+		console.log("Contenido: " + mydataSet_post[varContadorPost].val().contenido);
+		
+		
+		var id_post_buscar = mydataSet_post[varContadorPost].key;        
 
-    await refLikes.orderByChild("id_post").equalTo(idPost).on("child_added", function(snapshotLike) {
-		console.log("Encuentra alguno");
-		eventsArray.push(snapshotLike);
-	});
+		//Variables para utilizar del post
+		var varSalida = mydataSet_post[varContadorPost].val().destino;
+		var varRetrasoSalida = mydataSet_post[varContadorPost].val().retrasoDestino;
+		var varDestino = mydataSet_post[varContadorPost].val().salida;
+		var varRetrasoDestino = mydataSet_post[varContadorPost].val().retrasoSalida;
+		var varUrlImgPerfil = getImagenStorage(mydataSet_post[varContadorPost].val().id_usuario + '/', 'perfil.png');
+		var varNomUser = mydataSet_post[varContadorPost].val().nombreUsuario;
+		var varIdUsuario = mydataSet_post[varContadorPost].val().id_usuario;
+		var varFechaComentario = mydataSet_post[varContadorPost].val().fecha_post;
+		var varContComent = mydataSet_post[varContadorPost].val().contComment;
+		var varCarrousel = mydataSet_post[varContadorPost].val().carrousel;
+		var varComentario = mydataSet_post[varContadorPost].val().contenido;
+		var varContMG = 0;
+		var varMeGustaUsuarioLogeado = false;
+		var varIdLikeUsuario = null;
+		
+		var snap_likes=await refLikes.orderByChild("id_post").equalTo(id_post_buscar).once("value");
 
-    return eventsArray;
+		if (snap_likes.val() != null) {
+			varContMG = Object.values(snap_likes.val()).length;
+			
+			snap_likes.forEach((child) => {
+				if(child.val().id_usuario == usuarioLogeado.dni){
+					varMeGustaUsuarioLogeado = true;
+					varIdLikeUsuario = child.key;
+				}
+			});
+		}
+		
+		console.log("LIKE: " + varMeGustaUsuarioLogeado + ", ID: " + varIdLikeUsuario);
+		
+		crearPostHTML(mydataSet_post[varContadorPost].key, varComentario, varUrlImgPerfil, varNomUser, varIdUsuario, varSalida, varRetrasoSalida,
+		varDestino, varRetrasoDestino, varFechaComentario, varContMG, varContComent, varCarrousel, varMeGustaUsuarioLogeado, varIdLikeUsuario, true);
+		
+	}
+	
+	if(varContadorPost >= mydataSet_post.length){
+		$('#muroCargarMas').addClass("d-none");
+	}
+	
 }
 
 async function cargarPost() {
 	
-	console.log("Inicio cargarPost, dni: " +usuarioLogeado.dni);
+	for(var x = 0; x < mydataSet_amigos.length; x++){
+		console.log("Amigo: " + mydataSet_amigos[x]);
+		var queryPosts = dbRef.child("posts").orderByChild("id_usuario").equalTo(mydataSet_amigos[x]);
+		
 
-    var queryPosts = dbRef.child("posts").orderByChild("id_usuario").equalTo(usuarioLogeado.dni);
-    var refLikes = dbRef.child("likes");
+		var snap_posts=await queryPosts.once("value");    
 
-    var mydataSet_post = [];
-    var snap_posts=await queryPosts.once("value");    
+		if (snap_posts.val() != null) {
+			console.log("cargarPost => hay post con ese dni");
+			// paso 1: añadimos los resultados en un array        
+			snap_posts.forEach((child) => {
+				mydataSet_post.push(child);
+			});
+		}
+	}
+	
+	mydataSet_post.sort(compararArrayPost);
+	
+}
 
-    if (snap_posts.val() != null) {
-        console.log("cargarPost => hay post con ese dni");
-        // paso 1: añadimos los resultados en un array        
-        snap_posts.forEach((child) => {
-            mydataSet_post.push(child);
-        });
-
-        // paso 2: buscamos si tienen likes asociados
-        for(i=0; i<mydataSet_post.length; i++){
-            var id_post_buscar = mydataSet_post[i].key;        
-
-			//Variables para utilizar del post
-			var varSalida = mydataSet_post[i].val().destino;
-			var varRetrasoSalida = mydataSet_post[i].val().retrasoDestino;
-			var varDestino = mydataSet_post[i].val().salida;
-			var varRetrasoDestino = mydataSet_post[i].val().retrasoSalida;
-			var varUrlImgPerfil = getImagenStorage(mydataSet_post[i].val().id_usuario + '/', 'perfil.png');
-			var varNomUser = mydataSet_post[i].val().nombreUsuario;
-			var varFechaComentario = mydataSet_post[i].val().fecha_post;
-			var varContComent = mydataSet_post[i].val().contComment;
-			var varCarrousel = mydataSet_post[i].val().carrousel;
-			var varComentario = mydataSet_post[i].val().contenido;
-			var varContMG = 0;
-			var varMeGustaUsuarioLogeado = false;;
-			var varIdLikeUsuario = null;
+function crearComentario(varTextoComentario){
+	
+	$('#modalComent #messagesComentario').css('display','none');
 			
-            var snap_likes=await refLikes.orderByChild("id_post").equalTo(id_post_buscar).once("value");
+	if(varTextoComentario == ""){
+		$('#modalComent #messagesComentario').css('display','block');
+		$('#modalComent #messagesComentario #contenidoMensaje').html("<b>ERROR:</b> Es obligatorio escribir algún <u>comentario</u>.");
+	} else {
+		var varUrlImgPerfil = getImagenStorage(usuarioLogeado.dni + '/', 'perfil.png');
+		var varNomUser = usuarioLogeado.nombrePerfil;
+		
+		var dt = new Date();
+		var varFechaComentario = getFechatoBD(dt);
+		
+		
+		var comentario = {
+			id_usuario: usuarioLogeado.dni,
+			contenido: varTextoComentario,
+			fecha_comentario: varFechaComentario,
+			nombreUsuario: varNomUser,
+			id_post: idPostComentarios
+		};
+		
+		var newComentario = dbRef.child("comentarios").push().key;
+		console.log("KEY: " + newComentario);
+		
+		var updates = {};
+		updates["/comentarios/" + newComentario] = comentario;
 
-            if (snap_likes.val() != null) {
-                varContMG = Object.values(snap_likes.val()).length;
-				
-				snap_likes.forEach((child) => {
-					if(child.val().id_usuario == usuarioLogeado.dni){
-						varMeGustaUsuarioLogeado = true;
-						varIdLikeUsuario = child.key;
-					}
-				});
-            }
-			
-			crearPostHTML(mydataSet_post[i].key, varComentario, varUrlImgPerfil, varNomUser, varSalida, varRetrasoSalida,
-			varDestino, varRetrasoDestino, varFechaComentario, varContMG, varContComent, varCarrousel, varMeGustaUsuarioLogeado, varIdLikeUsuario);
-        }
-    }
+		var result = dbRef.update(updates);
+		console.log(result);
+		
+		crearComentarioHTML(newComentario, varTextoComentario, usuarioLogeado.dni, varNomUser, varUrlImgPerfil, varFechaComentario);
+	}
+}
 
-    
+async function cargarComentarios(idPost){
+	var queryComent = dbRef.child("comentarios").orderByChild("id_post").equalTo(idPost);
+		console.log("Buscar comentarios de " + idPost);
+
+	var snap_coment=await queryComent.once("value");    
+	var mydataSet_coment = [];
+	
+	if (snap_coment.val() != null) {
+		snap_coment.forEach((child) => {
+			mydataSet_coment.push(child);
+		});
+	}
+	
+	for(var x = 0; x < mydataSet_coment.length; x++){
+		var idComent = mydataSet_coment[x].key;
+		var varTextoComentario = mydataSet_coment[x].val().contenido;
+		var varIdUsuario = mydataSet_coment[x].val().id_usuario;
+		var varNomUser = mydataSet_coment[x].val().nombreUsuario;
+		var varUrlImgPerfil = getImagenStorage(mydataSet_coment[x].val().id_usuario + '/', 'perfil.png');
+		var varFechaComentario = mydataSet_coment[x].val().fecha_comentario;
+		
+		console.log("Contenido comentario: " + varTextoComentario);
+		
+		crearComentarioHTML(idComent, varTextoComentario, varIdUsuario, varNomUser, varUrlImgPerfil, varFechaComentario);
+	}
 }
 
 
 function agregarMeGusta(idPost){
-	var varContador = 0;
-	var ref = db.ref("posts");
-	
-	var post = ref.child(idPost);
-	post.on('value', function (snapshot) {
-		console.log(snapshot.val());
-		console.log(snapshot.key);
-		console.log(snapshot.val().contMG);
 		
-		varContador = snapshot.val().contMG;
-	});
-	
 	var dt = new Date();
 	
 	var like = {
@@ -435,3 +617,24 @@ function eliminarMeGusta(idLike){
 
 }
 
+
+function borrarPost(varIdPost){
+	
+
+	var ref = dbRef.child("/posts/" + varIdPost);
+
+	ref
+	.remove()
+	.then(function() {
+		
+		//Mensaje de correcto
+		$("#" + varIdPost).remove();
+		return true;
+	})
+	.catch(function(error) {
+		console.log("Remove failed: " + error.message);
+		return false;
+	});
+
+
+}
