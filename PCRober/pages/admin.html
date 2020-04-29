@@ -1,0 +1,395 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="es">
+
+<head>
+    <title>test bootstrap</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+
+    <!-- ICONOS DE FONTAWESOME -->
+    <script src="https://kit.fontawesome.com/11d57a0be5.js" crossorigin="anonymous"></script>
+
+    <!-- BOOTSTRAP 3.4.1 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+
+    <!-- ESTILO TABLAS -->
+    <link href="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.css" rel="stylesheet">
+
+    <script src="https://unpkg.com/tableexport.jquery.plugin/tableExport.min.js"></script>
+    <script src="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.js"></script>
+    <script src="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table-locale-all.min.js"></script>
+    <script
+        src="https://unpkg.com/bootstrap-table@1.16.0/dist/extensions/export/bootstrap-table-export.min.js"></script>
+    <script src="https://unpkg.com/bootstrap-table@1.16.0/dist/locale/bootstrap-table-es-ES.js"></script>
+
+
+    <!-- FIREBASE -->
+    <script src="https://www.gstatic.com/firebasejs/7.10.0/firebase-app.js"></script>
+
+    <script defer src="https://www.gstatic.com/firebasejs/7.10.0/firebase-database.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/7.10.0/firebase-storage.js"></script>
+
+    <!-- LOCAL -->
+
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="../resources/CSS/socialFly.css" />
+    <link rel="stylesheet" type="text/css" href="../resources/CSS/roberto.css" />
+    <!-- JS -->
+    <script defer src="../resources/JS/firebase.js"></script>
+    <script src="../resources/JS/socialFly.js"></script>
+    <script defer src="../resources/JS/admin.js"></script>
+
+    
+    <script>
+        function initPantalla() {
+
+        }
+    </script>
+    
+    <style>
+        /* .select,
+        #locale {
+            width: 100%;
+        } */
+
+        .like {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- INICIO NAV - MENU -->
+    <nav class="navbar navbar-dark navbarMenu-green navbar-expand-sm">
+        <a class="navbar-brand" href="plantilla.html">
+            <img src="../resources/images/iconAvion.png" width="30" height="30" alt="logo">
+            SocialFly
+        </a>
+        <div class="box">
+            <div class="buscadorMenu">
+
+                <input type="search" id="search" placeholder="Search..." />
+                <span class="icon"><i class="fa fa-search"></i></span>
+            </div>
+        </div>
+
+        <ul class="navbar-nav">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Sergio Fortes
+                    <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg"
+                        width="40" height="40" class="rounded-circle">
+                    <span class="badge" id="navNotificacion">5</span>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a href="#" data-target="#modalIMG" data-toggle="modal"
+                        data-id="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg"
+                        class="color-gray-darker c6 td-hover-none abrirModalIMG">
+                        <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg"
+                            width="150" height="150" class="rounded-circle" style="margin:8px;">
+                    </a>
+                    <div class="form-group has-search">
+                        <span class="fa fa-search form-control-feedback"></span>
+                        <input type="text" class="form-control" placeholder="Buscar">
+                    </div>
+                    <a class="dropdown-item" href="#">Mis amigos</a>
+                    <a class="dropdown-item" href="plantillaFormulario.html">Mi perfil</a>
+                    <a class="dropdown-item desconectar" href="#">Desconectar</a>
+                </div>
+            </li>
+        </ul>
+    </nav>
+    <!-- FIN NAV - MENU -->
+
+    <span class="ir-arriba fas fa-chevron-up"></span>
+
+    <!-- INICIO CONTENIDO FORMULARIO-->
+
+    <div class="col-md-1 float-left muroIzquierda text-center">
+        <div style="margin-bottom: 10px;">
+            <a href="plantilla.html" class="iconReload" style="padding-right: 6px;padding-left: 6px;">
+                <i class="fas fa-home"></i>
+            </a>
+        </div>
+        <div style="margin-bottom: 10px;">
+            <a href="plantillaFormulario.html" class="iconReload">
+                <i class="fas fa-user-cog"></i>
+            </a>
+        </div>
+        <div style="margin-bottom: 10px;">
+            <a href="amigos.html" class="iconReload">
+                <i class="fas fa-users"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">
+                        Nueva CIUDAD!
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" id="IdCiudad" style="visibility: hidden;" />
+                    <div class="form-group">
+                        <label for="codigo_ciudad">Código</label>
+                        <input type="text" class="form-control" id="CreateCiudadCodigo"
+                            style="text-transform:uppercase;" maxlength="3" aria-describedby="ciudad_Help"
+                            placeholder="Código ciudad" />
+                        <small id="ciudad_Help" class="form-text text-muted">Indique tres letras</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="nombre_ciudad">Nombre</label>
+                        <input type="text" class="form-control" id="CreateCiudadNombre"
+                            placeholder="Nombre de la ciudad" />
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="CreateCiudadAceptaVuelos" />
+                        <label class="form-check-label" for="acepta_vuelo_check">¿ACEPTA VUELOS?</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                        Cerrar
+                    </button>
+                    <button type="button" onclick="alert('click!!')" class="btn btn-primary">
+                        Guardar cambios
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-12" id="contenedorFormulario">
+
+        <div id="tablaVuelos" style="margin-left: 10px">
+            <div class="headerTabla">
+                Administrador de SocialFly
+            </div>
+
+            <!-- TABS del datatable -->
+            <div id="menu_tablas" style="margin-top: 5px; align-content: center;">
+                <ul class="nav nav-tabs" style="background-color: #4dde76">
+                    <li class="nav-item">
+                        <a class="nav-link" id="tab_aerolineas" href="#" data-toggle="tab">Aerolíneas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="tab_aeropuertos"  href="#" data-toggle="tab">Aeropuertos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="tab_aviones"  href="#" data-toggle="tab">Aviones</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="tab_ciudades"  href="#" data-toggle="tab">Ciudades</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="tab_likes"  href="#" data-toggle="tab">Likes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="tab_posts"  href="#" data-toggle="tab">Posts</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="tab_publicidad"  href="#" data-toggle="tab">Publicidad</a>
+                    </li>                    
+                    <li class="nav-item">
+                        <a class="nav-link" id="tab_rutas"  href="#" data-toggle="tab">Rutas</a>
+                    </li>                                        
+                    <li class="nav-item">
+                        <a class="nav-link" id="tab_usuarios"  href="#" data-toggle="tab">Usuarios</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="tab_vuelos" href="#" data-toggle="tab">Vuelos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="tab_vuelospersonas" href="#" data-toggle="tab">Vuelos-Personas</a>
+                    </li>
+
+                </ul>
+            </div>
+
+            <div class="recuadroTabla">
+
+                <div id="toolbar">
+                    <button id="remove" class="btn btn-secondary" style="font-size: x-large" ; <i
+                        class="glyphicon glyphicon-remove"></i> Añadir
+                    </button>
+                </div>
+
+                <table id="table_admin" data-toolbar="#toolbar" data-search="true" data-show-refresh="true"
+                    data-show-toggle="true" data-show-fullscreen="true" data-show-columns="true"
+                    data-show-columns-toggle-all="true" data-detail-view="true" data-show-export="true"
+                    data-click-to-select="true" data-detail-formatter="detailFormatter" data-minimum-count-columns="2"
+                    data-show-pagination-switch="true" data-pagination="true" data-id-field="id"
+                    data-page-list="[10, 25, 50, 100, all]" data-show-footer="true"
+                    data-response-handler="responseHandler">
+
+                </table>
+            </div>
+
+        </div>
+
+        <!-- INICIO MODAL IMAGEN -->
+        <div aria-hidden="true" aria-labelledby="myModalLabel" class="modal fade" id="modalIMG" role="dialog"
+            tabindex="-1">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-body mb-0 p-0">
+                        <img id="imagenDelModal" src="" alt="" style="width:100%">
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-outline-primary btn-rounded btn-md ml-4 text-center btn-close"
+                            data-dismiss="modal" type="button">Close</button>
+                        <div><a href="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg"
+                                class="btn btn-outline-primary btn-rounded btn-md ml-4 text-center"
+                                target="_blank">Download</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- FIN MODAL IMAGEN -->
+
+
+        <!-- INICIO PIE DE PAGINA -->
+        <footer id="footer" class="d-flex-column text-center">
+            <hr class="mt-0 mb-0">
+            <!--Social buttons-->
+            <div class="text-center">
+                <h4>Síguenos</h4>
+                <ul class="list-unstyled list-inline">
+                    <li class="list-inline-item">
+                        <a href="#!" class="sbtn btn-large mx-1" title="Facebook">
+                            <i class="fab fa-facebook-square fa-2x"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#!" class="sbtn btn-large mx-1" title="Linkedin">
+                            <i class="fab fa-linkedin fa-2x"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#!" class="sbtn btn-large mx-1" title="Twitter">
+                            <i class="fab fa-twitter-square fa-2x"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#!" class="sbtn btn-large mx-1" title="Youtube">
+                            <i class="fab fa-youtube-square fa-2x"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <!--/.Social buttons-->
+            <hr class="mb-0">
+            <!--Footer Links-->
+
+
+            <div class="container text-left text-md-center">
+                <div class="row">
+                    <!--First column-->
+                    <div class="col-md-3 mx-auto shfooter contendorMostrarOpciones">
+                        <div class="d-md-none title">
+                            <div class="mt-3 font-weight-bold" id="mostrarOpciones">Mostrar opciones
+                                <div class="float-right navbar-toggler">
+                                    <i class="fas fa-angle-down"></i>
+                                    <i class="fas fa-angle-up"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="clearfix w-100 d-md-none mb-0 collapse">
+                    <div class="col-md-3 mx-auto shfooter">
+                        <h5 class="my-2 font-weight-bold d-none d-md-block">¿Por qué SocialFly?</h5>
+                        <div class="d-md-none title" data-target="#Product" data-toggle="collapse">
+                            <div class="mt-3 font-weight-bold collapse" id="subMenu1">¿Por qué SocialFly?
+                                <div class="float-right navbar-toggler">
+                                    <i class="fas fa-angle-down"></i>
+                                    <i class="fas fa-angle-up"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <ul class="list-unstyled collapse" id="Product">
+                            <li><a href="#">Seguridad</a></li>
+                            <li><a href="#">Privacidad</a></li>
+                            <li><a href="#">Pioneros</a></li>
+                        </ul>
+                    </div>
+                    <!--/.First column-->
+                    <hr class="clearfix w-100 d-md-none mb-0 collapse">
+                    <!--Second column-->
+                    <div class="col-md-3 mx-auto shfooter">
+                        <h5 class="my-2 font-weight-bold d-none d-md-block">Menu</h5>
+                        <div class="d-md-none title" data-target="#Company" data-toggle="collapse">
+                            <div class="mt-3 font-weight-bold collapse" id="subMenu2">Menu
+                                <div class="float-right navbar-toggler">
+                                    <i class="fas fa-angle-down"></i>
+                                    <i class="fas fa-angle-up"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <ul class="list-unstyled collapse" id="Company">
+                            <li><a href="#">Inicio</a></li>
+                            <li><a href="#">Sobre nosotros</a></li>
+                            <li><a href="#">Contactanos</a></li>
+                        </ul>
+                    </div>
+                    <!--/.Second column-->
+                    <hr class="clearfix w-100 d-md-none mb-0 collapse">
+                    <!--Third column-->
+                    <div class="col-md-3 mx-auto shfooter">
+                        <h5 class="my-2 font-weight-bold d-none d-md-block">Perfil</h5>
+                        <div class="d-md-none title" data-target="#Resources" data-toggle="collapse">
+                            <div class="mt-3 font-weight-bold collapse" id="subMenu3">Perfil
+                                <div class="float-right navbar-toggler">
+                                    <i class="fas fa-angle-down"></i>
+                                    <i class="fas fa-angle-up"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <ul class="list-unstyled collapse" id="Resources">
+                            <li><a href="#">Mis amigos</a></li>
+                            <li><a href="#">Mi perfil</a></li>
+                            <li><a href="#">Desconectar</a></li>
+                        </ul>
+                    </div>
+                    <!--/.Third column-->
+
+                </div>
+            </div>
+            <!--/.Footer Links-->
+            <!--Copyright-->
+            <div class="text-center" style="font-size:12px;">
+                © Copyright
+                <script>
+                    document.write(new Date().getFullYear())
+                </script>
+                Copyright.es - Todos los Derechos Reservados
+            </div>
+            <!--/.Copyright-->
+        </footer>
+        <!-- FIN PIE DE PAGINA -->
+
+</body>
+
+<!--
+    data-url="https://examples.wenzhixin.net.cn/examples/bootstrap_table/data"
+-->
