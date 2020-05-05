@@ -2,7 +2,7 @@
 <html lang="es">
 
 <head>
-    <title>test bootstrap</title>
+    <title>Social Fly - PC3</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
 
@@ -48,6 +48,13 @@
     <script defer src="../resources/JS/firebase.js"></script>
     <script src="../resources/JS/socialFly.js"></script>
     <script defer src="../resources/JS/admin.js"></script>
+
+
+    <!--datepicker-->
+    <!-- <link id="bs-css" href="https://netdna.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet"> -->
+    <link id="bsdp-css" href="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/css/bootstrap-datepicker3.min.css"
+        rel="stylesheet">
+    <script src="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/js/bootstrap-datepicker.min.js"></script>
 
 
     <script>
@@ -143,6 +150,20 @@
 
     <div class="col-md-12" id="contenedorFormulario">
 
+        <div id="selector_visor" style="margin-left: 10px; display: flex;">
+            <!-- selector de tablas -->
+            <div id="menu_visores" style="margin-top: 5px; align-content: center;">
+                <ul class="nav nav-tabs" style="background-color: #4dde76">
+                    <li class="nav-item">
+                        <a class="nav-link" id="tab_maestras" href="#" data-toggle="tab">Tablas Maestras</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="tab_visores" href="#" data-toggle="tab">Visores</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
         <div id="tablaVuelos" style="margin-left: 10px">
             <div class="headerTabla">
                 Administrador de SocialFly
@@ -154,6 +175,9 @@
 
                     <li class="nav-item">
                         <a class="nav-link" id="tab_aeropuertos" href="#" data-toggle="tab">Aeropuertos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="tab_actividades" href="#" data-toggle="tab">Actividades</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" id="tab_likes" href="#" data-toggle="tab">Likes</a>
@@ -217,23 +241,6 @@
             </div>
         </div>
          FIN MODAL IMAGEN -->
-
-        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <div class="items" id="textInput">
-                            <h3 id="Titulo_form">Titulo_modal</h3>
-                            <hr>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
 
         <!-- INICIO PIE DE PAGINA -->
         <footer id="footer" class="d-flex-column text-center">
@@ -355,10 +362,12 @@
         </footer>
         <!-- FIN PIE DE PAGINA -->
 
-        <!--- MODALES -->
+        <!----------------------------------------------------------------------------->
+        <!------------------------------------ MODALES -------------------------------->
+        <!----------------------------------------------------------------------------->
 
-
-        <div class="modal fade" id="Modal_aeropuertos" tabindex="-1" role="dialog"
+        <!---MODAL AEROPUERTOS------>
+        <div class="modal fade" id="Modal_aeropuerto" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
@@ -371,11 +380,12 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <input type="text" id="IdCiudad" style="visibility: hidden;" />
+                        <input type="text" id="Idaeropuerto" style="visibility: hidden;" />
 
                         <div class="form-group">
                             <label for="input_aeropuerto">Nombre del aeropuerto</label>
-                            <input type="text" class="form-control" id="input_aeropuerto" placeholder="Introduzca el nombre" />
+                            <input type="text" class="form-control" id="input_aeropuerto"
+                                placeholder="Introduzca el nombre" />
                         </div>
 
                         <div class="form-group">
@@ -406,7 +416,8 @@
                     <div class="modal-footer">
                         <hr>
                         <p id="feedback_aeropuerto" style="color: red"></p>
-                        <button type="button" onclick="modal_gestion('hide')" class="btn btn-secondary" data-dismiss="modal">
+                        <button type="button" onclick="modal_gestion('hide')" class="btn btn-secondary"
+                            data-dismiss="modal">
                             Cancelar
                         </button>
                         <button type="button" onclick="modal_save_data()" class="btn btn-primary">
@@ -417,6 +428,165 @@
             </div>
         </div>
 
+        <!---MODAL ACTIVIDADES------>
+        <div class="modal fade" id="Modal_actividad" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">
+                            Nueva Actividad!!
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="text" id="Idactividad" style="visibility: hidden;" />
+
+                        <div class="form-group">
+                            <label for="input_actividad">Nombre de actividad</label>
+                            <input type="text" class="form-control" id="input_actividad"
+                                placeholder="Introduzca el nombre" />
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <hr>
+                        <p id="feedback_actividad" style="color: red"></p>
+                        <button type="button" onclick="modal_gestion('hide')" class="btn btn-secondary"
+                            data-dismiss="modal">
+                            Cancelar
+                        </button>
+                        <button type="button" onclick="modal_save_data()" class="btn btn-primary">
+                            Guardar cambios
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!---MODAL USUARIOS------>
+        <div class="modal fade" id="Modal_users" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">
+                            Nuevo Usuario!!
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="text" id="Idusuario" style="visibility: hidden;" />
+
+                        <div class="form-group">
+                            <label for="input_dni">DNI</label>
+                            <input type="text" class="form-control" id="input_dni" placeholder="Introduzca su D.N.I." />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="input_nombre">Nombre</label>
+                            <input type="text" class="form-control" id="input_nombre"
+                                placeholder="Introduzca su nombre" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="input_apellido">Apellidos</label>
+                            <input type="text" class="form-control" id="input_apellido"
+                                placeholder="Introduzca sus apellidos" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="input_email">Email</label>
+                            <input type="text" class="form-control" id="input_email"
+                                placeholder="Introduzca su email" />
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <hr>
+                        <p id="feedback_usuario" style="color: red"></p>
+                        <button type="button" onclick="modal_gestion('hide')" class="btn btn-secondary"
+                            data-dismiss="modal">
+                            Cancelar
+                        </button>
+                        <button type="button" onclick="modal_save_data()" class="btn btn-primary">
+                            Guardar cambios
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--
+            <div class="input-group date" data-provide="datepicker">
+    <input type="text" class="form-control">
+    <div class="input-group-addon">
+        <span class="glyphicon glyphicon-th"></span>
+    </div>
+</div>
+        -->
+
+        <!---MODAL VUELOS------>
+        <div class="modal fade" id="Modal_vuelos" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">
+                            Nuevo Vuelo!!
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="text" id="Idvuelo" style="visibility: hidden;" />
+
+                        <div class="form-group">
+                            <label for="input_numerovuelo">Nº de vuelo</label>
+                            <input type="text" class="form-control" id="input_numerovuelo"
+                                placeholder="Introduzca el nº de vuelo" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="OrigenList">Aeropuerto de ORIGEN:</label>
+                            <select id="OrigenList" class="form-control"></select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="DestinoList">Aeropuerto de DESTINO:</label>
+                            <select id="DestinoList" class="form-control"></select>
+                        </div>
+
+                        <div class="form-group date" style="display: flex; flex-direction: column;">
+                            <label for="input_fechaSalida">Fecha salida</label>                            
+                            <input class="datepicker" data-date-format="dd/mm/yyyy" id="input_fechaSalida" placeholder="DD/MM/YYYY">
+                        </div>
+
+
+                        <div class="form-group date" style="display: flex; flex-direction: column;">
+                            <label for="input_fechaLlegada">Fecha llegada</label>
+                            <input class="datepicker" data-date-format="dd/mm/yyyy" id="input_fechaLlegada" placeholder="DD/MM/YYYY">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <hr>
+                        <p id="feedback_vuelos" style="color: red"></p>
+                        <button type="button" onclick="modal_gestion('hide')" class="btn btn-secondary"
+                            data-dismiss="modal">
+                            Cancelar
+                        </button>
+                        <button type="button" onclick="modal_save_data()" class="btn btn-primary">
+                            Guardar cambios
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
 
