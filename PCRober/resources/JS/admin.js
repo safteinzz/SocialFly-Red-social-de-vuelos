@@ -21,6 +21,9 @@ $(document).ready(async function () {
         case 'amigos.html':
             load_amigos_table();
             break;
+        case 'publi.html':
+            load_data_publi();
+            break;
     }
 });
 
@@ -74,6 +77,7 @@ window.operateEvents = {
         alert('You click like action, row: ' + JSON.stringify(row))
     },
     'click .remove': function (e, value, row, index) {
+        alert("remove")
         $table.bootstrapTable('remove', {
             field: 'id',
             values: [row.id]
@@ -1234,9 +1238,9 @@ async function load_amigos_table() {
             align: 'left'
         }, {
             title: 'nombre_apellidos',
-            align: 'left',            
-            formatter: function (e, value) {                
-                return '<p> '+value.name+' '+value.lastname+'</p>'
+            align: 'left',
+            formatter: function (e, value) {
+                return '<p> ' + value.name + ' ' + value.lastname + '</p>'
             },
         }, {
             title: 'Enlace_perfil',
@@ -1285,6 +1289,174 @@ async function load_amigos_table() {
     //     $remove.prop('disabled', true)
     // })
 
+}
 
+async function modal_test() {
+
+    $("#textInput").children("div").remove();
+    $("#textInput").children("input").remove();
+    $("#textInput").children("label").remove();
+    $("#textInput").children("button").remove();
+    $("#textInput").children("select").remove();
+    $("#textInput").children("hr").remove();
+
+
+    $("#Titulo_form").text("Gestión Publicidad");
+
+    // Nombre empresa
+    $("#textInput").append('<div class="form-group">')
+    $("#textInput").append('  <label for="input_comentario">Comentario</label>')
+    $("#textInput").append('  <input type="text" id="input_comentario" class="form-control" placeholder="Texto a anunciar">')
+    $("#textInput").append('</div>')
+
+    $("#textInput").append('<div class="form-group">')
+    $("#textInput").append('  <label for="input_hashtag">Hashtag #</label>')
+    $("#textInput").append('  <input type="text" id="input_hashtag" class="form-control" placeholder="Hashtag del comentario">')
+    $("#textInput").append('</div>')
+
+    $("#textInput").append('<div class="form-group">')
+    $("#textInput").append('    <label for="actividadesList">Actividad asociada:</label>')
+    $("#textInput").append('    <select id="actividadesList" class="form-control"></select>')
+    $("#textInput").append('</div>')
+
+    var queryDB = dbRef.child("actividad").orderByChild("nombre_actividad");
+    var snap_query = await queryDB.once("value");
+
+    if (snap_query.val() != null) {
+        // lista para borrar usuario
+        var actividadesList = document.getElementById('actividadesList');
+        snap_query.forEach((child) => {
+            // creo el elemento
+            var newElement = document.createElement('option');
+            newElement.setAttribute('value', child.val().nombre_actividad);
+            newElement.setAttribute('id', child.key);
+            newElement.text = child.val().nombre_actividad;
+
+            // Lo añado
+            actividadesList.appendChild(newElement);
+        });
+    }
+
+    $("#textInput").append('<div class="form-group">')
+    $("#textInput").append('    <label for="fileName">Imagen asociada:</label>')
+    $("#textInput").append('    <input id="fileName" class="form-control" type="file" accept="image/*">')
+    $("#textInput").append('</div>')
+
+    $("#textInput").append('<div class="form-group">')
+    $("#textInput").append('    <hr>')
+    $("#textInput").append('    <p id="feedback_form"></p>')
+    $("#textInput").append('    <input class="btn btn-primary" type="button" value="Aceptar" id="btn_valid" onclick="validate_modal()">')
+    $("#textInput").append('    <input class="btn btn-danger" type="button" value="Cancelar" id="btn_valid" onclick="close_modal()">')
+    $("#textInput").append('</div>')
+
+    $("#textInput").show().css('display', 'block');
+    $('#exampleModalCenter').modal('show');
+}
+
+async function load_data_publi() {
+
+    var queryDB = dbRef.child("actividad").orderByChild("nombre_actividad");
+    var snap_query = await queryDB.once("value");
+
+    if (snap_query.val() != null) {
+        // lista para borrar usuario
+        var actividadesList = document.getElementById('actividadesList');
+        snap_query.forEach((child) => {
+            // creo el elemento
+            var newElement = document.createElement('option');
+            newElement.setAttribute('value', child.val().nombre_actividad);
+            newElement.setAttribute('id', child.key);
+            newElement.text = child.val().nombre_actividad;
+
+            console.log(newElement);
+
+            // Lo añado
+            actividadesList.appendChild(newElement);
+        });
+    }
+
+    var queryDB = dbRef.child("aeropuerto").orderByChild("nombre_aeropuerto");
+    var snap_query = await queryDB.once("value");
+
+    if (snap_query.val() != null) {
+        // lista para borrar usuario
+        var actividadesList = document.getElementById('aeropuertosList');
+        snap_query.forEach((child) => {
+            // creo el elemento
+            var newElement = document.createElement('option');
+            newElement.setAttribute('value', child.val().nombre);
+            //newElement.setAttribute('id', child.key);
+            newElement.text = child.val().nombre;
+
+            console.log(newElement);
+
+            // Lo añado
+            actividadesList.appendChild(newElement);
+        });
+    }    
+}
+
+async function validate_modal() {
+    var comentario = document.getElementById('input_comentario').value;
+    var hashtag = document.getElementById('input_hashtag').value;
+    //var fichero_asociado = document.getElementById('fileName').value;
+    var actividad_seleccionada = document.getElementById('actividadesList').value;
+    var aeropuerto_seleccionado = document.getElementById('aeropuertosList').value;
+
+    if (aeropuerto_seleccionado == "") {
+        alert("No hay ningun aeropuerto seleccionado");
+        return;
+    }
+
+    if (comentario == "") {
+        alert("No has introducido ningún comentario");
+        return;
+    }
+
+    if (hashtag == "") {
+        alert("No has introducido ningún hashtag");
+        return;
+    }
+
+    // if (fichero_asociado == "") {
+    //     alert("No has introducido ningún fichero para adjuntar");
+    //     return;
+    // }
+
+    if (actividad_seleccionada == "") {
+        alert("No hay ningun actividad seleccionada");
+        return;
+    }    
+
+    var carrousel = upload();  // subir imágenes
+
+    var publicidad = {        
+        comentario: comentario,
+        hashtag: hashtag,
+        carrousel: carrousel,
+        nombre_actividad: actividad_seleccionada,
+        nombre_aeropuerto: aeropuerto_seleccionado,
+        id_usuario: usuarioLogeado.dni,
+        nombre_usuario: usuarioLogeado.nombrePerfil
+    };
+
+    var newPubli = dbRef.child("publicidad").push().key;
+
+    // Write the new post´s data simultaeously in the posts list and the user´s post list
+    var updates = {};
+    updates["/publicidad/" + newPubli] = publicidad;
+
+    var result = dbRef.update(updates);
+    console.log(result);
+
+    $('#feedback_form').html("Todo ha ido bien!!")
+}
+
+function alert_modal() {
+    alert('alert_modal');
+}
+
+function close_modal() {
+    $('#exampleModalCenter').modal('hide');
 }
 

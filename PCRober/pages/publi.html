@@ -1,0 +1,328 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="es">
+
+<head>
+  <title>test bootstrap</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+
+  <!-- ICONOS DE FONTAWESOME -->
+  <script src="https://kit.fontawesome.com/11d57a0be5.js" crossorigin="anonymous"></script>
+
+  <!-- BOOTSTRAP 3.4.1 -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+
+
+  <!-- ESTILO TABLAS -->
+  <link href="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.css" rel="stylesheet">
+
+  <script src="https://unpkg.com/tableexport.jquery.plugin/tableExport.min.js"></script>
+  <script src="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.js"></script>
+  <script src="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table-locale-all.min.js"></script>
+  <script src="https://unpkg.com/bootstrap-table@1.16.0/dist/extensions/export/bootstrap-table-export.min.js"></script>
+  <script src="https://unpkg.com/bootstrap-table@1.16.0/dist/locale/bootstrap-table-es-ES.js"></script>
+
+
+  <!-- FIREBASE -->
+  <script src="https://www.gstatic.com/firebasejs/7.10.0/firebase-app.js"></script>
+
+  <script defer src="https://www.gstatic.com/firebasejs/7.10.0/firebase-database.js"></script>
+  <script defer src="https://www.gstatic.com/firebasejs/7.10.0/firebase-storage.js"></script>
+
+  <!-- LOCAL -->
+
+  <!-- CSS -->
+  <link rel="stylesheet" type="text/css" href="../resources/CSS/socialFly.css" />
+  <link rel="stylesheet" type="text/css" href="../resources/CSS/roberto.css" />
+  <!-- JS -->
+  <script defer src="../resources/JS/firebase.js"></script>
+  <script src="../resources/JS/socialFly.js"></script>
+  <script defer src="../resources/JS/admin.js"></script>
+
+
+  <script>
+    function initPantalla() {
+
+    }
+  </script>
+
+  <style>
+    /* .select,
+        #locale {
+            width: 100%;
+        } */
+
+    .like {
+      margin-right: 10px;
+    }
+
+    .items {
+      border: 1px solid lightgray;
+      display: none;
+      padding: 0 10px 10px 10px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- INICIO NAV - MENU -->
+  <nav class="navbar navbar-dark navbarMenu-green navbar-expand-sm">
+    <a class="navbar-brand" href="plantilla.html">
+      <img src="../resources/images/iconAvion.png" width="30" height="30" alt="logo">
+      SocialFly
+    </a>
+    <div class="box">
+      <div class="buscadorMenu">
+
+        <input type="search" id="search" placeholder="Search..." />
+        <span class="icon"><i class="fa fa-search"></i></span>
+      </div>
+    </div>
+
+    <ul class="navbar-nav">
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">
+          Sergio Fortes
+          <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg" width="40"
+            height="40" class="rounded-circle">
+          <span class="badge" id="navNotificacion">5</span>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a href="#" data-target="#modalIMG" data-toggle="modal"
+            data-id="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg"
+            class="color-gray-darker c6 td-hover-none abrirModalIMG">
+            <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg" width="150"
+              height="150" class="rounded-circle" style="margin:8px;">
+          </a>
+          <div class="form-group has-search">
+            <span class="fa fa-search form-control-feedback"></span>
+            <input type="text" class="form-control" placeholder="Buscar">
+          </div>
+          <a class="dropdown-item" href="#">Mis amigos</a>
+          <a class="dropdown-item" href="plantillaFormulario.html">Mi perfil</a>
+          <a class="dropdown-item desconectar" href="#">Desconectar</a>
+        </div>
+      </li>
+    </ul>
+  </nav>
+  <!-- FIN NAV - MENU -->
+
+  <span class="ir-arriba fas fa-chevron-up"></span>
+
+  <!-- INICIO CONTENIDO FORMULARIO-->
+
+  <div class="col-md-1 float-left muroIzquierda text-center">
+    <div style="margin-bottom: 10px;">
+      <a href="plantilla.html" class="iconReload" style="padding-right: 6px;padding-left: 6px;">
+        <i class="fas fa-home"></i>
+      </a>
+    </div>
+    <div style="margin-bottom: 10px;">
+      <a href="plantillaFormulario.html" class="iconReload">
+        <i class="fas fa-user-cog"></i>
+      </a>
+    </div>
+    <div style="margin-bottom: 10px;">
+      <a href="amigos.html" class="iconReload">
+        <i class="fas fa-users"></i>
+      </a>
+    </div>
+  </div>
+
+  <!-- CONTENIDO FORMULARIO -->
+
+  <div class="col-md-12" id="contenedorFormulario" style="margin-left: 10px; display: block;">
+
+    <div class="col-md-6">
+      <!-- <div class="recuadroTabla"> -->
+      <!-- <h3 id="Titulo_form">Gestión Publicidad </h3> -->
+      <div class="headerTabla">
+        Gestión Publicidad
+      </div>
+
+      <hr>
+
+      <div class="form-group">
+        <label for="aeropuertosList">Aeropuerto donde publicar:</label>
+        <select id="aeropuertosList" class="form-control"></select>
+      </div>
+
+      <div class="form-group">
+        <label for="input_comentario">Comentario</label>
+        <input type="text" id="input_comentario" class="form-control" placeholder="Texto a anunciar">
+      </div>
+
+      <div class="form-group">
+        <label for="input_hashtag">Hashtag #</label>
+        <input type="text" id="input_hashtag" class="form-control" placeholder="Hashtag del comentario">
+      </div>
+
+      <div class="form-group">
+        <label for="actividadesList">Actividad asociada:</label>
+        <select id="actividadesList" class="form-control"></select>
+      </div>
+
+      <div class="form-group">
+        <!-- <label for="fileName">Imagen asociada:</label>
+        <input id="fileName" class="form-control" type="file" accept="image/*"> -->
+        <!-- INICIO SUBIR ARCHIVOS -->
+        <div class="input-group divSubirArchivo">
+          <label class="label">Adjuntar imagenes / videos</label>
+          <div class="input-group input-file" name="Fichier1">
+            <span class="input-group-btn">
+              <button class="btn btn-default btn-choose" type="button">Adjuntar <i
+                  class="fas fa-paperclip"></i></button>
+            </span>
+            <input id="inputImagenes" type="text" class="form-control inputSubirArchivo"
+              placeholder='Selecciona algún archivo...' multiple />
+            <span class="input-group-btn">
+              <button class="btn btn-warning btn-reset" type="button">Borrar <i class="fas fa-times"></i></button>
+            </span>
+          </div>
+        </div>
+        <!-- FIN SUBIR ARCHIVOS -->
+      </div>
+
+      <div class="form-group">
+        <hr>
+        <p id="feedback_form"></p>
+        <input class="btn btn-primary" type="button" value="Aceptar" id="btn_valid" onclick="validate_modal()">
+        <input class="btn btn-danger" type="button" value="Cancelar" id="btn_valid" onclick="close_modal()">
+      </div>
+
+      <!-- </div> -->
+    </div>
+  </div>
+
+  <!-- INICIO PIE DE PAGINA -->
+  <footer id="footer" class="d-flex-column text-center">
+    <hr class="mt-0 mb-0">
+    <!--Social buttons-->
+    <div class="text-center">
+      <h4>Síguenos</h4>
+      <ul class="list-unstyled list-inline">
+        <li class="list-inline-item">
+          <a href="#!" class="sbtn btn-large mx-1" title="Facebook">
+            <i class="fab fa-facebook-square fa-2x"></i>
+          </a>
+        </li>
+        <li class="list-inline-item">
+          <a href="#!" class="sbtn btn-large mx-1" title="Linkedin">
+            <i class="fab fa-linkedin fa-2x"></i>
+          </a>
+        </li>
+        <li class="list-inline-item">
+          <a href="#!" class="sbtn btn-large mx-1" title="Twitter">
+            <i class="fab fa-twitter-square fa-2x"></i>
+          </a>
+        </li>
+        <li class="list-inline-item">
+          <a href="#!" class="sbtn btn-large mx-1" title="Youtube">
+            <i class="fab fa-youtube-square fa-2x"></i>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <!--/.Social buttons-->
+    <hr class="mb-0">
+    <!--Footer Links-->
+
+
+    <div class="container text-left text-md-center">
+      <div class="row">
+        <!--First column-->
+        <div class="col-md-3 mx-auto shfooter contendorMostrarOpciones">
+          <div class="d-md-none title">
+            <div class="mt-3 font-weight-bold" id="mostrarOpciones">Mostrar opciones
+              <div class="float-right navbar-toggler">
+                <i class="fas fa-angle-down"></i>
+                <i class="fas fa-angle-up"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <hr class="clearfix w-100 d-md-none mb-0 collapse">
+        <div class="col-md-3 mx-auto shfooter">
+          <h5 class="my-2 font-weight-bold d-none d-md-block">¿Por qué SocialFly?</h5>
+          <div class="d-md-none title" data-target="#Product" data-toggle="collapse">
+            <div class="mt-3 font-weight-bold collapse" id="subMenu1">¿Por qué SocialFly?
+              <div class="float-right navbar-toggler">
+                <i class="fas fa-angle-down"></i>
+                <i class="fas fa-angle-up"></i>
+              </div>
+            </div>
+          </div>
+          <ul class="list-unstyled collapse" id="Product">
+            <li><a href="#">Seguridad</a></li>
+            <li><a href="#">Privacidad</a></li>
+            <li><a href="#">Pioneros</a></li>
+          </ul>
+        </div>
+        <!--/.First column-->
+        <hr class="clearfix w-100 d-md-none mb-0 collapse">
+        <!--Second column-->
+        <div class="col-md-3 mx-auto shfooter">
+          <h5 class="my-2 font-weight-bold d-none d-md-block">Menu</h5>
+          <div class="d-md-none title" data-target="#Company" data-toggle="collapse">
+            <div class="mt-3 font-weight-bold collapse" id="subMenu2">Menu
+              <div class="float-right navbar-toggler">
+                <i class="fas fa-angle-down"></i>
+                <i class="fas fa-angle-up"></i>
+              </div>
+            </div>
+          </div>
+          <ul class="list-unstyled collapse" id="Company">
+            <li><a href="#">Inicio</a></li>
+            <li><a href="#">Sobre nosotros</a></li>
+            <li><a href="#">Contactanos</a></li>
+          </ul>
+        </div>
+        <!--/.Second column-->
+        <hr class="clearfix w-100 d-md-none mb-0 collapse">
+        <!--Third column-->
+        <div class="col-md-3 mx-auto shfooter">
+          <h5 class="my-2 font-weight-bold d-none d-md-block">Perfil</h5>
+          <div class="d-md-none title" data-target="#Resources" data-toggle="collapse">
+            <div class="mt-3 font-weight-bold collapse" id="subMenu3">Perfil
+              <div class="float-right navbar-toggler">
+                <i class="fas fa-angle-down"></i>
+                <i class="fas fa-angle-up"></i>
+              </div>
+            </div>
+          </div>
+          <ul class="list-unstyled collapse" id="Resources">
+            <li><a href="#">Mis amigos</a></li>
+            <li><a href="#">Mi perfil</a></li>
+            <li><a href="#">Desconectar</a></li>
+          </ul>
+        </div>
+        <!--/.Third column-->
+
+      </div>
+    </div>
+    <!--/.Footer Links-->
+    <!--Copyright-->
+    <div class="text-center" style="font-size:12px;">
+      © Copyright
+      <script>
+        document.write(new Date().getFullYear())
+      </script>
+      Copyright.es - Todos los Derechos Reservados
+    </div>
+    <!--/.Copyright-->
+  </footer>
+  <!-- FIN PIE DE PAGINA -->
+
+</body>

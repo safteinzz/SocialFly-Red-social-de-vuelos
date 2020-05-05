@@ -49,13 +49,13 @@
     <script src="../resources/JS/socialFly.js"></script>
     <script defer src="../resources/JS/admin.js"></script>
 
-    
+
     <script>
         function initPantalla() {
 
         }
     </script>
-    
+
     <style>
         /* .select,
         #locale {
@@ -64,6 +64,12 @@
 
         .like {
             margin-right: 10px;
+        }
+
+        .items {
+            border: 1px solid lightgray;
+            display: none;
+            padding: 0 10px 10px 10px;
         }
     </style>
 </head>
@@ -135,7 +141,7 @@
         </div>
     </div>
 
-    <!-- Modal -->
+    <!-- Modal 
     <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -178,6 +184,7 @@
             </div>
         </div>
     </div>
+    -->
 
     <div class="col-md-12" id="contenedorFormulario">
 
@@ -193,28 +200,28 @@
                         <a class="nav-link" id="tab_aerolineas" href="#" data-toggle="tab">Aerolíneas</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="tab_aeropuertos"  href="#" data-toggle="tab">Aeropuertos</a>
+                        <a class="nav-link" id="tab_aeropuertos" href="#" data-toggle="tab">Aeropuertos</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="tab_aviones"  href="#" data-toggle="tab">Aviones</a>
+                        <a class="nav-link" id="tab_aviones" href="#" data-toggle="tab">Aviones</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="tab_ciudades"  href="#" data-toggle="tab">Ciudades</a>
+                        <a class="nav-link" id="tab_ciudades" href="#" data-toggle="tab">Ciudades</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="tab_likes"  href="#" data-toggle="tab">Likes</a>
+                        <a class="nav-link" id="tab_likes" href="#" data-toggle="tab">Likes</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="tab_posts"  href="#" data-toggle="tab">Posts</a>
+                        <a class="nav-link" id="tab_posts" href="#" data-toggle="tab">Posts</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="tab_publicidad"  href="#" data-toggle="tab">Publicidad</a>
-                    </li>                    
+                        <a class="nav-link" id="tab_publicidad" href="#" data-toggle="tab">Publicidad</a>
+                    </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="tab_rutas"  href="#" data-toggle="tab">Rutas</a>
-                    </li>                                        
+                        <a class="nav-link" id="tab_rutas" href="#" data-toggle="tab">Rutas</a>
+                    </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="tab_usuarios"  href="#" data-toggle="tab">Usuarios</a>
+                        <a class="nav-link" id="tab_usuarios" href="#" data-toggle="tab">Usuarios</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" id="tab_vuelos" href="#" data-toggle="tab">Vuelos</a>
@@ -232,6 +239,9 @@
                     <button id="remove" class="btn btn-secondary" style="font-size: x-large" ; <i
                         class="glyphicon glyphicon-remove"></i> Añadir
                     </button>
+                    <button id="remove" class="btn btn-secondary" style="font-size: x-large" ; onclick="modal_test()" <i
+                        class="glyphicon glyphicon-remove"></i> Añadir
+                    </button>
                 </div>
 
                 <table id="table_admin" data-toolbar="#toolbar" data-search="true" data-show-refresh="true"
@@ -247,7 +257,7 @@
 
         </div>
 
-        <!-- INICIO MODAL IMAGEN -->
+        <!-- INICIO MODAL IMAGEN
         <div aria-hidden="true" aria-labelledby="myModalLabel" class="modal fade" id="modalIMG" role="dialog"
             tabindex="-1">
             <div class="modal-dialog modal-lg" role="document">
@@ -265,7 +275,23 @@
                 </div>
             </div>
         </div>
-        <!-- FIN MODAL IMAGEN -->
+         FIN MODAL IMAGEN -->
+
+         <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">                        
+                        <div class="items" id="textInput">
+                            <h3 id="Titulo_form">Titulo_modal</h3>                            
+                            <hr>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
 
         <!-- INICIO PIE DE PAGINA -->
