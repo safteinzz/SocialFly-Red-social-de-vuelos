@@ -37,8 +37,14 @@ $(document).ready(async function () {
 			initPrincipal();
 			await carga_principal_muro();
 			break;
+
+		case 'admin.html':
+			bs_input_file();			
+			break;
+			
 		case 'publi.html':
 			bs_input_file();
+			break;
 		default:
 			break;
 	}

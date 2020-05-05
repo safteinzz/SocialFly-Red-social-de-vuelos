@@ -1375,11 +1375,11 @@ async function load_data_publi() {
         });
     }
 
-    var queryDB = dbRef.child("aeropuerto").orderByChild("nombre_aeropuerto");
+    var queryDB = dbRef.child("aeropuerto").orderByChild("nombre");
     var snap_query = await queryDB.once("value");
 
     if (snap_query.val() != null) {
-        // lista para borrar usuario
+        // lista para aeropuertos
         var actividadesList = document.getElementById('aeropuertosList');
         snap_query.forEach((child) => {
             // creo el elemento
@@ -1395,42 +1395,38 @@ async function load_data_publi() {
         });
     }    
 }
-
-async function validate_modal() {
+/**============================================================
+VALIDADOR PUBLICIDAD                           
+============================================================*/
+async function validate_publicidad() {
     var comentario = document.getElementById('input_comentario').value;
-    var hashtag = document.getElementById('input_hashtag').value;
-    //var fichero_asociado = document.getElementById('fileName').value;
+    var hashtag = document.getElementById('input_hashtag').value;    
     var actividad_seleccionada = document.getElementById('actividadesList').value;
     var aeropuerto_seleccionado = document.getElementById('aeropuertosList').value;
 
-    if (aeropuerto_seleccionado == "") {
-        alert("No hay ningun aeropuerto seleccionado");
+    if (aeropuerto_seleccionado == "") {        
+        $('#feedback_form').html("No hay ningun aeropuerto seleccionado");
         return;
     }
 
-    if (comentario == "") {
-        alert("No has introducido ningún comentario");
+    if (comentario == "") {        
+        $('#feedback_form').html("No has introducido ningún comentario");
         return;
     }
 
-    if (hashtag == "") {
-        alert("No has introducido ningún hashtag");
+    if (hashtag == "") {        
+        $('#feedback_form').html("No has introducido ningún hashtag");
         return;
     }
 
-    // if (fichero_asociado == "") {
-    //     alert("No has introducido ningún fichero para adjuntar");
-    //     return;
-    // }
-
-    if (actividad_seleccionada == "") {
-        alert("No hay ningun actividad seleccionada");
+    if (actividad_seleccionada == "") {        
+        $('#feedback_form').html("No hay ningun actividad seleccionada");
         return;
     }    
 
     var carrousel = upload();  // subir imágenes
 
-    var publicidad = {        
+    var publicidad_row = {        
         comentario: comentario,
         hashtag: hashtag,
         carrousel: carrousel,
@@ -1440,23 +1436,104 @@ async function validate_modal() {
         nombre_usuario: usuarioLogeado.nombrePerfil
     };
 
-    var newPubli = dbRef.child("publicidad").push().key;
-
-    // Write the new post´s data simultaeously in the posts list and the user´s post list
-    var updates = {};
-    updates["/publicidad/" + newPubli] = publicidad;
-
-    var result = dbRef.update(updates);
-    console.log(result);
-
-    $('#feedback_form').html("Todo ha ido bien!!")
+    if(bbdd_insert("publicidad", publicidad_row)){    
+        $('#feedback_form').html("Registro de publicidad creado correctamente!!")
+    }
 }
 
-function alert_modal() {
-    alert('alert_modal');
+/**============================================================
+                  GESTIÓN MODALES
+============================================================*/
+
+// ABRIR CERRAR
+function modal_gestion(opcion) {
+
+    switch (tab_public_control){
+        case 'tab_aeropuertos':
+            $('#Modal_aeropuertos').modal(opcion);            
+            break;
+
+        default:
+            alert("Gestión no creada aún para "+tab_public_control);            
+    }   
 }
 
-function close_modal() {
-    $('#exampleModalCenter').modal('hide');
+// VALIDACIÓN FORMULARIOS
+async function modal_save_data(){
+
+    switch (tab_public_control){
+        case 'tab_aeropuertos':
+
+            var nombre_aeropuerto = document.getElementById("input_aeropuerto").value;
+            var nombre_ciudad = document.getElementById("input_ciudad").value;
+            // check nombre aeropuerto
+            if(nombre_aeropuerto==""){
+                document.getElementById("feedback_aeropuerto").innerHTML="Debe indicar un nombre para el aeropuerto"                
+                return;
+            }
+            if(nombre_aeropuerto.length<5){
+                document.getElementById("feedback_aeropuerto").innerHTML="El nombre del aeropuerto es demasiado corto"
+                return;
+            }            
+            // check nombre ciudad
+            if(nombre_ciudad==""){
+                document.getElementById("feedback_aeropuerto").innerHTML="Debe indicar un nombre para la ciudad"                
+                return;
+            }
+            if(nombre_ciudad.length<3){
+                document.getElementById("feedback_aeropuerto").innerHTML="El nombre de la ciudad es demasiado corto"
+                return;
+            }            
+
+            // imagen del aeropuerto, sólo 1?
+            var imagen="";
+            var carrousel = upload();  // subir imágenes                        
+            if(carrousel.length>0){
+                imagen=carrousel[0]
+            }
+
+            // check existencia aeropuerto        
+            var queryDB = dbRef.child("aeropuerto").orderByChild("nombre").equalTo(nombre_aeropuerto);            
+            var snap_query = await queryDB.once("value");        
+            if (snap_query.val() != null) {
+                document.getElementById("feedback_aeropuerto").innerHTML="Este aeropuerto ya existe!"
+                return;
+            }                
+
+            var aeropuerto_row = {        
+                ciudad: nombre_ciudad,
+                nombre: nombre_aeropuerto,
+                imagen: imagen
+            };
+
+            if( bbdd_insert("aeropuerto", aeropuerto_row) )
+            {
+                alert("Aeropuerto creado correctamente");
+                $('#Modal_aeropuertos').modal('hide');
+            }
+            break;
+
+    }
+
 }
+
+/**============================================================
+                           BBDD
+============================================================*/
+
+function bbdd_insert(table_name, row_values){
+    try{    
+        var newRow = dbRef.child(table_name).push().key;    
+        var updates = {};
+        updates["/"+table_name+"/" + newRow] = row_values;
+        var result = dbRef.update(updates);        
+        return true;
+    }
+    catch (error) {
+        alert("Se ha producido un error de en la gestión de "+table_name);
+        console.error(error);
+    }
+    return false;
+}
+
 

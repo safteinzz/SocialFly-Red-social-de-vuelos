@@ -141,51 +141,6 @@
         </div>
     </div>
 
-    <!-- Modal 
-    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">
-                        Nueva CIUDAD!
-                    </h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <input type="text" id="IdCiudad" style="visibility: hidden;" />
-                    <div class="form-group">
-                        <label for="codigo_ciudad">Código</label>
-                        <input type="text" class="form-control" id="CreateCiudadCodigo"
-                            style="text-transform:uppercase;" maxlength="3" aria-describedby="ciudad_Help"
-                            placeholder="Código ciudad" />
-                        <small id="ciudad_Help" class="form-text text-muted">Indique tres letras</small>
-                    </div>
-                    <div class="form-group">
-                        <label for="nombre_ciudad">Nombre</label>
-                        <input type="text" class="form-control" id="CreateCiudadNombre"
-                            placeholder="Nombre de la ciudad" />
-                    </div>
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="CreateCiudadAceptaVuelos" />
-                        <label class="form-check-label" for="acepta_vuelo_check">¿ACEPTA VUELOS?</label>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                        Cerrar
-                    </button>
-                    <button type="button" onclick="alert('click!!')" class="btn btn-primary">
-                        Guardar cambios
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-    -->
-
     <div class="col-md-12" id="contenedorFormulario">
 
         <div id="tablaVuelos" style="margin-left: 10px">
@@ -236,11 +191,8 @@
             <div class="recuadroTabla">
 
                 <div id="toolbar">
-                    <button id="remove" class="btn btn-secondary" style="font-size: x-large" ; <i
-                        class="glyphicon glyphicon-remove"></i> Añadir
-                    </button>
-                    <button id="remove" class="btn btn-secondary" style="font-size: x-large" ; onclick="modal_test()" <i
-                        class="glyphicon glyphicon-remove"></i> Añadir
+                    <button id="add_bbdd" class="btn btn-secondary" style="font-size: x-large;"
+                        onclick="modal_gestion('show')" <i class="glyphicon glyphicon-remove"></i> Añadir
                     </button>
                 </div>
 
@@ -277,15 +229,15 @@
         </div>
          FIN MODAL IMAGEN -->
 
-         <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
-                    <div class="modal-header">                        
+                    <div class="modal-header">
                         <div class="items" id="textInput">
-                            <h3 id="Titulo_form">Titulo_modal</h3>                            
+                            <h3 id="Titulo_form">Titulo_modal</h3>
                             <hr>
-                            
+
                         </div>
                     </div>
                 </div>
@@ -413,6 +365,77 @@
             <!--/.Copyright-->
         </footer>
         <!-- FIN PIE DE PAGINA -->
+
+        <!--- MODALES -->
+
+
+        <div class="modal fade" id="Modal_aeropuertos" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">
+                            Nuevo Aeropuerto!!
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="text" id="IdCiudad" style="visibility: hidden;" />
+
+                        <div class="form-group">
+                            <label for="input_aeropuerto">Nombre del aeropuerto</label>
+                            <input type="text" class="form-control" id="input_aeropuerto" placeholder="Introduzca el nombre" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="input_ciudad">Ciudad donde se ubica</label>
+                            <input type="text" class="form-control" id="input_ciudad"
+                                placeholder="Introduzca la ciudad" />
+                        </div>
+
+                        <!-- <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="check_is" />
+                            <label class="form-check-label" for="acepta_vuelo_check">¿ACEPTA VUELOS?</label>
+                        </div> -->
+
+                        <!-- INICIO SUBIR ARCHIVOS -->
+                        <div class="input-group divSubirArchivo">
+                            <label class="label">Adjuntar imagenes / videos</label>
+                            <div class="input-group input-file" name="Fichier1">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default btn-choose" type="button">Adjuntar <i
+                                            class="fas fa-paperclip"></i></button>
+                                </span>
+                                <input id="inputImagenes" type="text" class="form-control inputSubirArchivo"
+                                    placeholder='Selecciona algún archivo...' multiple />
+                                <span class="input-group-btn">
+                                    <button class="btn btn-warning btn-reset" type="button">Borrar <i
+                                            class="fas fa-times"></i></button>
+                                </span>
+                            </div>
+                        </div>
+                        <!-- FIN SUBIR ARCHIVOS -->
+
+                    </div>
+                    <div class="modal-footer">
+                        <hr>
+                        <p id="feedback_aeropuerto" style="color: red"></p>
+                        <button type="button" onclick="modal_gestion('hide')" class="btn btn-secondary" data-dismiss="modal">
+                            Cancelar
+                        </button>
+                        <button type="button" onclick="modal_save_data()" class="btn btn-primary">
+                            Guardar cambios
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
 
 </body>
 
