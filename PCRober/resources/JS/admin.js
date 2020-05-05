@@ -5,7 +5,7 @@ var $table = $('#table_admin');
 var $table_amigos = $('#table_amigos');
 var $remove = $('#remove');
 var selections = [];
-var tab_public_control = 'tab_aerolineas';
+var tab_public_control = 'tab_aeropuertos';
 
 // <-------------------------- load paginas ------------------------------>
 $(document).ready(async function () {
@@ -31,8 +31,9 @@ $(document).ready(async function () {
 // <--------------- ADMINISTRACION ---------------->
 // <----------------------------------------------->
 
-var tabs_pagina = ['tab_aerolineas', 'tab_aeropuertos', 'tab_aviones', 'tab_ciudades', 'tab_likes', 'tab_posts', 'tab_publicidad'
-    , 'tab_rutas', 'tab_usuarios', 'tab_vuelos', 'tab_vuelospersonas'];
+
+var tabs_pagina = ['tab_aeropuertos', 'tab_likes', 'tab_posts', 'tab_publicidad'
+    , 'tab_usuarios', 'tab_vuelos', 'tab_vuelospersonas'];
 
 function getIdSelections() {
     return $.map($table.bootstrapTable('getSelections'), function (row) {
@@ -77,11 +78,22 @@ window.operateEvents = {
         alert('You click like action, row: ' + JSON.stringify(row))
     },
     'click .remove': function (e, value, row, index) {
-        alert("remove")
-        $table.bootstrapTable('remove', {
-            field: 'id',
-            values: [row.id]
-        })
+
+        // nombre de la tabla
+        var table_name = get_tablabd_tab(tab_public_control);
+
+        var confirmacion = confirm("¿Desea eliminar este registro?");
+
+        if(confirmacion == true){
+            $table.bootstrapTable('remove', {
+                field: 'key',
+                values: [row.key]
+            });
+            // borramos en bd
+            if (bbdd_delete(table_name, row.key) == true) {
+                manage_tab_table(tab_public_control);
+            }
+        }
     }
 }
 
@@ -102,46 +114,44 @@ function totalPriceFormatter(data) {
     }, 0)
 }
 
-async function pruebaTable() {
-    /*
-        var mydataSet = [];
-        var queryUser = dbRef.child("users");
-        var snap_user = await queryUser.orderByChild("dni").once("value");
-    
-        if (snap_user.val() != null) {
-            snap_user.forEach((child) => {
-                var fila_json = {
-                    id: 999,
-                    price: "$555",
-                    key: child.key,
-                    email: child.val().email,
-                    lastname: child.val().lastname,
-                    name: child.val().name,
-                    pass: child.val().pass
-                };
-                mydataSet.push(fila_json);
-            });
-        }
-    */
-    let post_amigos = [];
-    var queryAmigos = dbRef.child("amigos");
-    queryAmigos.orderByChild("dni").on("child_added", snap_amigos => {
 
-        var row = snap_amigos.val();
-        //console.log(row.dni_amigo);
-        let queryPosts = dbRef.child("posts").orderByChild("id_usuario").equalTo(row.dni_amigo);
-        let join = queryPosts.once('value', snap_posts => {
-
-            var row2 = snap_posts.val();
-            //console.log(row2);
-            post_amigos.push(row2);
-        });
-    });
-
-    console.log("**********************");
-    console.log(post_amigos);
-    console.log("**********************");
+// nos da la tabla de bbdd según el nombre del tab
+function get_tablabd_tab(tab_control) {
+    var nombre_tabla = "";
+    switch (tab_control) {
+        case 'tab_aeropuertos':
+            nombre_tabla = "aeropuerto";
+            break;
+        case 'tab_likes':
+            nombre_tabla = "likes";
+            break;
+        case 'tab_posts':
+            nombre_tabla = "posts";
+            break;
+        case 'tab_aeropuertos':
+            nombre_tabla = "aeropuerto";
+            break;
+        case 'tab_publicidad':
+            nombre_tabla = "publicidad";
+            break;
+        case 'tab_usuarios':
+            nombre_tabla = "users";
+            break;
+        case 'tab_vuelos':
+            nombre_tabla = "vuelo";
+            break;
+        case 'tab_vuelospersonas':
+            nombre_tabla = "vuelo_personas";
+            break;
+        default:
+            alert("Opción de nombre para tab_control no definida");
+    }
+    return nombre_tabla;
 }
+
+
+var tabs_pagina = ['tab_aeropuertos', 'tab_likes', 'tab_posts', 'tab_publicidad'
+    , 'tab_usuarios', 'tab_vuelos', 'tab_vuelospersonas'];
 
 // <-------------------------- evento on change tab ------------------------------>
 $('a[data-toggle="tab"]').on('shown.bs.tab', async function (e) {
@@ -203,56 +213,6 @@ async function manage_tab_table(tab_target) {
 function tab_table_config_cols(tab_control) {
     var config_cols = null;
     switch (tab_control) {
-        // aerolineas
-        case 'tab_aerolineas':
-            config_cols = [
-                [{
-                    field: 'state',
-                    checkbox: true,
-                    rowspan: 2,
-                    align: 'center',
-                    valign: 'middle'
-                }, {
-                    title: 'Item ID',
-                    field: 'key',
-                    rowspan: 2,
-                    align: 'center',
-                    valign: 'middle',
-                    sortable: true,
-                    footerFormatter: totalTextFormatter
-                }, {
-                    title: 'Item Detail',
-                    colspan: 4,
-                    align: 'center'
-                }],
-                [{
-                    field: 'codigo',
-                    title: 'Código',
-                    sortable: true,
-                    footerFormatter: totalNameFormatter,
-                    align: 'center'
-                }, {
-                    field: 'nombre',
-                    title: 'Nombre',
-                    sortable: true,
-                    footerFormatter: totalNameFormatter,
-                    align: 'center'
-                }, {
-                    field: 'isVuelo',
-                    title: '¿Es vuelo?',
-                    checkbox: true,
-                    align: 'center',
-                    valign: 'middle'
-                }, {
-                    field: 'operate',
-                    title: 'Item Operate',
-                    align: 'center',
-                    clickToSelect: false,
-                    events: window.operateEvents,
-                    formatter: operateFormatter
-                }]
-            ];
-            break;
         // aeropuertos
         case 'tab_aeropuertos':
             config_cols = [
@@ -303,130 +263,7 @@ function tab_table_config_cols(tab_control) {
                 }]
             ];
             break;
-        // aviones
-        case 'tab_aviones':
-            config_cols = [
-                [{
-                    field: 'state',
-                    checkbox: true,
-                    rowspan: 2,
-                    align: 'center',
-                    valign: 'middle'
-                }, {
-                    title: 'Item ID',
-                    field: 'key',
-                    rowspan: 2,
-                    align: 'center',
-                    valign: 'middle',
-                    sortable: true,
-                    footerFormatter: totalTextFormatter
-                }, {
-                    title: 'Item Detail',
-                    colspan: 6,
-                    align: 'center'
-                }],
-                [{
-                    field: 'codigo',
-                    title: 'Código',
-                    sortable: true,
-                    footerFormatter: totalNameFormatter,
-                    align: 'center'
-                }, {
-                    field: 'modelo',
-                    title: 'Modelo',
-                    sortable: true,
-                    footerFormatter: totalNameFormatter,
-                    align: 'center'
-                }, {
-                    field: 'codigoAerolinea',
-                    title: 'ID Aerolinea',
-                    sortable: true,
-                    footerFormatter: totalNameFormatter,
-                    align: 'center'
-                }, {
-                    field: 'codigoRuta',
-                    title: 'ID Ruta',
-                    sortable: true,
-                    footerFormatter: totalNameFormatter,
-                    align: 'center'
-                }, {
-                    field: 'isVuelo',
-                    title: '¿Es vuelo?',
-                    checkbox: true,
-                    align: 'center',
-                    valign: 'middle'
-                }, {
-                    field: 'operate',
-                    title: 'Item Operate',
-                    align: 'center',
-                    clickToSelect: false,
-                    events: window.operateEvents,
-                    formatter: operateFormatter
-                }]
-            ];
-            break;
-        // ciudades
-        case 'tab_ciudades':
-            config_cols = [
-                [{
-                    field: 'state',
-                    checkbox: true,
-                    rowspan: 2,
-                    align: 'center',
-                    valign: 'middle'
-                }, {
-                    title: 'Item ID',
-                    field: 'key',
-                    rowspan: 2,
-                    align: 'center',
-                    valign: 'middle',
-                    sortable: true,
-                    footerFormatter: totalTextFormatter
-                }, {
-                    title: 'Item Detail',
-                    colspan: 6,
-                    align: 'center'
-                }],
-                [{
-                    field: 'nombre',
-                    title: 'Nombre',
-                    sortable: true,
-                    footerFormatter: totalNameFormatter,
-                    align: 'center'
-                }, {
-                    field: 'cd',
-                    title: 'C.P.',
-                    sortable: true,
-                    footerFormatter: totalNameFormatter,
-                    align: 'center'
-                }, {
-                    field: 'pais',
-                    title: 'Pais',
-                    sortable: true,
-                    footerFormatter: totalNameFormatter,
-                    align: 'center'
-                }, {
-                    field: 'actividades',
-                    title: 'Actividad',
-                    sortable: true,
-                    footerFormatter: totalNameFormatter,
-                    align: 'center'
-                }, {
-                    field: 'isVuelo',
-                    title: '¿Es vuelo?',
-                    checkbox: true,
-                    align: 'center',
-                    valign: 'middle'
-                }, {
-                    field: 'operate',
-                    title: 'Item Operate',
-                    align: 'center',
-                    clickToSelect: false,
-                    events: window.operateEvents,
-                    formatter: operateFormatter
-                }]
-            ];
-            break;
+
         // likes
         case 'tab_likes':
             config_cols = [
@@ -634,64 +471,6 @@ function tab_table_config_cols(tab_control) {
 
             break;
 
-
-        // rutas
-        case 'tab_rutas':
-            config_cols = [
-                [{
-                    field: 'state',
-                    checkbox: true,
-                    rowspan: 2,
-                    align: 'center',
-                    valign: 'middle'
-                }, {
-                    title: 'Item ID',
-                    field: 'key',
-                    rowspan: 2,
-                    align: 'center',
-                    valign: 'middle',
-                    sortable: true,
-                    footerFormatter: totalTextFormatter
-                }, {
-                    title: 'Item Detail',
-                    colspan: 5,
-                    align: 'center'
-                }],
-                [{
-                    field: 'codigo',
-                    title: 'Código',
-                    sortable: true,
-                    footerFormatter: totalNameFormatter,
-                    align: 'center'
-                }, {
-                    field: 'origen',
-                    title: 'Origen',
-                    sortable: true,
-                    footerFormatter: totalNameFormatter,
-                    align: 'center'
-                }, {
-                    field: 'destino',
-                    title: 'Destino',
-                    sortable: true,
-                    footerFormatter: totalNameFormatter,
-                    align: 'center'
-                }, {
-                    field: 'isVuelo',
-                    title: '¿Es vuelo?',
-                    checkbox: true,
-                    align: 'center',
-                    valign: 'middle'
-                }, {
-                    field: 'operate',
-                    title: 'Item Operate',
-                    align: 'center',
-                    clickToSelect: false,
-                    events: window.operateEvents,
-                    formatter: operateFormatter
-                }]
-            ]
-            break;
-
         // users
         case 'tab_usuarios':
             config_cols = [
@@ -877,6 +656,7 @@ function tab_table_config_cols(tab_control) {
 
     return config_cols;
 }
+// <---------------------------------------------------------------------------->
 // <--------------- configuración de captura de datos por tabla ---------------->
 async function tab_table_config_data(tab_control) {
 
@@ -885,22 +665,7 @@ async function tab_table_config_data(tab_control) {
     var mydataSet = [];
 
     switch (tab_control) {
-        case 'tab_aerolineas':
-            queryDB = dbRef.child("aerolinea").orderByChild("codigo");
-            snap_query = await queryDB.once("value");
-            if (snap_query.val() != null) {
-                snap_query.forEach((child) => {
-                    var fila_json = {
-                        key: child.key,
-                        codigo: child.val().codigo,
-                        nombre: child.val().nombre,
-                        isVuelo: child.val().isVuelo,
-                        imagen: "..\\resources\\images\\user.png"
-                    };
-                    mydataSet.push(fila_json);
-                });
-            }
-            break;
+
         case 'tab_aeropuertos':
             queryDB = dbRef.child("aeropuerto").orderByChild("nombre");
             snap_query = await queryDB.once("value");
@@ -916,40 +681,8 @@ async function tab_table_config_data(tab_control) {
                 });
             }
             break;
-        case 'tab_aviones':
-            queryDB = dbRef.child("vuelo").orderByChild("codigo");
-            snap_query = await queryDB.once("value");
-            if (snap_query.val() != null) {
-                snap_query.forEach((child) => {
-                    var fila_json = {
-                        key: child.key,
-                        codigo: child.val().codigo,
-                        modelo: child.val().modelo,
-                        codigoAerolinea: child.val().codigoAerolinea,
-                        codigoRuta: child.val().codigoRuta,
-                        isVuelo: child.val().isVuelo
-                    };
-                    mydataSet.push(fila_json);
-                });
-            }
-            break;
-        case 'tab_ciudades':
-            queryDB = dbRef.child("ciudad").orderByChild("nombre");
-            snap_query = await queryDB.once("value");
-            if (snap_query.val() != null) {
-                snap_query.forEach((child) => {
-                    var fila_json = {
-                        key: child.key,
-                        actividades: child.val().actividades,
-                        cd: child.val().cd,
-                        nombre: child.val().nombre,
-                        pais: child.val().pais,
-                        isVuelo: child.val().isVuelo
-                    };
-                    mydataSet.push(fila_json);
-                });
-            }
-            break;
+
+
         case 'tab_likes':
             queryDB = dbRef.child("likes").orderByChild("id_usuario");
             snap_query = await queryDB.once("value");
@@ -1004,22 +737,7 @@ async function tab_table_config_data(tab_control) {
                 });
             }
             break;
-        case 'tab_rutas':
-            queryDB = dbRef.child("ruta").orderByChild("codigo");
-            snap_query = await queryDB.once("value");
-            if (snap_query.val() != null) {
-                snap_query.forEach((child) => {
-                    var fila_json = {
-                        key: child.key,
-                        codigo: child.val().codigo,
-                        destino: child.val().destino,
-                        isVuelo: child.val().isVuelo,
-                        origen: child.val().origen
-                    };
-                    mydataSet.push(fila_json);
-                });
-            }
-            break;
+
         case 'tab_usuarios':
             queryDB = dbRef.child("users").orderByChild("email");
             snap_query = await queryDB.once("value");
@@ -1353,6 +1071,11 @@ async function modal_test() {
     $('#exampleModalCenter').modal('show');
 }
 
+/**============================================================
+GESTOR PUBLICIDAD                           
+============================================================*/
+
+// cargar datos FORMULARIO
 async function load_data_publi() {
 
     var queryDB = dbRef.child("actividad").orderByChild("nombre_actividad");
@@ -1393,40 +1116,39 @@ async function load_data_publi() {
             // Lo añado
             actividadesList.appendChild(newElement);
         });
-    }    
+    }
 }
-/**============================================================
-VALIDADOR PUBLICIDAD                           
-============================================================*/
+
+// VALIDAR FORMULARIO PUBLICIDAD                           
 async function validate_publicidad() {
     var comentario = document.getElementById('input_comentario').value;
-    var hashtag = document.getElementById('input_hashtag').value;    
+    var hashtag = document.getElementById('input_hashtag').value;
     var actividad_seleccionada = document.getElementById('actividadesList').value;
     var aeropuerto_seleccionado = document.getElementById('aeropuertosList').value;
 
-    if (aeropuerto_seleccionado == "") {        
+    if (aeropuerto_seleccionado == "") {
         $('#feedback_form').html("No hay ningun aeropuerto seleccionado");
         return;
     }
 
-    if (comentario == "") {        
+    if (comentario == "") {
         $('#feedback_form').html("No has introducido ningún comentario");
         return;
     }
 
-    if (hashtag == "") {        
+    if (hashtag == "") {
         $('#feedback_form').html("No has introducido ningún hashtag");
         return;
     }
 
-    if (actividad_seleccionada == "") {        
+    if (actividad_seleccionada == "") {
         $('#feedback_form').html("No hay ningun actividad seleccionada");
         return;
-    }    
+    }
 
     var carrousel = upload();  // subir imágenes
 
-    var publicidad_row = {        
+    var publicidad_row = {
         comentario: comentario,
         hashtag: hashtag,
         carrousel: carrousel,
@@ -1436,7 +1158,7 @@ async function validate_publicidad() {
         nombre_usuario: usuarioLogeado.nombrePerfil
     };
 
-    if(bbdd_insert("publicidad", publicidad_row)){    
+    if (bbdd_insert("publicidad", publicidad_row)) {
         $('#feedback_form').html("Registro de publicidad creado correctamente!!")
     }
 }
@@ -1445,95 +1167,153 @@ async function validate_publicidad() {
                   GESTIÓN MODALES
 ============================================================*/
 
-// ABRIR CERRAR
+// ABRIR y  CERRAR
 function modal_gestion(opcion) {
 
-    switch (tab_public_control){
+    switch (tab_public_control) {
         case 'tab_aeropuertos':
-            $('#Modal_aeropuertos').modal(opcion);            
+            document.getElementById("input_aeropuerto").value = "";
+            document.getElementById("input_ciudad").value = "";
+            $('#Modal_aeropuertos').modal(opcion);
             break;
 
         default:
-            alert("Gestión no creada aún para "+tab_public_control);            
-    }   
+            alert("Gestión no creada aún para " + tab_public_control);
+    }
 }
 
 // VALIDACIÓN FORMULARIOS
-async function modal_save_data(){
-
-    switch (tab_public_control){
+async function modal_save_data() {
+    switch (tab_public_control) {
         case 'tab_aeropuertos':
 
             var nombre_aeropuerto = document.getElementById("input_aeropuerto").value;
             var nombre_ciudad = document.getElementById("input_ciudad").value;
             // check nombre aeropuerto
-            if(nombre_aeropuerto==""){
-                document.getElementById("feedback_aeropuerto").innerHTML="Debe indicar un nombre para el aeropuerto"                
+            if (nombre_aeropuerto == "") {
+                document.getElementById("feedback_aeropuerto").innerHTML = "Debe indicar un nombre para el aeropuerto"
                 return;
             }
-            if(nombre_aeropuerto.length<5){
-                document.getElementById("feedback_aeropuerto").innerHTML="El nombre del aeropuerto es demasiado corto"
+            if (nombre_aeropuerto.length < 5) {
+                document.getElementById("feedback_aeropuerto").innerHTML = "El nombre del aeropuerto es demasiado corto"
                 return;
-            }            
+            }
             // check nombre ciudad
-            if(nombre_ciudad==""){
-                document.getElementById("feedback_aeropuerto").innerHTML="Debe indicar un nombre para la ciudad"                
+            if (nombre_ciudad == "") {
+                document.getElementById("feedback_aeropuerto").innerHTML = "Debe indicar un nombre para la ciudad"
                 return;
             }
-            if(nombre_ciudad.length<3){
-                document.getElementById("feedback_aeropuerto").innerHTML="El nombre de la ciudad es demasiado corto"
+            if (nombre_ciudad.length < 3) {
+                document.getElementById("feedback_aeropuerto").innerHTML = "El nombre de la ciudad es demasiado corto"
                 return;
-            }            
+            }
 
             // imagen del aeropuerto, sólo 1?
-            var imagen="";
+            var imagen = "";
             var carrousel = upload();  // subir imágenes                        
-            if(carrousel.length>0){
-                imagen=carrousel[0]
+            if (carrousel.length > 0) {
+                imagen = carrousel[0]
             }
 
-            // check existencia aeropuerto        
-            var queryDB = dbRef.child("aeropuerto").orderByChild("nombre").equalTo(nombre_aeropuerto);            
-            var snap_query = await queryDB.once("value");        
-            if (snap_query.val() != null) {
-                document.getElementById("feedback_aeropuerto").innerHTML="Este aeropuerto ya existe!"
+            // check existencia aeropuerto => tabla, campo y valor
+            if (bbdd_existe_registro("aeropuerto", "nombre", nombre_aeropuerto) == true) {
+                document.getElementById("feedback_aeropuerto").innerHTML = "Este aeropuerto ya existe!"
                 return;
-            }                
-
-            var aeropuerto_row = {        
-                ciudad: nombre_ciudad,
-                nombre: nombre_aeropuerto,
-                imagen: imagen
-            };
-
-            if( bbdd_insert("aeropuerto", aeropuerto_row) )
-            {
-                alert("Aeropuerto creado correctamente");
-                $('#Modal_aeropuertos').modal('hide');
             }
+            else {
+                var aeropuerto_row = {
+                    ciudad: nombre_ciudad,
+                    nombre: nombre_aeropuerto,
+                    imagen: imagen
+                };
+
+                if (bbdd_insert("aeropuerto", aeropuerto_row) == true) {
+                    alert("Aeropuerto creado correctamente");
+                    $('#Modal_aeropuertos').modal('hide');
+                }
+            }
+
             break;
 
     }
+    
+    await manage_tab_table(tab_public_control);
 
 }
 
 /**============================================================
                            BBDD
 ============================================================*/
+// <----------------- check existencia ------------------------->
+async function bbdd_existe_registro(table_name, campo_bd, valor_bd) {
+    try {
+        var query = dbRef.child("/" + table_name + "/")
+            .orderByChild(campo_bd)
+            .equalTo(valor_bd);
 
-function bbdd_insert(table_name, row_values){
-    try{    
-        var newRow = dbRef.child(table_name).push().key;    
+        var snap = await query.once("value");
+        return (snap.val() == null ? false : true);
+    }
+    catch (error) {
+        alert("Se ha producido un error de en la gestión de " + table_name);
+        console.error(error);
+    }
+
+}
+// <----------------- insert tabla ------------------------->
+function bbdd_insert(table_name, row_values) {
+    try {
+        var newRow = dbRef.child(table_name).push().key;
         var updates = {};
-        updates["/"+table_name+"/" + newRow] = row_values;
-        var result = dbRef.update(updates);        
+        updates["/" + table_name + "/" + newRow] = row_values;
+        var result = dbRef.update(updates);
         return true;
     }
     catch (error) {
-        alert("Se ha producido un error de en la gestión de "+table_name);
+        alert("Se ha producido un error de en la gestión de " + table_name);
         console.error(error);
     }
     return false;
+}
+// <----------------- update tabla ------------------------->
+function bbdd_update(table_name, campo_bd, valor_bd, row_values) {
+    try {
+        var query = dbRef.child("/" + table_name + "/")
+            .orderByChild(campo_bd)
+            .equalTo(valor_bd);
+
+        // comprobamos si existe
+        query.once("value", snap => {
+            if (snap.val() != null) {
+                alert("El registro a modificar no existe");
+                return false;
+            } else {
+                // seleccionamos el único elemento que debería colgar de snap
+                var key = Object.keys(snap.val())[0];
+                snap.ref.child(key).set(row_values); // asignamos el nuevo valor a la key
+            }
+        });
+        return true;
+    }
+    catch (error) {
+        alert("Se ha producido un error de en la gestión de " + table_name);
+        console.error(error);
+    }
+    return false;
+}
+// <----------------- delete tabla ------------------------->
+function bbdd_delete(tableName, key) {
+    var ref = dbRef.child("/" + tableName + "/" + key);
+    ref
+        .remove()
+        .then(function () {
+            return true;
+        })
+        .catch(function (error) {
+            alert("Se ha producido un error de en la gestión de " + tableName);
+            console.error(error);
+            return false;
+        });
 }
 
 
