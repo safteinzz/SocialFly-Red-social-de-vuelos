@@ -195,6 +195,20 @@
 	
 	/* CONTENIDO */
 	
+	#muroCargarMas{
+		background: #4dde76 !important;
+		padding: 15px;
+		border-radius: 5px;
+		cursor: pointer;
+		margin-top: 10px;
+	}
+	
+	#buttonCargarMas{
+		text-align: center;
+		color: white;
+		font-weight: bold;
+	}
+	
 	.muroIzquierda{
 		display: block;
 		left:0px;
@@ -991,7 +1005,7 @@
 			margin-left: 0px;
 		}
 		
-		.muro {
+		.muro, #muroCargarMas{
 			padding-bottom: 25px;
 		}
 	

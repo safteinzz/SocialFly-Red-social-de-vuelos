@@ -19,10 +19,10 @@ if (!firebase.apps.length) {
 
 // window.fbAsyncInit = function() {
 // FB.init({
-	// appId      : '{your-app-id}',
+	// appId      : '655702978552052',
 	// cookie     : true,
 	// xfbml      : true,
-	// version    : '{api-version}'
+	// version    : 'v7.0'
 // });
 
 // FB.AppEvents.logPageView();
@@ -37,7 +37,7 @@ if (!firebase.apps.length) {
 	// fjs.parentNode.insertBefore(js, fjs);
 	// }(document, 'script', 'facebook-jssdk'));
 
-// https://developers.facebook.com/apps/655702978552052/fb-login/quickstart/
+https://developers.facebook.com/apps/655702978552052/fb-login/quickstart/
 
 
 
@@ -62,8 +62,7 @@ $('#logOut').unbind('click').click(function () {
 
 // <!--------------------------------------- FUNCIONES ------------------------------------------>
 
-
-// <!--------------------------------------- LOGIN ------------------------------------------>
+// <!------------------- LOGIN ---------------------->
 
 /** AUTH
  * usuarioLogeado.displayName
@@ -88,7 +87,8 @@ function login(tipo) {
 		else {
 			var provider = new firebase.auth.FacebookAuthProvider();			
 		}
-		firebase.auth().signInWithPopup(provider).then(function(result) {
+		firebase.auth().signInWithPopup(provider).then(function(result) 
+		{
 			// This gives you a Google Access Token.
 			var token = result.credential.accessToken;
 			// The signed-in user info.
@@ -100,7 +100,15 @@ function login(tipo) {
 }
 
 // <!------------------- Email / Pass ---------------------->
-
+function loginMail()
+{
+	firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+	  // Handle Errors here.
+	  var errorCode = error.code;
+	  var errorMessage = error.message;
+	  // ...
+	});
+}
 
 
 
@@ -122,9 +130,25 @@ function registroUser()
 		return false;		
 	}	
 
-
-	//const pass = saltHashPassword(userpassword);
+	if (document.getElementById("pass").value.length < 6)
+	{
+		alert("Las contraseñas deben tener al menos 6 caracteres");
+		return false;	
+	}
 	
+	firebase.auth().createUserWithEmailAndPassword(document.getElementById("mail").value, document.getElementById("pass").value).catch(function(error) {
+		// Handle Errors here.
+		var errorCode = error.code;
+		var errorMessage = error.message;
+		alert(errorCode);
+		alert(errorMessage);
+		// ...
+		return false;
+	});
+	alert("Registrado con exito");
+	return true
+	/* registro mal
+	const pass = saltHashPassword(userpassword);	
 	const newUser =
 	{
 		mail:document.getElementById("mail").value,
@@ -156,6 +180,7 @@ function registroUser()
 			return true;
 		}
 	});
+	*/
 }
 
 

@@ -33,7 +33,6 @@
      https://firebase.google.com/docs/web/setup#available-libraries -->
     <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-analytics.js"></script>
     <script defer src="./resources/js/scripts.js"></script>	
-	<script defer src="./resources/js/hashing.js"></script>
 
     <!--------------------------------------- CSS ------------------------------------------>
     <link rel="stylesheet" type="text/css" href="./resources/css/styles.css">
@@ -74,12 +73,7 @@
                     <div class="card-header">
                         <h3>Acceder</h3>
                         <div class="d-flex justify-content-end social_icon">
-                            <span id="facebookLogin"><i class="fi-social-facebook"></i></span>
-								<script>
-									$('#facebookLogin').unbind('click').click(function () {
-										login("facebook");								
-									});
-								</script>
+                            
                             <span id="googleLogin"><i class="fi-social-google-plus"></i></span>
 								<script>
 									$('#googleLogin').unbind('click').click(function () {
@@ -142,12 +136,6 @@
 							<span class="input-group-text"><i class="fa fa-envelope"></i></span>
 						</div>
 						<input id="mail" type="text" class="form-control registro" placeholder="Email" required>
-					</div>
-					<div class="input-group form-group">
-						<div class="input-group-prepend">
-							<span class="input-group-text"><i class="fa fa-user"></i></span>
-						</div>
-						<input id="username" type="text" class="form-control registro" placeholder="Nombre de usuario" required>
 					</div>
 					<div class="input-group form-group">
 						<div class="input-group-prepend">
