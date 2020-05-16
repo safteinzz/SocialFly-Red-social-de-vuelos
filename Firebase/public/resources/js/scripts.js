@@ -20,12 +20,12 @@ if (!firebase.apps.length) {
 //firebase.analytics();
 
 // <!--------------------------------------- Acceso ------------------------------------------>
-var user = firebase.auth().currentUser;
+// var user = firebase.auth().currentUser;
 
-if (!user && window.location.href != "https://pcsocialfly.web.app/acceso.html") 
-{
-	window.location.href = "https://pcsocialfly.web.app/acceso.html";
-} 
+// if (!user && window.location.href != "https://pcsocialfly.web.app/acceso.html") 
+// {
+	// window.location.href = "https://pcsocialfly.web.app/acceso.html";
+// } 
 
 // <!--------------------------------------- VARIABLES ------------------------------------------>
 const dbRef = firebase.database().ref();
@@ -45,7 +45,7 @@ $('#logOut').unbind('click').click(function () {
 	  // An error happened.
 	});
 	
-	window.location.href = "/";
+	window.location.href = "https://pcsocialfly.web.app/acceso.html";
 });
 
 
@@ -60,7 +60,7 @@ $('#logOut').unbind('click').click(function () {
  * usuarioLogeado.uid
 */
 
-// <<!------------------- Google / Facebook ---------------------->
+// <<!------------------- LOGIN ---------------------->
 function login(tipo) {
 	function nuevoLogin(usuarioLogeado) {
 		if (usuarioLogeado) {
@@ -68,34 +68,39 @@ function login(tipo) {
 			sessionStorage.setItem("userNombre", usuarioLogeado.displayName);
 			sessionStorage.setItem("userFoto", usuarioLogeado.photoURL);
 			sessionStorage.setItem("userMail", usuarioLogeado.email);
-			window.location.href = "main.html";
+			window.location.href = "/";
 		}
 		else if (tipo == "google") {
-			var provider = new firebase.auth.GoogleAuthProvider();		
+			var provider = new firebase.auth.GoogleAuthProvider();
+			firebase.auth().signInWithPopup(provider)
+			.then(function(result) 
+			{
+				// This gives you a Google Access Token.
+				var token = result.credential.accessToken;
+				// The signed-in user info.
+				usuarioLogeado = result.user;
+			}).catch(function(error) 
+			{
+				alert('Error a la hora de enlazar');
+			});;
 		}
 		else {
-			var provider = new firebase.auth.FacebookAuthProvider();			
-		}
-		firebase.auth().signInWithPopup(provider).then(function(result) 
-		{
-			// This gives you a Google Access Token.
-			var token = result.credential.accessToken;
-			// The signed-in user info.
-			usuarioLogeado = result.user;
-				
-		});
+			firebase.auth().signInWithEmailAndPassword(document.getElementById("mailLogIn").value, document.getElementById("passLogIn").value)
+			.then(function(result) 
+			{
+				// This gives you a Google Access Token.
+				var token = result.credential.accessToken;
+				// The signed-in user info.
+				usuarioLogeado = result.user;
+			}).catch(function(error) 
+			{
+				alert('La combinación usuario contraseña es incorrecta');
+			});			
+		}		
 	}
 	firebase.auth().onAuthStateChanged(nuevoLogin);
 }
 
-// <!------------------- Email / Pass ---------------------->
-function loginMail()
-{
-	firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
-	  var errorCode = error.code;
-	  var errorMessage = error.message;
-	});
-}
 
 
 

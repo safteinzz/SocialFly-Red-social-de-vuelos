@@ -89,20 +89,21 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fa fa-user"></i></span>
                                 </div>
-                                <input type="text" class="form-control" placeholder="usuario">
+                                <input id="mailLogIn" type="text" class="form-control" placeholder="Email">
 
                             </div>
                             <div class="input-group form-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fa fa-key"></i></span>
                                 </div>
-                                <input type="password" placeholder="contraseña" class="form-control login">
+                                <input id="passLogIn" type="password" placeholder="Contraseña" class="form-control login">
+								
                             </div>
                             <div class="row align-items-center remember">
                                 <input type="checkbox">Recordarme
                             </div>
                             <div class="form-group">
-                                <input id="login" type="submit" value="Login" class="btn float-right login_btn login">
+                                <input id="login" type="button" value="Login" class="btn float-right login_btn login">
                             </div>
 								<script>
 									$('#login').unbind('click').click(function () {
@@ -118,11 +119,7 @@
 											alert('Tienes que rellenar todos los campos');
 										} else {
 											console.log('todo rellenado');
-											if (loginMail())
-											{
-												$('#modalRegistro').modal('hide');
-												//alert('Registrado con exito');
-											}
+											login();
 										}
 									});
 								</script>
