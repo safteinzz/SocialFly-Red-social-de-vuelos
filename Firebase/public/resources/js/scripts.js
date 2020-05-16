@@ -1,3 +1,8 @@
+// <!--------------------------------------- Referencias ------------------------------------------>
+// https://firebase.google.com/docs/auth/web/manage-users
+// https://firebase.google.com/docs/auth/web/password-auth
+// https://firebase.google.com/docs/reference/js/firebase.auth.Auth#createUserWithEmailAndPassword
+
 // <!--------------------------------------- RUNUP BASE DATOS ------------------------------------------>
 if (!firebase.apps.length) {
    firebase.initializeApp({
@@ -14,35 +19,13 @@ if (!firebase.apps.length) {
 
 //firebase.analytics();
 
+// <!--------------------------------------- Acceso ------------------------------------------>
+var user = firebase.auth().currentUser;
 
-// <!--------------------------------------- FACEBOOK SDK ------------------------------------------>
-
-// window.fbAsyncInit = function() {
-// FB.init({
-	// appId      : '655702978552052',
-	// cookie     : true,
-	// xfbml      : true,
-	// version    : 'v7.0'
-// });
-
-// FB.AppEvents.logPageView();
-
-// };
-
-// (function(d, s, id){
-	// var js, fjs = d.getElementsByTagName(s)[0];
-	// if (d.getElementById(id)) {return;}
-	// js = d.createElement(s); js.id = id;
-	// js.src = "https://connect.facebook.net/en_US/sdk.js";
-	// fjs.parentNode.insertBefore(js, fjs);
-	// }(document, 'script', 'facebook-jssdk'));
-
-https://developers.facebook.com/apps/655702978552052/fb-login/quickstart/
-
-
-
-
-
+if (!user && window.location.href != "https://pcsocialfly.web.app/acceso.html") 
+{
+	window.location.href = "https://pcsocialfly.web.app/acceso.html";
+} 
 
 // <!--------------------------------------- VARIABLES ------------------------------------------>
 const dbRef = firebase.database().ref();
@@ -55,7 +38,13 @@ var usuarioLogeado;
 $('#logOut').unbind('click').click(function () {
 	// FirebaseAuth.getInstance().signOut();
 	sessionStorage.clear();
-	firebase.auth().signOut();
+	
+	firebase.auth().signOut().then(function() {
+	  // Sign-out successful.
+	}).catch(function(error) {
+	  // An error happened.
+	});
+	
 	window.location.href = "/";
 });
 
@@ -103,10 +92,8 @@ function login(tipo) {
 function loginMail()
 {
 	firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
-	  // Handle Errors here.
 	  var errorCode = error.code;
 	  var errorMessage = error.message;
-	  // ...
 	});
 }
 
@@ -120,33 +107,56 @@ function registroUser()
 	if (document.getElementById("terminos").checked == false)
 	{
 		alert("Tienes que aceptar los terminos de registro");
-		return false;
 	}
 	
 	//Comprobar pass repetida
 	if (!(document.getElementById("pass").value == document.getElementById("repitePass").value))
 	{
-		alert("Las contraseñas son diferentes");
-		return false;		
+		alert("Las contraseñas son diferentes");	
 	}	
 
 	if (document.getElementById("pass").value.length < 6)
 	{
-		alert("Las contraseñas deben tener al menos 6 caracteres");
-		return false;	
+		alert("Las contraseñas deben tener al menos 6 caracteres");	
 	}
 	
-	firebase.auth().createUserWithEmailAndPassword(document.getElementById("mail").value, document.getElementById("pass").value).catch(function(error) {
-		// Handle Errors here.
-		var errorCode = error.code;
-		var errorMessage = error.message;
-		alert(errorCode);
-		alert(errorMessage);
-		// ...
-		return false;
-	});
-	alert("Registrado con exito");
-	return true
+	
+	firebase.auth().createUserWithEmailAndPassword(document.getElementById("mail").value, document.getElementById("pass").value)
+		.then(function(result) {
+			alert('Registrado con exito');
+			$('#modalRegistro').modal('hide');
+		}).catch(error => {
+			if (error.code == 'auth/email-already-in-use')
+			{
+				alert(`El correo${document.getElementById("mail").value} ya existe`);
+			}
+			else if (error.code == 'auth/invalid-email')
+			{
+				alert(`El correo ${document.getElementById("mail").value} es invalido`);
+			}
+			else if (error.code == 'auth/operation-not-allowed')
+			{
+				alert(`No se puedo registrar`);
+			}
+			else if (error.code == 'auth/weak-password')
+			{
+				alert('La contraseña no es suficientemente fuerte, al menos 6 caracteres necesarios');
+			}
+			else
+			{
+				alert(error.message);
+			}
+		});
+
+	// firebase.auth().createUserWithEmailAndPassword(document.getElementById("mail").value, document.getElementById("pass").value).catch(function(error) {
+		// var errorCode = error.code;
+		// var errorMessage = error.message;
+		// alert(errorCode);
+		// alert(errorMessage);
+		// $('#modalRegistro').modal('show');
+	// });
+	// $('#modalRegistro').modal('hide');
+	
 	/* registro mal
 	const pass = saltHashPassword(userpassword);	
 	const newUser =
