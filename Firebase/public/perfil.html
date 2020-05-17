@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Mi Perfil</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" href="pics/favicon.ico">
+
+    <!--------------------------------------- CDN ------------------------------------------>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	
+	<!--------------------------------------- LIBS ------------------------------------------>
+	<link rel="stylesheet" href="./resources/lib/foundation-icons/foundation-icons.css" />
+    <link rel="stylesheet" href="./resources/lib/bootstrap/css/bootstrap.min.css">
+    <script src="./resources/lib/jquery-3.4.1.js"></script>
+    <script src="./resources/lib/bootstrap/js/bootstrap.min.js"></script>
+
+    <!--------------------------------------- SCRIPTS ------------------------------------------>
+    <!-- update the version number as needed -->
+    <script defer src="/__/firebase/7.14.0/firebase-app.js"></script>
+    <!-- include only the Firebase features as you need -->
+    <script defer src="/__/firebase/7.14.0/firebase-auth.js"></script>
+    <script defer src="/__/firebase/7.14.0/firebase-database.js"></script>
+    <script defer src="/__/firebase/7.14.0/firebase-messaging.js"></script>
+    <script defer src="/__/firebase/7.14.0/firebase-storage.js"></script>
+    <!-- initialize the SDK after all desired features are loaded -->
+    <script defer src="/__/firebase/init.js"></script>
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-analytics.js"></script>
+    <script defer src="./resources/js/scripts.js"></script>	
+
+    <!--------------------------------------- CSS ------------------------------------------>
+    <link rel="stylesheet" type="text/css" href="./resources/css/styles.css">
+	
+	<!--------------------------------------- FUNCIONES ADICIONALES ------------------------------------------>
+    <script>
+        function ocultarRepitePass() {
+            $(".repitePass").hide();
+        }
+
+        function mostrarRepitePass() {
+            $(".repitePass").show("slow");
+        }
+
+        function ocultarSubmiters() {
+            $("#submiters").hide();
+        }
+
+        function mostrarSubmiters() {
+            $("#submiters").show("fast");
+        }
+
+        function inicio() {
+            ocultarSubmiters();
+            ocultarRepitePass();
+        }
+
+        $(document).ready(inicio);
+
+        $(window).on("load", function() {
+            console.log("window loaded");
+        });
+    </script>
+</head>
+
+<body>
+	<!--------------------------------------- NAV BAR -------------------------------------->
+    <nav class="navbar navbar-dark navbarMenu-green navbar-expand-sm">
+		<a class="navbar-brand" href="plantilla.html">
+			<img src="resources/images/iconAvion.png" width="30" height="30" alt="logo">
+			SocialFly
+		</a>
+		
+		<div class="box">
+			<div class="buscadorMenu">
+				
+				<input type="search" id="search" placeholder="Search..." />
+				<span class="icon"><i class="fa fa-search"></i></span>
+			</div>
+		</div>
+		
+		<ul class="navbar-nav">
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<label id="nombrePerfil">Pablo Antonio Hernández</label>
+					<img src="resources/images/yo.jpg" width="40" height="40" class="rounded-circle imagenPerfil">
+					<span class="badge" id="navNotificacion">5</span>
+				</a>
+				<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+					<a href="#" data-target="#modalIMG" data-toggle="modal" data-id="resources/images/yo.jpg" class="color-gray-darker c6 td-hover-none abrirModalIMG">
+						<img src="resources/images/yo.jpg" width="150" height="150" class="rounded-circle imagenPerfil" style="margin:8px;">
+					</a>
+					<div class="form-group has-search">
+						<span class="fa fa-search form-control-feedback"></span>
+						<input type="text" class="form-control" placeholder="Buscar">
+					</div>
+					<a class="dropdown-item" href="#">Mis amigos</a>
+					<a class="dropdown-item" href="plantillaFormulario.html">Mi perfil</a>
+					<a class="dropdown-item desconectar" href="#">Desconectar</a>
+				</div>
+			</li>   
+		</ul>
+		
+	</nav>
+
+	<!--------------------------------------- BODY ---------------------------------------->--
+    <div class="row container-fluid pt-5">
+
+        <div class="container bootstrap snippet text-dark">
+            <div class="row">
+                <div class="col-sm-10">
+                    <h1>PabloAntonio96</h1></div>
+
+                <div class="col-sm-2">
+
+                    <div class="profile-img-container">
+                        <img src="resources/images/yoGrande.jpg" class="img-thumbnail img-circle img-responsive" alt="avatar image" />
+                        <span id="other">
+				<i class="fa fa-upload fa-5x"></i>				
+			  </span>
+                        <input type="file" class="hiddenItem" id="target" accept="image/x-png,image/gif,image/jpeg" />
+                        <!-- accept="image/*"-->
+                    </div>
+                    <script>
+                        $("#other").click(function() {
+                            $("#target").click();
+                        });
+                    </script>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <!--left col-->
+
+                    <ul class="list-group">
+                        <li class="list-group-item text-muted">Perfil</li>
+                        <li class="list-group-item text-right"><span class="pull-left"><strong>Se registró</strong></span> 13/06/2019</li>
+                        <li class="list-group-item text-right"><span class="pull-left"><strong>Ultima conexión</strong></span> Hace 12 dias</li>
+                        <li class="list-group-item text-right"><span class="pull-left"><strong>Rol</strong></span> Usuario</li>
+
+                    </ul>
+
+                </div>
+                <!--/col-3-->
+                <div class="col-sm-8">
+
+                    <hr>
+                    <form class="mb-5">
+                        <!--class="form" action="##" method="post" id="registrationForm"-->
+                        <div class="form-group">
+
+                            <div class="col-xs-6">
+                                <label for="first_name">
+                                    <h4>Nombre</h4></label>
+                                <input type="text" class="form-control mostrarSubmiters" name="first_name" id="first_name" placeholder="Pablo Antonio" title="enter your first name if any.">
+                            </div>
+                        </div>
+                        <div class="form-group">
+
+                            <div class="col-xs-6">
+                                <label for="last_name">
+                                    <h4>Apellidos</h4></label>
+                                <input type="text" class="form-control mostrarSubmiters" name="last_name" id="last_name" placeholder="Hernández Hernández" title="enter your last name if any.">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-xs-6">
+                                <label for="mobile">
+                                    <h4>Teléfono Movil</h4></label>
+                                <input type="text" class="form-control mostrarSubmiters" name="mobile" id="mobile" placeholder="616336949" title="enter your mobile number if any.">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+
+                            <div class="col-xs-6">
+                                <label for="email">
+                                    <h4>Email</h4></label>
+                                <input type="email" class="form-control mostrarSubmiters" name="email" id="email" placeholder="pablohernandezcontacto@gmail.com" title="enter your email.">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+
+                            <div class="col-xs-6">
+                                <label for="password">
+                                    <h4>Contraseña</h4></label>
+                                <input type="password" class="form-control mostrarRepitePass" name="password" id="password" placeholder="······················" title="enter your password.">
+                            </div>
+                        </div>
+                        <div class="form-group repitePass">
+                            <div class="col-xs-6">
+                                <label for="password2">
+                                    <h4>Verifica contraseña</h4></label>
+                                <input type="password" class="form-control" name="password2" id="password2" placeholder="" title="enter your password2.">
+                            </div>
+                        </div>
+                        <div class="form-group" id="submiters">
+                            <div class="col-xs-12 d-flex flex-row-reverse">
+                                <br>
+                                <button class="btn btn-lg ocultarTodoClk" type="reset"><i class="glyphicon glyphicon-repeat"></i> Cancelar</button>
+                                <button class="btn btn-lg btn-primary" type="submit"><i class="glyphicon glyphicon-ok-sign"></i> Actualizar</button>
+                            </div>
+                        </div>
+                        <script>
+                            $('.ocultarTodoClk').on('click', inicio);
+                            $('.ocultarSubmiters').on('input', ocultarSubmiters);
+                            $('.mostrarSubmiters').on('input', mostrarSubmiters);
+                            $('#password').on('input', function() {
+                                mostrarRepitePass();
+                                mostrarSubmiters();
+                            });
+                        </script>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!--------------------------------------- FOOTER ------------------------------------------>
+    <footer class="pypage-footer bg-light">
+
+		<!--------------------------------------- REDES SOCIALES ------------------------------------------>
+        <div class="bg-success">
+            <div class="container">
+                <div class="row d-flex align-items-center">
+                    <div class="col-md-6 col-lg-5 text-center text-md-left mb-4 mb-md-0   py-1">
+                        <h6 class="mb-0">Conectate a nuestra redes sociales!</h6>
+                    </div>
+					
+                    <div class="col-md-6 col-lg-6 text-center text-md-right">
+
+                        <!-- Facebook -->
+                        <a class="text-white display-4 text-decoration-none mr-1" href="#">
+                            <i class="fi-social-facebook"></i>
+                        </a>
+                        <!-- Twitter -->
+                        <a class="text-white display-4 text-decoration-none mr-1" href="#">
+                            <i class="fi-social-twitter"></i>
+                        </a>
+                        <!--Linkedin -->
+                        <a class="text-white display-4 text-decoration-none mr-1" href="#">
+                            <i class="fi-social-linkedin"></i>
+                        </a>
+                        <!--Instagram-->
+                        <a class="text-white display-4 text-decoration-none mr-1" href="#">
+                            <i class="fi-social-instagram"></i>
+                        </a>
+						
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--------------------------------------- ENLACES E INFO ADICIONALES ------------------------------------------>
+        <div class="container text-center text-md-left mt-5">
+            <div class="row mt-3">
+			
+                <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+                    <h6 class="text-uppercase font-weight-bold text-secondary">SocialFly</h6>
+                    <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
+                    <p class="text-secondary">Tu red social de vuelos y actividades de viaje</p>
+                </div>
+				
+                <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+
+                    <h6 class="text-uppercase font-weight-bold text-secondary">Vuelos</h6>
+                    <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
+                    <p>
+                        <a href="./SALIDAS.html">Salidas</a>
+                    </p>
+                    <p>
+                        <a href="./AEROLINEAS.html">Aerolineas</a>
+                    </p>
+                    <p>
+                        <a href="./RUTAS.html">Rutas</a>
+                    </p>
+
+                </div>
+
+                <div class="col-md-4 col-lg-3 col-xl-4 mx-auto mb-md-0 mb-4">
+
+                    <!-- Links -->
+                    <h6 class="text-uppercase font-weight-bold text-secondary">Contacto</h6>
+                    <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
+                    <p class="text-secondary">
+                        <i class="fi-marker mr-2"></i> Villena, Alicante. España
+                    </p>
+                    <p class="text-secondary">
+                        <i class="fi-mail mr-1"></i> pablohernandezcontacto@gmail.com
+                    </p>
+                    <p class="text-secondary">
+                        <i class="fa fa-phone  mr-1"></i> 616336989
+                    </p>
+                </div>
+				
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

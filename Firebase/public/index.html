@@ -42,8 +42,11 @@
 	<h1 class="text-dark">Hola <span id="nombreUser"></span></h1>
 	<img id="fotoUser" src="" alt="Error Cargar foto usuario">
 	<button id="logOut">Salir</button>	
+	<!-- <button id="crearrol">crear rol</button>	 -->
 	<script>			
-		
+		<!-- $('#crearrol').unbind('click').click(function () { -->
+			<!-- crearRoles(); -->
+		<!-- }); -->
 		document.getElementById("nombreUser").innerHTML = sessionStorage.getItem("userNombre");
 		document.getElementById("fotoUser").setAttribute("src", sessionStorage.getItem("userFoto"));
 	</script>

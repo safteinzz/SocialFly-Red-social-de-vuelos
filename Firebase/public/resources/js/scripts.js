@@ -66,17 +66,18 @@ function login(tipo) {
 	function nuevoLogin(usuarioLogeado) {
 		if (usuarioLogeado) 
 		{
+			var today = new Date(); 
+			var now = today.getDate()  + '/' + (today.getMonth()+1) + '/' +today.getFullYear();
 			const newUser =
 			{
 				uid:usuarioLogeado.uid,
-				email:usuarioLogeado.email
+				email:usuarioLogeado.email,
+				rol:0,
+				fecha_registro:now
 			};
 			
 			crearUser(newUser);			
 			
-			
-			sessionStorage.setItem("userUID", usuarioLogeado.uid);
-			sessionStorage.setItem("userMail", usuarioLogeado.email);
 			// window.location.href = "/";
 		}
 		else if (tipo == "google") 
@@ -110,7 +111,7 @@ function login(tipo) {
 				}
 				else
 				{
-					// alert(error.message);
+					alert(error.message);
 				}
 			});		
 		}		
@@ -139,14 +140,39 @@ function crearUser(newUser)
 			console.log("TablaAdherida creada");
 		}				
 	});
-
-	// if (exists)
-	// {
-		// return;
-	// }
-	
-	
 }
+
+// function crearRoles()
+// {
+	// var id = 3;
+	// var nom = 'Normal';
+	// const newRol =
+	// {
+		// id_rol:id,
+		// nombre:nom
+	// };
+			
+	// const query = dbRef.child('roles').orderByChild('id_rol').equalTo(id);
+	// var exists = false;
+	// query.once('value',snapshot => 
+	// {
+		// if (snapshot.val() != null)
+		// {
+			// console.log("Ya tiene fila");
+		// }
+		// else
+		// {
+			// var newRols = dbRef.child("roles").push().key;
+			// var updates = {};
+			// updates["/roles/" + newRols] = newRol;
+				
+			// var result = dbRef.update(updates);
+			// console.log(result);
+			// console.log("TablaAdherida creada");
+		// }				
+	// });
+// }
+
 
 // <!--------------------------------------- Registro ------------------------------------------>
 function registroUser()
