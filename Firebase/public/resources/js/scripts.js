@@ -2,6 +2,7 @@
 // https://firebase.google.com/docs/auth/web/manage-users
 // https://firebase.google.com/docs/auth/web/password-auth
 // https://firebase.google.com/docs/reference/js/firebase.auth.Auth#createUserWithEmailAndPassword
+// https://firebase.google.com/docs/reference/js/firebase.auth.Auth#signInWithEmailAndPassword
 
 // <!--------------------------------------- RUNUP BASE DATOS ------------------------------------------>
 if (!firebase.apps.length) {
@@ -60,50 +61,92 @@ $('#logOut').unbind('click').click(function () {
  * usuarioLogeado.uid
 */
 
-// <<!------------------- LOGIN ---------------------->
+// <<!------------------- LOGIN y creado tablas ---------------------->
 function login(tipo) {
 	function nuevoLogin(usuarioLogeado) {
-		if (usuarioLogeado) {
+		if (usuarioLogeado) 
+		{
+			const newUser =
+			{
+				uid:usuarioLogeado.uid,
+				email:usuarioLogeado.email
+			};
+			
+			crearUser(newUser);			
+			
+			
 			sessionStorage.setItem("userUID", usuarioLogeado.uid);
-			sessionStorage.setItem("userNombre", usuarioLogeado.displayName);
-			sessionStorage.setItem("userFoto", usuarioLogeado.photoURL);
 			sessionStorage.setItem("userMail", usuarioLogeado.email);
-			window.location.href = "/";
+			// window.location.href = "/";
 		}
-		else if (tipo == "google") {
+		else if (tipo == "google") 
+		{
 			var provider = new firebase.auth.GoogleAuthProvider();
 			firebase.auth().signInWithPopup(provider)
 			.then(function(result) 
 			{
-				// This gives you a Google Access Token.
 				var token = result.credential.accessToken;
-				// The signed-in user info.
 				usuarioLogeado = result.user;
 			}).catch(function(error) 
 			{
 				alert('Error a la hora de enlazar');
 			});;
 		}
-		else {
+		else 
+		{
 			firebase.auth().signInWithEmailAndPassword(document.getElementById("mailLogIn").value, document.getElementById("passLogIn").value)
 			.then(function(result) 
 			{
-				// This gives you a Google Access Token.
 				var token = result.credential.accessToken;
-				// The signed-in user info.
 				usuarioLogeado = result.user;
-			}).catch(function(error) 
-			{
-				alert('La combinación usuario contraseña es incorrecta');
-			});			
+			}).catch(error => {
+				if (error.code == 'auth/user-not-found')
+				{
+					alert(`El correo${document.getElementById("mailLogIn").value} no esta registrado`);
+				}
+				else if (error.code == 'auth/wrong-password')
+				{
+					alert(`Contraseña erronea o el correo esta registrado desde otro proveedor`);
+				}
+				else
+				{
+					// alert(error.message);
+				}
+			});		
 		}		
 	}
 	firebase.auth().onAuthStateChanged(nuevoLogin);
 }
 
+function crearUser(newUser)
+{
+	const query = dbRef.child('users').orderByChild('uid').equalTo(newUser.uid);
+	// var exists = false;
+	query.once('value',snapshot => 
+	{
+		if (snapshot.val() != null)
+		{
+			console.log("Ya tiene fila");
+		}
+		else
+		{
+			var newUsers = dbRef.child("users").push().key;
+			var updates = {};
+			updates["/users/" + newUsers] = newUser;
+				
+			var result = dbRef.update(updates);
+			// console.log(result);
+			console.log("TablaAdherida creada");
+		}				
+	});
 
-
-
+	// if (exists)
+	// {
+		// return;
+	// }
+	
+	
+}
 
 // <!--------------------------------------- Registro ------------------------------------------>
 function registroUser()
@@ -153,14 +196,6 @@ function registroUser()
 			}
 		});
 
-	// firebase.auth().createUserWithEmailAndPassword(document.getElementById("mail").value, document.getElementById("pass").value).catch(function(error) {
-		// var errorCode = error.code;
-		// var errorMessage = error.message;
-		// alert(errorCode);
-		// alert(errorMessage);
-		// $('#modalRegistro').modal('show');
-	// });
-	// $('#modalRegistro').modal('hide');
 	
 	/* registro mal
 	const pass = saltHashPassword(userpassword);	
