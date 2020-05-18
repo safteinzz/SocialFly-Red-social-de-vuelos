@@ -259,15 +259,15 @@ function getFechatoBD(date) {
 async function getUsuario() {
 
 	var queryUser = dbRef.child("users");
-	var snap_user = await queryUser.orderByChild("dni").equalTo("123").once("value");
+	var snap_user = await queryUser.orderByKey().equalTo("-M3z8umFnwpulq4LD3PZ").once("value");
 	if (snap_user.val() != null) {
 		var key = Object.keys(snap_user.val())[0];
 		var val = Object.values(snap_user.val())[0];
 
-		usuarioLogeado.dni = val.dni;
+		usuarioLogeado.key = key;
 		usuarioLogeado.nombrePerfil = val.name + " " + val.lastname;
 		usuarioLogeado.actividades = val.actividades;
-		console.log("getUsuario() => usuarioLogeado.dni: " + usuarioLogeado.dni);
+		console.log("getUsuario() => usuarioLogeado.key: " + usuarioLogeado.key);
 	} else {
 		console.log("getUsuario() => Usuario no encontrado");
 	}
@@ -278,15 +278,15 @@ async function carga_principal_muro() {
 	var queryVuelosPers = dbRef.child("vuelos_personas");
 	var queryVuelos = dbRef.child("vuelos");
 
-	if (usuarioLogeado.dni != null) {
+	if (usuarioLogeado.key != null) {
 
 		//Cargar la imagen de perfil
-		$(".imagenPerfil").attr("src", getImagenStorage(usuarioLogeado.dni + '/', 'perfil.png'));
+		$(".imagenPerfil").attr("src", getImagenStorage(usuarioLogeado.key + '/', 'perfil.png'));
 		//Cargar nombre del usuario
 		$('#nombrePerfil').text(usuarioLogeado.nombrePerfil);
 
 		//Cargar los vuelos_personas del usuario logeado
-		var snap_vuePer = await queryVuelosPers.orderByChild("dni_persona").equalTo(usuarioLogeado.dni).once("value");
+		var snap_vuePer = await queryVuelosPers.orderByChild("dni_persona").equalTo(usuarioLogeado.key).once("value");
 
 		if (snap_vuePer.val() != null) {
 			var mydataSet_vuePer = [];
@@ -333,8 +333,8 @@ var mydataSet_amigos = [];
 async function cargarAmigos() {
 
 	var queryAmigos = dbRef.child("amigos");
-	var snap_amigos = await queryAmigos.orderByChild("dni").equalTo(usuarioLogeado.dni).once("value");
-	mydataSet_amigos.push(usuarioLogeado.dni);
+	var snap_amigos = await queryAmigos.orderByChild("dni").equalTo(usuarioLogeado.key).once("value");
+	mydataSet_amigos.push(usuarioLogeado.key);
 	if (snap_amigos.val() != null) {
 		console.log("cargarPost => hay post con ese dni");
 		// paso 1: añadimos los resultados en un array        
@@ -371,14 +371,14 @@ function upload() {
 	var array = new Array(files.length);
 	for (var i = 0, f; f = files[i]; i++) {
 		console.log(f.name);
-		var carpeta = '/images/' + usuarioLogeado.dni + '/' + getStringFecha();
+		var carpeta = '/images/' + usuarioLogeado.key + '/' + getStringFecha();
 		var extension = f.name.split('.').pop();
 		var nuevoNombre = getStringHora() + "." + extension;
 		console.log("El archivo " + f.name + " ahora se llama " + nuevoNombre);
 		uploadImageAsPromise(carpeta, f, nuevoNombre);
 
 		var separarCarpeta = "%2F";
-		array[i] = 'images' + separarCarpeta + usuarioLogeado.dni + separarCarpeta + getStringFecha() + separarCarpeta + nuevoNombre;
+		array[i] = 'images' + separarCarpeta + usuarioLogeado.key + separarCarpeta + getStringFecha() + separarCarpeta + nuevoNombre;
 	}
 
 	return array;
@@ -424,7 +424,7 @@ async function crearPost(varComentario) {
 			}
 		}
 
-		var varUrlImgPerfil = getImagenStorage(usuarioLogeado.dni + '/', 'perfil.png');
+		var varUrlImgPerfil = getImagenStorage(usuarioLogeado.key + '/', 'perfil.png');
 		var varNomUser = usuarioLogeado.nombrePerfil;
 		var dt = new Date();
 		var varFechaComentario = formatDate(dt);
@@ -435,7 +435,7 @@ async function crearPost(varComentario) {
 		var varIdLikeUsuario = null;
 
 		var post = {
-			id_usuario: usuarioLogeado.dni,
+			id_usuario: usuarioLogeado.key,
 			contenido: varComentario,
 			fecha_post: getFechatoBD(dt),
 			hastag: "pruebaSocial",
@@ -461,9 +461,10 @@ async function crearPost(varComentario) {
 
 		console.log("PRUEBA FECHA: " + varFechaComentario);
 
-		crearPostHTML(newPosts, varComentario, varUrlImgPerfil, varNomUser, usuarioLogeado.dni, varSalida, varRetrasoSalida,
-			varDestino, varRetrasoDestino, varFechaComentario, varContMG, varContComent, varCarrousel, varMeGustaUsuarioLogeado, varIdLikeUsuario, false);
+		
 
+		setTimeout(function(){ crearPostHTML(newPosts, varComentario, varUrlImgPerfil, varNomUser, usuarioLogeado.key, varSalida, varRetrasoSalida,
+			varDestino, varRetrasoDestino, varFechaComentario, varContMG, varContComent, varCarrousel, varMeGustaUsuarioLogeado, varIdLikeUsuario, false); }, 2000);
 
 		$("#selectVuelosComentario").val('Ninguno');
 		$('button.btn-reset').click();
@@ -506,7 +507,7 @@ async function agregarPost() {
 			varContMG = Object.values(snap_likes.val()).length;
 
 			snap_likes.forEach((child) => {
-				if (child.val().id_usuario == usuarioLogeado.dni) {
+				if (child.val().id_usuario == usuarioLogeado.key) {
 					varMeGustaUsuarioLogeado = true;
 					varIdLikeUsuario = child.key;
 				}
@@ -556,7 +557,7 @@ function crearComentario(varTextoComentario) {
 		$('#modalComent #messagesComentario').css('display', 'block');
 		$('#modalComent #messagesComentario #contenidoMensaje').html("<b>ERROR:</b> Es obligatorio escribir algún <u>comentario</u>.");
 	} else {
-		var varUrlImgPerfil = getImagenStorage(usuarioLogeado.dni + '/', 'perfil.png');
+		var varUrlImgPerfil = getImagenStorage(usuarioLogeado.key + '/', 'perfil.png');
 		var varNomUser = usuarioLogeado.nombrePerfil;
 
 		var dt = new Date();
@@ -564,7 +565,7 @@ function crearComentario(varTextoComentario) {
 
 
 		var comentario = {
-			id_usuario: usuarioLogeado.dni,
+			id_usuario: usuarioLogeado.key,
 			contenido: varTextoComentario,
 			fecha_comentario: varFechaComentario,
 			nombreUsuario: varNomUser,
@@ -580,7 +581,7 @@ function crearComentario(varTextoComentario) {
 		var result = dbRef.update(updates);
 		console.log(result);
 
-		crearComentarioHTML(newComentario, varTextoComentario, usuarioLogeado.dni, varNomUser, varUrlImgPerfil, varFechaComentario);
+		crearComentarioHTML(newComentario, varTextoComentario, usuarioLogeado.key, varNomUser, varUrlImgPerfil, varFechaComentario);
 	}
 }
 
@@ -617,7 +618,7 @@ function agregarMeGusta(idPost) {
 	var dt = new Date();
 
 	var like = {
-		id_usuario: usuarioLogeado.dni,
+		id_usuario: usuarioLogeado.key,
 		id_post: idPost,
 		fecha_like: getFechatoBD(dt)
 	};
