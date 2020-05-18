@@ -57,8 +57,18 @@
 			document.getElementById("nombre_input").setAttribute("placeholder", usuarioActual.nombre);
 			document.getElementById("apellidos_input").setAttribute("placeholder", usuarioActual.apellidos);
 			document.getElementById("tlf_movil_input").setAttribute("placeholder", usuarioActual.tlf_movil);
-			<!-- document.getElementById("fecha_nacimiento_input").setAttribute("value", usuarioActual.fecha_nacimiento); -->
-			<!-- FALTA document.getElementById("nombre_rol").innerHTML = ; -->
+			<!-- document.getElementById("fecha_nacimiento_input").setAttribute("placeholder", usuarioActual.fecha_nacimiento); -->
+			
+			
+			const secondFunction = async () => {
+			  var rol = await getRol(usuarioActual.id_rol);
+			  document.getElementById("nombre_rol").innerHTML = rol;
+			}	
+			secondFunction();
+			
+			
+			
+			
 			<!-- FALTA (este no tiene ni el ID bien) document.getElementById("fotoUser").setAttribute("src", sessionStorage.getItem("userFoto")); -->
 		});
 		
@@ -95,9 +105,32 @@
 
         $(document).ready(inicio);
 
-        $(window).on("load", function() {
-            console.log("window loaded");
-        });
+		function actualizar()
+		{
+			if (nombre_input.value.length > 0)
+			{
+				usuarioActual.nombre = nombre_input.value;
+			}
+			if (apellidos_input.value.length > 0)
+			{
+				usuarioActual.apellidos = apellidos_input.value;
+			}
+			if (tlf_movil_input.value.length > 0)
+			{
+				usuarioActual.tlf_movil = tlf_movil_input.value
+			}
+		
+			editarUsuario(usuarioActual);
+			alert('Actualizado con exito');
+			window.location.href = "https://pcsocialfly.web.app/perfil.html";
+			<!-- var x = document.getElementsByTagName("H1")[0].getAttribute("class");  -->
+		}
+		
+		
+		
+        <!-- $(window).on("load", function() { -->
+            <!-- console.log("window loaded"); -->
+        <!-- }); -->
     </script>
 </head>
 
@@ -186,9 +219,8 @@
                 <div class="col-sm-8">
 
                     <hr>
-                    <form class="mb-5">
-                        <!-- class="form" action="##" method="post" id="registrationForm" -->
-						 <div class="form-group">
+                    
+						 <div class="m-2">
                             <div class="col-xs-6">
                                 <label for="email">
                                     <h4>Email</h4>
@@ -198,7 +230,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="m-2">
                             <div class="col-xs-6">
                                 <label for="password">
                                     <h4>Contraseña</h4>									
@@ -217,7 +249,7 @@
                             <!-- </div> -->
                         <!-- </div> -->
 						
-                        <div class="form-group">
+                        <div class="m-2">
                             <div class="col-xs-6">
                                 <label for="Nombre">
                                     <h4>Nombre</h4>
@@ -225,7 +257,7 @@
                                 <input type="text" class="form-control mostrarSubmiters" name="first_name" id="nombre_input" placeholder="">
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="m-2">
 
                             <div class="col-xs-6">
                                 <label for="Apellidos">
@@ -235,7 +267,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="m-2">
                             <div class="col-xs-6">
                                 <label for="Movil">
                                     <h4>Teléfono Movil</h4>
@@ -244,27 +276,32 @@
                             </div>
                         </div>
 						
-						<div class="form-group">
-                            <div class="col-xs-6">
-                                <label for="FechaNacimiento">
-                                    <h4>Fecha nacimiento</h4>
-								</label>
-                                <input type="date" class="form-control mostrarSubmiters" name="fecha_nacimiento" id="fecha_nacimiento_input" value="13/06/1996">
-                            </div>
-                        </div>
+						<!-- <div class="form-group"> -->
+                            <!-- <div class="col-xs-6"> -->
+                                <!-- <label for="FechaNacimiento"> -->
+                                    <!-- <h4>Fecha nacimiento</h4> -->
+								<!-- </label>								 -->
+                                <!-- <input type="text" class="form-control mostrarSubmiters" name="fecha_nacimiento" id="fecha_nacimiento_input" placeholder="" onfocus="(this.type='date')" onblur="(this.type='text')"> -->
+                            <!-- </div> -->
+                        <!-- </div> -->
 						
 
 
                        
-                        <div class="form-group" id="submiters">
+                        <div class="m-2" id="submiters">
                             <div class="col-xs-12 d-flex flex-row-reverse">
                                 <br>
-                                <button class="btn btn-lg ocultarTodoClk" type="reset"> Cancelar</button>
-                                <button class="btn btn-lg btn-success" type="submit"><i class="fa fa-check-circle"></i> Actualizar</button>
+                                <button class="btn btn-lg ocultarTodoClk"> Cancelar</button>
+                                <button id ="updateUser" class="btn btn-lg btn-success"><i class="fa fa-check-circle"></i> Actualizar</button>
                             </div>
                         </div>
                         <script>
                             $('.ocultarTodoClk').on('click', inicio);
+							
+							$('#updateUser').unbind('click').click(function () 
+							{
+								actualizar();
+							});
                             $('.ocultarSubmiters').on('input', ocultarSubmiters);
                             $('.mostrarSubmiters').on('input', mostrarSubmiters);
                             $('#password').on('input', function() {
@@ -272,7 +309,7 @@
                                 mostrarSubmiters();
                             });
                         </script>
-                    </form>
+                    
                 </div>
             </div>
 

@@ -42,6 +42,10 @@ firebase.auth().onAuthStateChanged(async function(user) {
 	{
 		window.location.href = "https://pcsocialfly.web.app/acceso.html";
 	}
+	else if (!user)
+	{
+		//no hacer nada
+	}
 	else
 	{
 		const query = dbRef.child('users').orderByChild('uid').equalTo(user.uid);
@@ -59,7 +63,7 @@ firebase.auth().onAuthStateChanged(async function(user) {
 					id_rol:val.id_rol,
 					fecha_registro:val.fecha_registro,
 					fecha_visita:val.fecha_visita,
-					fecha_nacimiento:val.fecha_nacimiento,
+					// fecha_nacimiento:val.fecha_nacimiento,
 					nombre:val.nombre,
 					apellidos:val.apellidos,
 					tlf_movil:val.tlf_movil			
@@ -69,7 +73,22 @@ firebase.auth().onAuthStateChanged(async function(user) {
 	}
 });
 
-
+// <!------------------- Getter rol ---------------------->
+async function getRol(id)
+{
+	const query = dbRef.child('roles').orderByChild('id_rol').equalTo(id);
+	var nombreRolReturn;
+	await query.once('value',snapshot => 
+	{
+		if (snapshot.val() != null)
+		{
+			var key = Object.keys(snapshot.val())[0];  
+			var val = Object.values(snapshot.val())[0]; 
+			nombreRolReturn = val.nombre;
+		}
+	});
+	return nombreRolReturn;
+}
 
 
 // <!--------------------------------------- Eventos ------------------------------------------>
@@ -136,12 +155,16 @@ function login(tipo) {
 			{
 				uid:usuarioLogeado.uid,
 				// el correo lo tiene el propio auth email:usuarioLogeado.email,
-				rol:0,
-				fecha_registro:now
+				id_rol:3, //se hardcodea a usuario normal por defecto
+				fecha_registro:now,
+				fecha_visita: now,				
+				nombre:" ",
+				apellidos:" ",
+				tlf_movil:" "	
 			};
 			
 			crearUser(newUser);			
-			
+			alert('Login confirmado'); //esto esta para esperar la creación mas que otra cosa
 			window.location.href = "https://pcsocialfly.web.app/perfil.html";
 		}
 		else if (tipo == "google") 
@@ -183,38 +206,18 @@ function login(tipo) {
 	firebase.auth().onAuthStateChanged(nuevoLogin);
 }
 
-
-// function crearRoles()
-// {
-	// var id = 3;
-	// var nom = 'Normal';
-	// const newRol =
-	// {
-		// id_rol:id,
-		// nombre:nom
-	// };
-			
-	// const query = dbRef.child('roles').orderByChild('id_rol').equalTo(id);
-	// var exists = false;
-	// query.once('value',snapshot => 
-	// {
-		// if (snapshot.val() != null)
-		// {
-			// console.log("Ya tiene fila");
-		// }
-		// else
-		// {
-			// var newRols = dbRef.child("roles").push().key;
-			// var updates = {};
-			// updates["/roles/" + newRols] = newRol;
-				
-			// var result = dbRef.update(updates);
-			// console.log(result);
-			// console.log("TablaAdherida creada");
-		// }				
-	// });
-// }
-
+function editarUsuario(userUpdate)
+{
+	var query = dbRef.child('/users/').orderByChild('uid').equalTo(usuarioActual.uid);
+	query.once ('value', snapshot =>
+	{
+		if (snapshot.val() != null)
+		{
+			var key = Object.keys(snapshot.val())[0];
+			snapshot.ref.child(key).set(userUpdate);
+		}
+	});
+}
 
 // <!--------------------------------------- Registro ------------------------------------------>
 function registroUser()
