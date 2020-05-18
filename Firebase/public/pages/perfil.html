@@ -10,10 +10,10 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	
 	<!--------------------------------------- LIBS ------------------------------------------>
-	<link rel="stylesheet" href="./resources/lib/foundation-icons/foundation-icons.css" />
-    <link rel="stylesheet" href="./resources/lib/bootstrap/css/bootstrap.min.css">
-    <script src="./resources/lib/jquery-3.4.1.js"></script>
-    <script src="./resources/lib/bootstrap/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="../resources/lib/foundation-icons/foundation-icons.css" />
+    <link rel="stylesheet" href="../resources/lib/bootstrap/css/bootstrap.min.css">
+    <script src="../resources/lib/jquery-3.4.1.js"></script>
+    <script src="../resources/lib/bootstrap/js/bootstrap.min.js"></script>
 
     <!--------------------------------------- SCRIPTS ------------------------------------------>
     <!-- update the version number as needed -->
@@ -33,7 +33,15 @@
     <!-- TODO: Add SDKs for Firebase products that you want to use
      https://firebase.google.com/docs/web/setup#available-libraries -->
     <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-analytics.js"></script>
-    <script defer src="./resources/js/scripts.js"></script>	
+	
+    <script defer src="../resources/js/firebase.js"></script>	
+	
+
+    <!--------------------------------------- CSS ------------------------------------------>
+    <link rel="stylesheet" type="text/css" href="../resources/css/socialFly.css">
+	<link rel="stylesheet" type="text/css" href="../resources/css/styles.css">
+	
+	<!--------------------------------------- FUNCIONES ADICIONALES ------------------------------------------>
 	<script>
 		var waitForGlobal = function(key, callback) 
 		{
@@ -49,25 +57,31 @@
 			}
 		};
 		 
-		waitForGlobal("usuarioActual", function() {
-			document.getElementById("nombreMasApellidos").innerHTML = usuarioActual.nombre + ' ' + usuarioActual.apellidos;
-			document.getElementById("fecha_registro").innerHTML = usuarioActual.fecha_registro;
-			document.getElementById("fecha_visita").innerHTML = usuarioActual.fecha_visita;
+		
+		 
+		 
+		
+		waitForGlobal("usuarioLogeado", function() {
+			document.getElementById("nombreMasApellidos").innerHTML = usuarioLogeado.nombre + ' ' + usuarioLogeado.apellidos;
+			document.getElementById("fecha_registro").innerHTML = usuarioLogeado.fecha_registro;
+			document.getElementById("fecha_visita").innerHTML = usuarioLogeado.fecha_visita;
 			
-			document.getElementById("email_input").setAttribute("placeholder", usuarioActual.email);
-			document.getElementById("nombre_input").setAttribute("placeholder", usuarioActual.nombre);
-			document.getElementById("apellidos_input").setAttribute("placeholder", usuarioActual.apellidos);
-			document.getElementById("tlf_movil_input").setAttribute("placeholder", usuarioActual.tlf_movil);
-			<!-- document.getElementById("fecha_nacimiento_input").setAttribute("placeholder", usuarioActual.fecha_nacimiento); -->
+			document.getElementById("email_input").setAttribute("placeholder", usuarioLogeado.email);
+			document.getElementById("nombre_input").setAttribute("placeholder", usuarioLogeado.nombre);
+			document.getElementById("apellidos_input").setAttribute("placeholder", usuarioLogeado.apellidos);
+			document.getElementById("tlf_movil_input").setAttribute("placeholder", usuarioLogeado.tlf_movil);
 			
-			if (usuarioActual.google == 1)
+			document.getElementById("avatarPerfil").setAttribute("src", usuarioLogeado.avatarURL);
+			<!-- document.getElementById("fecha_nacimiento_input").setAttribute("placeholder", usuarioLogeado.fecha_nacimiento); -->
+			
+			if (usuarioLogeado.google == 1)
 			{
 				divPass.style.display = 'none';
 			}
 			
 			
 			const secondFunction = async () => {
-			  var rol = await getRol(usuarioActual.id_rol);
+			  var rol = await getRol(usuarioLogeado.id_rol);
 			  document.getElementById("nombre_rol").innerHTML = rol;
 			}	
 			secondFunction();
@@ -79,15 +93,9 @@
 		});
 		
 		<!-- $(window).on('load', function() { -->
-			<!-- document.getElementById("nombreMasApellidos").innerHTML = usuarioActual.nombre + ' ' + usuarioActual.apellidos; -->
+			<!-- document.getElementById("nombreMasApellidos").innerHTML = usuarioLogeado.nombre + ' ' + usuarioLogeado.apellidos; -->
 		<!-- });		 -->
 	</script>
-
-    <!--------------------------------------- CSS ------------------------------------------>
-    <link rel="stylesheet" type="text/css" href="./resources/css/socialFly.css">
-	<link rel="stylesheet" type="text/css" href="./resources/css/styles.css">
-	
-	<!--------------------------------------- FUNCIONES ADICIONALES ------------------------------------------>
     <script>
         function ocultarRepitePass() {
             $(".repitePass").hide();
@@ -116,20 +124,20 @@
 		{
 			if (nombre_input.value.length > 0)
 			{
-				usuarioActual.nombre = nombre_input.value;
+				usuarioLogeado.nombre = nombre_input.value;
 			}
 			if (apellidos_input.value.length > 0)
 			{
-				usuarioActual.apellidos = apellidos_input.value;
+				usuarioLogeado.apellidos = apellidos_input.value;
 			}
 			if (tlf_movil_input.value.length > 0)
 			{
-				usuarioActual.tlf_movil = tlf_movil_input.value
+				usuarioLogeado.tlf_movil = tlf_movil_input.value
 			}
 		
-			editarUsuario(usuarioActual);
+			editarUsuario(usuarioLogeado);
 			alert('Actualizado con exito');
-			window.location.href = "https://pcsocialfly.web.app/perfil.html";
+			window.location.href = "https://pcsocialfly.web.app/pages/perfil.html";
 			<!-- var x = document.getElementsByTagName("H1")[0].getAttribute("class");  -->
 		}
 		
@@ -144,8 +152,8 @@
 <body>
 	<!--------------------------------------- NAV BAR -------------------------------------->
     <nav class="navbar navbar-dark navbarMenu-green navbar-expand-sm">
-		<a class="navbar-brand" href="plantilla.html">
-			<img src="resources/images/iconAvion.png" width="30" height="30" alt="logo">
+		<a class="navbar-brand" href="https://pcsocialfly.web.app/">
+			<img src="../resources/images/iconAvion.png" width="30" height="30" alt="logo">
 			SocialFly
 		</a>
 		
@@ -161,20 +169,20 @@
 			<li class="nav-item dropdown">
 				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					<label id="nombrePerfil">Pablo Antonio Hernández</label>
-					<img src="resources/images/yo.jpg" width="40" height="40" class="rounded-circle imagenPerfil">
+					<img src="" width="40" height="40" class="rounded-circle imagenPerfil">
 					<span class="badge" id="navNotificacion">5</span>
 				</a>
 				<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 					<a href="#" data-target="#modalIMG" data-toggle="modal" data-id="resources/images/yo.jpg" class="color-gray-darker c6 td-hover-none abrirModalIMG">
-						<img src="resources/images/yo.jpg" width="150" height="150" class="rounded-circle imagenPerfil" style="margin:8px;">
+						<img src="" width="150" height="150" class="rounded-circle imagenPerfil" style="margin:8px;">
 					</a>
 					<div class="form-group has-search">
 						<span class="fa fa-search form-control-feedback"></span>
 						<input type="text" class="form-control" placeholder="Buscar">
 					</div>
-					<a class="dropdown-item" href="#">Mis amigos</a>
-					<a class="dropdown-item" href="plantillaFormulario.html">Mi perfil</a>
-					<a id="logOut" class="dropdown-item desconectar" href="#">Desconectar</a>
+					<a class="dropdown-item" href="https://pcsocialfly.web.app/pages/amigos.html">Mis amigos</a>
+					<a class="dropdown-item" href="https://pcsocialfly.web.app/pages/perfil.html">Mi perfil</a>
+					<a class="logOut dropdown-item desconectar" href="#">Desconectar</a>
 				</div>
 			</li>   
 		</ul>
@@ -193,17 +201,23 @@
                 <div class="col-sm-2">
 
                     <div class="profile-img-container">
-                        <img src="resources/images/yoGrande.jpg" class="img-thumbnail img-circle img-responsive" alt="avatar image" />
+                        <img id="avatarPerfil" src="" class="img-thumbnail img-circle img-responsive" alt="avatar image" />
                         <span id="other">
 							<i class="fa fa-upload fa-5x"></i>				
 						</span>
-                        <input type="file" class="hiddenItem" id="target" accept="image/x-png,image/gif,image/jpeg" />
+                        <input type="file" onChange="subirFoto()" class="hiddenItem" id="target" accept=".png" />
+						
                         <!-- accept="image/*"-->
                     </div>
                     <script>
                         $("#other").click(function() {
                             $("#target").click();
+							
                         });
+						
+						function subirFoto() { 
+							subirAvatar(document.getElementById('target').files[0], usuarioLogeado);
+						};
                     </script>
                 </div>
 
@@ -235,7 +249,7 @@
 								<!-- <a id="cambiarMail" class="btn btn-lg"> <i class="fa fa-angle-right mr-2"></i> Cambiar</a> -->
 								<!-- <script> -->
 									<!-- $('#cambiarMail').unbind('click').click(function () { -->
-										<!-- resetPass(usuarioActual.email);	 -->
+										<!-- resetPass(usuarioLogeado.email);	 -->
 									<!-- }); -->
 								<!-- </script> -->
                                 <input type="email" class="form-control mostrarSubmiters" name="email" id="email_input" placeholder="" disabled>
@@ -250,7 +264,7 @@
 								<a id="cambiarPass" class="btn btn-lg"> <i class="fa fa-angle-right  mr-2"></i> Cambiar</a>
 								<script>
 									$('#cambiarPass').unbind('click').click(function () {
-										resetPass(usuarioActual.email);	
+										resetPass(usuarioLogeado.email);	
 									});
 								</script>
                                 <input type="password" class="form-control mostrarRepitePass" name="password" id="password" placeholder="······················" disabled>								
@@ -430,9 +444,9 @@
 						</div>
 					</div>
 					<ul class="list-unstyled collapse" id="Resources">
-						<li><a href="#">Mis amigos</a></li>
-						<li><a href="https://pcsocialfly.web.app/perfil.html">Mi perfil</a></li>
-						<li><a id="logOut">Desconectar</a></li>
+						<li><a href="https://pcsocialfly.web.app/pages/amigos.html">Mis amigos</a></li>
+						<li><a href="https://pcsocialfly.web.app/pages/perfil.html">Mi perfil</a></li>
+						<li><a class="logOut">Desconectar</a></li>
 					</ul>
 				</div>
 				<!--/.Third column-->

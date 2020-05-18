@@ -1,0 +1,56 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Main</title>
+	
+	
+	<!--------------------------------------- CDN ------------------------------------------>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	
+	<!--------------------------------------- LIBS ------------------------------------------>
+	<link rel="stylesheet" href="./resources/lib/foundation-icons/foundation-icons.css" />
+    <link rel="stylesheet" href="./resources/lib/bootstrap/css/bootstrap.min.css">
+    <script src="./resources/lib/jquery-3.4.1.js"></script>
+    <script src="./resources/lib/bootstrap/js/bootstrap.min.js"></script>
+
+    <!--------------------------------------- SCRIPTS ------------------------------------------>
+    <!-- update the version number as needed -->
+    <script defer src="/__/firebase/7.14.0/firebase-app.js"></script>
+    <!-- include only the Firebase features as you need -->
+    <script defer src="/__/firebase/7.14.0/firebase-auth.js"></script>
+    <script defer src="/__/firebase/7.14.0/firebase-database.js"></script>
+    <script defer src="/__/firebase/7.14.0/firebase-messaging.js"></script>
+    <script defer src="/__/firebase/7.14.0/firebase-storage.js"></script>
+    <!-- initialize the SDK after all desired features are loaded -->
+    <script defer src="/__/firebase/init.js"></script>
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-analytics.js"></script>
+    <script defer src="./resources/js/scripts.js"></script>	
+
+    <!--------------------------------------- CSS ------------------------------------------>
+    <link rel="stylesheet" type="text/css" href="./resources/css/styles.css">
+
+</head>
+
+<body>
+	<h1 class="text-dark">Hola <span id="nombreUser"></span></h1>
+	<img id="fotoUser" src="" alt="Error Cargar foto usuario">
+	<button id="logOut">Salir</button>	
+	<!-- <button id="crearrol">crear rol</button>	 -->
+	<script>			
+		<!-- $('#crearrol').unbind('click').click(function () { -->
+			<!-- crearRoles(); -->
+		<!-- }); -->
+		document.getElementById("nombreUser").innerHTML = sessionStorage.getItem("userNombre");
+		document.getElementById("fotoUser").setAttribute("src", sessionStorage.getItem("userFoto"));
+	</script>
+	
+</body>
+
+</html>
