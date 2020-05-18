@@ -99,9 +99,9 @@
                                 <input id="passLogIn" type="password" placeholder="Contraseña" class="form-control login">
 								
                             </div>
-                            <div class="row align-items-center remember">
-                                <input type="checkbox">Recordarme
-                            </div>
+                            <!-- <div class="row align-items-center remember"> -->
+                                <!-- <input type="checkbox">Recordarme -->
+                            <!-- </div> -->
                             <div class="form-group">
                                 <input id="login" type="button" value="Login" class="btn float-right login_btn login">
                             </div>
@@ -207,18 +207,37 @@
 
                 </div>
                 <div class="modal-body">
-                    <p class="text-dark"> Introduzca a continuación su dirección de correo electronico para que se le envie su nueva contraseña </p>
+                    <p id="tituloRP" class="text-dark"> Introduzca a continuación su dirección de correo electronico para resetear su contraseña </p>
                     <form class="text-dark">
                         <div class="input-group form-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fa fa-envelope"></i></span>
                             </div>
-                            <input type="text" class="form-control" placeholder="Email">
+                            <input id="emailOlvido" type="text" class="form-control olvidoInput" placeholder="Email">
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer d-flex justify-content-center">
-                    <button type="button" class="btn-lg btn-warning " data-dismiss="modal">Enviar contraseña</button>
+                    <button id="olvidoPass" type="button" class="btn-lg btn-warning " data-dismiss="modal">Enviar</button>
+					<script>
+						$('#olvidoPass').unbind('click').click(function () {
+							//DEBUG
+							var reqlength = $('.olvidoInput').length; 
+							console.log(reqlength);
+							//--
+							var value = $('.olvidoInput').filter(function () {
+								return this.value != '';
+							});
+
+							if (value.length>=0 && (value.length !== reqlength)) {
+								alert('Tienes que rellenar el campo con tu correo');
+							} else {
+								<!-- console.log('todo rellenado'); -->
+								resetPass(emailOlvido.value);	
+								$('#modalOlvidoPass').modal('hide');
+							}
+						});
+					</script>
                 </div>
             </div>
         </div>

@@ -5,7 +5,6 @@ html{
 
 body{
 	background-color: white;
-	color: #fff;
 	height: 100vh;
 }
 
@@ -235,5 +234,116 @@ input:focus
 .box {
 	margin-left: auto;
 }
+
+/* BUSCADOR */
+	/* BUSCADOR MENU */
+	.buscadorMenu{
+		width: 300px;
+		vertical-align: middle;
+		white-space: nowrap;
+		position: relative;
+	}
+
+	.buscadorMenu input#search{
+		width: 0px;
+		height: 46px;
+		background: transparent;
+		border: none;
+		font-size: 10pt;
+		float: right;
+		color: #000;
+		-webkit-border-radius: 5px;
+		-moz-border-radius: 5px;
+		border-radius: 5px;
+
+		-webkit-transition: width .55s ease;
+		-moz-transition: width .55s ease;
+		-ms-transition: width .55s ease;
+		-o-transition: width .55s ease;
+		transition: width .55s ease;
+	}
+
+	.buscadorMenu input#search::-webkit-input-placeholder {
+		color: #65737e;
+	}
+
+	.buscadorMenu input#search:-moz-placeholder { /* Firefox 18- */
+		color: #65737e;  
+	}
+
+	.buscadorMenu input#search::-moz-placeholder {  /* Firefox 19+ */
+		color: #65737e;  
+	}
+
+	.buscadorMenu input#search:-ms-input-placeholder {  
+		color: #65737e;  
+	}
+
+	.buscadorMenu .icon{
+		position: absolute;
+		z-index: 1;
+		color: #fff;
+		padding: 11px;
+		border-radius: 0 5px 5px 0;
+		cursor: pointer;
+		right: 0px;
+	}
+
+	.buscadorMenu input#search:focus, .buscadorMenu input#search:active{
+		outline:none;
+		width: 300px;
+		padding-left: 35px;
+		background: #fff;
+	}
+
+	.buscadorMenu:hover input#search{
+		width: 300px;
+		padding-left: 35px;
+		background: #fff;
+	}
+
+	.buscadorMenu:hover .icon, .buscadorMenu:active .icon, .buscadorActivo{
+		background: #42a05d;
+		color:#000;
+	}
+	
+	
+	
+	/* BUSCADOR PERFIL */
+	.form-control:focus {
+		box-shadow: 0 0 0 .2rem rgba(0, 255, 22, 0.5);
+	}
+	
+	.has-search{
+		margin: 0px 3px;
+		display:none;
+	}
+	
+	.has-search .form-control {
+		padding-left: 2.375rem;
+	}
+	
+	.has-search .form-control:hover{
+		border: 1px solid #42a05d;
+	}
+
+	.has-search .form-control-feedback {
+		position: absolute;
+		z-index: 2;
+		display: block;
+		width: 2.375rem;
+		height: 2.375rem;
+		line-height: 2.375rem;
+		text-align: center;
+		pointer-events: none;
+		color: #aaa;
+	}
+	
+	.has-search .form-control:focus {
+		padding: .375rem .75rem;
+	}
+
+
+
 
 

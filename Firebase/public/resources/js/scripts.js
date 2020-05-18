@@ -22,6 +22,8 @@ if (!firebase.apps.length) {
 
 // <!--------------------------------------- VARIABLES ------------------------------------------>
 const dbRef = firebase.database().ref();
+const storage = firebase.storage();
+const storageRef = storage.ref();
 var usuarioLogeado; //variable para logear usuarios
 var usuarioActual; //variable que almacena todos los datos del usuario logeado
 
@@ -50,6 +52,8 @@ firebase.auth().onAuthStateChanged(async function(user) {
 	{
 		const query = dbRef.child('users').orderByChild('uid').equalTo(user.uid);
 
+		var today = new Date(); 
+		var now = today.getDate()  + '/' + (today.getMonth()+1) + '/' +today.getFullYear();
 		await query.once('value',snapshot => 
 		{
 			if (snapshot.val() != null)
@@ -62,14 +66,19 @@ firebase.auth().onAuthStateChanged(async function(user) {
 					email:user.email,
 					id_rol:val.id_rol,
 					fecha_registro:val.fecha_registro,
-					fecha_visita:val.fecha_visita,
+					fecha_visita:now,
 					// fecha_nacimiento:val.fecha_nacimiento,
 					nombre:val.nombre,
 					apellidos:val.apellidos,
-					tlf_movil:val.tlf_movil			
+					tlf_movil:val.tlf_movil,
+					google: val.google					
 				};
 			}
 		});
+		
+		usuarioActual.fecha_visita = now;
+		//actualizar fecha ultima visita
+		editarUsuario(usuarioActual);
 	}
 });
 
@@ -110,6 +119,11 @@ $('#logOut').unbind('click').click(function () {
 
 // <!--------------------------------------- FUNCIONES ------------------------------------------>
 
+
+function sleep(ms) {
+	return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 // <!------------------- LOGIN ---------------------->
 
 /** AUTH
@@ -120,11 +134,11 @@ $('#logOut').unbind('click').click(function () {
 */
 
 // <!------------------- Crear user ---------------------->
-function crearUser(newUser)
+async function crearUser(newUser)
 {
 	const query = dbRef.child('users').orderByChild('uid').equalTo(newUser.uid);
 	// var exists = false;
-	query.once('value',snapshot => 
+	await query.once('value',snapshot => 
 	{
 		if (snapshot.val() != null)
 		{
@@ -146,24 +160,31 @@ function crearUser(newUser)
 
 // <<!------------------- LOGIN y creado tablas ---------------------->
 function login(tipo) {
-	function nuevoLogin(usuarioLogeado) {
+	async function nuevoLogin(usuarioLogeado) {
 		if (usuarioLogeado) 
 		{
 			var today = new Date(); 
 			var now = today.getDate()  + '/' + (today.getMonth()+1) + '/' +today.getFullYear();
+			var ggle = 0
+			
+			if (usuarioLogeado.providerData[0].providerId.startsWith("google"))
+			{
+				ggle = 1;
+			}
 			const newUser =
 			{
 				uid:usuarioLogeado.uid,
-				// el correo lo tiene el propio auth email:usuarioLogeado.email,
-				id_rol:3, //se hardcodea a usuario normal por defecto
+				id_rol:3,
 				fecha_registro:now,
 				fecha_visita: now,				
 				nombre:" ",
 				apellidos:" ",
-				tlf_movil:" "	
+				tlf_movil:" ",
+				google: ggle
 			};
 			
-			crearUser(newUser);			
+			await crearUser(newUser);
+			// await sleep(1000);
 			alert('Login confirmado'); //esto esta para esperar la creación mas que otra cosa
 			window.location.href = "https://pcsocialfly.web.app/perfil.html";
 		}
@@ -206,6 +227,7 @@ function login(tipo) {
 	firebase.auth().onAuthStateChanged(nuevoLogin);
 }
 
+// <!------------------- Update usuarios ---------------------->
 function editarUsuario(userUpdate)
 {
 	var query = dbRef.child('/users/').orderByChild('uid').equalTo(usuarioActual.uid);
@@ -218,6 +240,18 @@ function editarUsuario(userUpdate)
 		}
 	});
 }
+
+// <!------------------- resetear contraseña ---------------------->
+
+function resetPass(mail)
+{	
+	firebase.auth().sendPasswordResetEmail(mail).then(function() {
+		alert(`Email de resteo de contraseña enviado a ${mail}`);
+	}).catch(function(error) {
+		alert('Error al enviar, es posible que el correo no exista');
+	});
+}
+
 
 // <!--------------------------------------- Registro ------------------------------------------>
 function registroUser()
@@ -266,42 +300,6 @@ function registroUser()
 				alert(error.message);
 			}
 		});
-
-	
-	/* registro mal
-	const pass = saltHashPassword(userpassword);	
-	const newUser =
-	{
-		mail:document.getElementById("mail").value,
-		username:document.getElementById("username").value
-		//,hash:pass.passwordHash,
-		//salt:pass.salt
-	};
-	
-	dbRef.child("users").orderByChild("mail").equalTo(document.getElementById("mail").value).once("value",snapshot => 
-	{
-		if (snapshot.exists())
-		{
-			const userData = snapshot.val();
-			console.log("usuario ya existe", userData);
-			alert("Ese mail ya esta registrado");
-			return false;
-		}
-		else
-		{			
-			//Si ha llegado hasta aqui crear el usuario
-			var newUsers = dbRef.child("users").push().key;
-			var updates = {};
-			updates["/users/" + newUsers] = newUser;
-			
-			var result = dbRef.update(updates);
-			console.log(result);
-			
-			console.log("Registrado");
-			return true;
-		}
-	});
-	*/
 }
 
 

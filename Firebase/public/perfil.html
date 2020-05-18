@@ -28,6 +28,7 @@
 
     <!-- The core Firebase JS SDK is always required and must be listed first -->
     <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-app.js"></script>
+	<script src="https://kit.fontawesome.com/11d57a0be5.js" crossorigin="anonymous"></script>
 
     <!-- TODO: Add SDKs for Firebase products that you want to use
      https://firebase.google.com/docs/web/setup#available-libraries -->
@@ -59,6 +60,11 @@
 			document.getElementById("tlf_movil_input").setAttribute("placeholder", usuarioActual.tlf_movil);
 			<!-- document.getElementById("fecha_nacimiento_input").setAttribute("placeholder", usuarioActual.fecha_nacimiento); -->
 			
+			if (usuarioActual.google == 1)
+			{
+				divPass.style.display = 'none';
+			}
+			
 			
 			const secondFunction = async () => {
 			  var rol = await getRol(usuarioActual.id_rol);
@@ -78,7 +84,8 @@
 	</script>
 
     <!--------------------------------------- CSS ------------------------------------------>
-    <link rel="stylesheet" type="text/css" href="./resources/css/styles.css">
+    <link rel="stylesheet" type="text/css" href="./resources/css/socialFly.css">
+	<link rel="stylesheet" type="text/css" href="./resources/css/styles.css">
 	
 	<!--------------------------------------- FUNCIONES ADICIONALES ------------------------------------------>
     <script>
@@ -175,7 +182,7 @@
 	</nav>
 
 	<!--------------------------------------- BODY ---------------------------------------->
-    <div class="row container-fluid pt-5">
+    <div class="row container-fluid py-5">
 
         <div class="container bootstrap snippet text-dark">
             <div class="row">
@@ -225,18 +232,27 @@
                                 <label for="email">
                                     <h4>Email</h4>
 								</label>
-								<a class="btn btn-lg ocultarTodoClk" type="reset"> <i class="fa fa-angle-right mr-2"></i> Cambiar</a>
+								<!-- <a id="cambiarMail" class="btn btn-lg"> <i class="fa fa-angle-right mr-2"></i> Cambiar</a> -->
+								<!-- <script> -->
+									<!-- $('#cambiarMail').unbind('click').click(function () { -->
+										<!-- resetPass(usuarioActual.email);	 -->
+									<!-- }); -->
+								<!-- </script> -->
                                 <input type="email" class="form-control mostrarSubmiters" name="email" id="email_input" placeholder="" disabled>
                             </div>
                         </div>
 
-                        <div class="m-2">
+                        <div id="divPass" class="m-2">
                             <div class="col-xs-6">
                                 <label for="password">
                                     <h4>Contraseña</h4>									
 								</label>
-								<a class="btn btn-lg ocultarTodoClk" type="reset"> <i class="fa fa-angle-right  mr-2"></i> Cambiar</a>
-								
+								<a id="cambiarPass" class="btn btn-lg"> <i class="fa fa-angle-right  mr-2"></i> Cambiar</a>
+								<script>
+									$('#cambiarPass').unbind('click').click(function () {
+										resetPass(usuarioActual.email);	
+									});
+								</script>
                                 <input type="password" class="form-control mostrarRepitePass" name="password" id="password" placeholder="······················" disabled>								
 							</div>
                         </div>
@@ -316,86 +332,125 @@
         </div>
     </div>
 
-    <!--------------------------------------- FOOTER ------------------------------------------>
-    <footer class="pypage-footer bg-light">
-
-		<!--------------------------------------- REDES SOCIALES ------------------------------------------>
-        <div class="bg-success">
-            <div class="container">
-                <div class="row d-flex align-items-center">
-                    <div class="col-md-6 col-lg-5 text-center text-md-left mb-4 mb-md-0   py-1">
-                        <h6 class="mb-0">Conectate a nuestra redes sociales!</h6>
-                    </div>
-					
-                    <div class="col-md-6 col-lg-6 text-center text-md-right">
-
-                        <!-- Facebook -->
-                        <a class="text-white display-4 text-decoration-none mr-1" href="#">
-                            <i class="fi-social-facebook"></i>
-                        </a>
-                        <!-- Twitter -->
-                        <a class="text-white display-4 text-decoration-none mr-1" href="#">
-                            <i class="fi-social-twitter"></i>
-                        </a>
-                        <!--Linkedin -->
-                        <a class="text-white display-4 text-decoration-none mr-1" href="#">
-                            <i class="fi-social-linkedin"></i>
-                        </a>
-                        <!--Instagram-->
-                        <a class="text-white display-4 text-decoration-none mr-1" href="#">
-                            <i class="fi-social-instagram"></i>
-                        </a>
-						
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!--------------------------------------- ENLACES E INFO ADICIONALES ------------------------------------------>
-        <div class="container text-center text-md-left mt-5">
-            <div class="row mt-3">
+    <!-- INICIO PIE DE PAGINA -->
+	<footer id="footer" class="d-flex-column text-center">
+		<hr class="mt-0 mb-0">
+		<!--Social buttons-->
+		<div class="text-center">
+			<h4>Síguenos</h4>
+			<ul class="list-unstyled list-inline">
+				<li class="list-inline-item">
+					<a href="#!" class="sbtn btn-large mx-1" title="Facebook">
+						<i class="fab fa-facebook-square fa-2x"></i>
+					</a>
+				</li>
+				<li class="list-inline-item">
+					<a href="#!" class="sbtn btn-large mx-1" title="Linkedin">
+						<i class="fab fa-linkedin fa-2x"></i>
+					</a>
+				</li>
+				<li class="list-inline-item">
+					<a href="#!" class="sbtn btn-large mx-1" title="Twitter">
+						<i class="fab fa-twitter-square fa-2x"></i>
+					</a>
+				</li>
+				<li class="list-inline-item">
+					<a href="#!" class="sbtn btn-large mx-1" title="Youtube">
+						<i class="fab fa-youtube-square fa-2x"></i>
+					</a>
+				</li>
+			</ul>
+		</div>
+		<!--/.Social buttons-->
+		<hr class="mb-0">
+		<!--Footer Links-->
 			
-                <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
-                    <h6 class="text-uppercase font-weight-bold text-secondary">SocialFly</h6>
-                    <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
-                    <p class="text-secondary">Tu red social de vuelos y actividades de viaje</p>
-                </div>
+		
+		<div class="containerFooter text-left text-md-center">
+			<div class="row">
+				<!--First column-->
+				<div class="col-md-3 mx-auto shfooter contendorMostrarOpciones">
+					<div class="d-md-none title">
+						<div class="mt-3 font-weight-bold" id="mostrarOpciones">Mostrar opciones
+							<div class="float-right navbar-toggler">
+								<i class="fas fa-angle-down"></i>
+								<i class="fas fa-angle-up"></i>
+							</div>
+						</div>
+					</div>
+				</div>
 				
-                <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+				<hr class="clearfix w-100 d-md-none mb-0 collapse">
+				<div class="col-md-3 mx-auto shfooter">
+					<h5 class="my-2 font-weight-bold d-none d-md-block">¿Por qué SocialFly?</h5>
+					<div class="d-md-none title" data-target="#Product" data-toggle="collapse">
+						<div class="mt-3 font-weight-bold collapse" id="subMenu1">¿Por qué SocialFly?
+							<div class="float-right navbar-toggler">
+								<i class="fas fa-angle-down"></i>
+								<i class="fas fa-angle-up"></i>
+							</div>
+						</div>
+					</div>
+					<ul class="list-unstyled collapse" id="Product">
+						<li><a href="#">Seguridad</a></li>
+						<li><a href="#">Privacidad</a></li>
+						<li><a href="#">Pioneros</a></li>
+					</ul>
+				</div>
+				<!--/.First column-->
+				<hr class="clearfix w-100 d-md-none mb-0 collapse">
+				<!--Second column-->
+				<div class="col-md-3 mx-auto shfooter">
+					<h5 class="my-2 font-weight-bold d-none d-md-block">Menu</h5>
+					<div class="d-md-none title" data-target="#Company" data-toggle="collapse">
+						<div class="mt-3 font-weight-bold collapse" id="subMenu2">Menu
+							<div class="float-right navbar-toggler">
+								<i class="fas fa-angle-down"></i>
+								<i class="fas fa-angle-up"></i>
+							</div>
+						</div>
+					</div>
+					<ul class="list-unstyled collapse" id="Company">
+						<li><a href="#">Inicio</a></li>
+						<li><a href="#">Sobre nosotros</a></li>
+						<li><a href="#">Contactanos</a></li>
+					</ul>
+				</div>
+				<!--/.Second column-->
+				<hr class="clearfix w-100 d-md-none mb-0 collapse">
+				<!--Third column-->
+				<div class="col-md-3 mx-auto shfooter">
+					<h5 class="my-2 font-weight-bold d-none d-md-block">Perfil</h5>
+					<div class="d-md-none title" data-target="#Resources" data-toggle="collapse">
+						<div class="mt-3 font-weight-bold collapse" id="subMenu3">Perfil
+							<div class="float-right navbar-toggler">
+								<i class="fas fa-angle-down"></i>
+								<i class="fas fa-angle-up"></i>
+							</div>
+						</div>
+					</div>
+					<ul class="list-unstyled collapse" id="Resources">
+						<li><a href="#">Mis amigos</a></li>
+						<li><a href="https://pcsocialfly.web.app/perfil.html">Mi perfil</a></li>
+						<li><a id="logOut">Desconectar</a></li>
+					</ul>
+				</div>
+				<!--/.Third column-->
 
-                    <h6 class="text-uppercase font-weight-bold text-secondary">Vuelos</h6>
-                    <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
-                    <p>
-                        <a href="./SALIDAS.html">Salidas</a>
-                    </p>
-                    <p>
-                        <a href="./AEROLINEAS.html">Aerolineas</a>
-                    </p>
-                    <p>
-                        <a href="./RUTAS.html">Rutas</a>
-                    </p>
-
-                </div>
-
-                <div class="col-md-4 col-lg-3 col-xl-4 mx-auto mb-md-0 mb-4">
-
-                    <!-- Links -->
-                    <h6 class="text-uppercase font-weight-bold text-secondary">Contacto</h6>
-                    <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
-                    <p class="text-secondary">
-                        <i class="fi-marker mr-2"></i> Villena, Alicante. España
-                    </p>
-                    <p class="text-secondary">
-                        <i class="fi-mail mr-1"></i> pablohernandezcontacto@gmail.com
-                    </p>
-                    <p class="text-secondary">
-                        <i class="fa fa-phone  mr-1"></i> 616336989
-                    </p>
-                </div>
-				
-            </div>
-        </div>
-    </footer>
+			</div>			
+		</div>
+		<!--/.Footer Links-->
+		<!--Copyright-->
+		<div class="text-center" style="font-size:12px;">
+			© Copyright 
+			<script>
+			  document.write(new Date().getFullYear())
+			</script>
+			Copyright.es - Todos los Derechos Reservados
+		</div>
+		<!--/.Copyright-->
+	</footer>
+	<!-- FIN PIE DE PAGINA -->
 </body>
 
 </html>
