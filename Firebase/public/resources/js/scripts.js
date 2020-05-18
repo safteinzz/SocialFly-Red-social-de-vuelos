@@ -20,17 +20,56 @@ if (!firebase.apps.length) {
 
 //firebase.analytics();
 
-// <!--------------------------------------- Acceso ------------------------------------------>
-// var user = firebase.auth().currentUser;
-
-// if (!user && window.location.href != "https://pcsocialfly.web.app/acceso.html") 
-// {
-	// window.location.href = "https://pcsocialfly.web.app/acceso.html";
-// } 
-
 // <!--------------------------------------- VARIABLES ------------------------------------------>
 const dbRef = firebase.database().ref();
-var usuarioLogeado;
+var usuarioLogeado; //variable para logear usuarios
+var usuarioActual; //variable que almacena todos los datos del usuario logeado
+
+//variables de querys
+var queryUser = dbRef.child("users");
+var queryVuelosPers = dbRef.child("vuelos_personas");
+var queryVuelos = dbRef.child("vuelos");
+var queryAmigos = dbRef.child("amigos");
+
+
+
+// <!--------------------------------------- RUN UP - Acceso ------------------------------------------>
+
+// var user = firebase.auth().currentUser;
+
+firebase.auth().onAuthStateChanged(async function(user) {
+	if (!user && window.location.href != "https://pcsocialfly.web.app/acceso.html") 
+	{
+		window.location.href = "https://pcsocialfly.web.app/acceso.html";
+	}
+	else
+	{
+		const query = dbRef.child('users').orderByChild('uid').equalTo(user.uid);
+
+		await query.once('value',snapshot => 
+		{
+			if (snapshot.val() != null)
+			{
+				var key = Object.keys(snapshot.val())[0];  
+				var val = Object.values(snapshot.val())[0]; 
+				usuarioActual =
+				{
+					uid:user.uid,
+					email:user.email,
+					id_rol:val.id_rol,
+					fecha_registro:val.fecha_registro,
+					fecha_visita:val.fecha_visita,
+					fecha_nacimiento:val.fecha_nacimiento,
+					nombre:val.nombre,
+					apellidos:val.apellidos,
+					tlf_movil:val.tlf_movil			
+				};
+			}
+		});
+	}
+});
+
+
 
 
 // <!--------------------------------------- Eventos ------------------------------------------>
@@ -61,6 +100,31 @@ $('#logOut').unbind('click').click(function () {
  * usuarioLogeado.uid
 */
 
+// <!------------------- Crear user ---------------------->
+function crearUser(newUser)
+{
+	const query = dbRef.child('users').orderByChild('uid').equalTo(newUser.uid);
+	// var exists = false;
+	query.once('value',snapshot => 
+	{
+		if (snapshot.val() != null)
+		{
+			console.log("Ya tiene fila");
+		}
+		else
+		{
+			var newUsers = dbRef.child("users").push().key;
+			var updates = {};
+			updates["/users/" + newUsers] = newUser;
+				
+			var result = dbRef.update(updates);
+			// console.log(result);
+			console.log("TablaAdherida creada");
+		}				
+	});
+}
+
+
 // <<!------------------- LOGIN y creado tablas ---------------------->
 function login(tipo) {
 	function nuevoLogin(usuarioLogeado) {
@@ -71,14 +135,14 @@ function login(tipo) {
 			const newUser =
 			{
 				uid:usuarioLogeado.uid,
-				email:usuarioLogeado.email,
+				// el correo lo tiene el propio auth email:usuarioLogeado.email,
 				rol:0,
 				fecha_registro:now
 			};
 			
 			crearUser(newUser);			
 			
-			// window.location.href = "/";
+			window.location.href = "https://pcsocialfly.web.app/perfil.html";
 		}
 		else if (tipo == "google") 
 		{
@@ -111,7 +175,7 @@ function login(tipo) {
 				}
 				else
 				{
-					alert(error.message);
+					// alert(error.message);
 				}
 			});		
 		}		
@@ -119,28 +183,6 @@ function login(tipo) {
 	firebase.auth().onAuthStateChanged(nuevoLogin);
 }
 
-function crearUser(newUser)
-{
-	const query = dbRef.child('users').orderByChild('uid').equalTo(newUser.uid);
-	// var exists = false;
-	query.once('value',snapshot => 
-	{
-		if (snapshot.val() != null)
-		{
-			console.log("Ya tiene fila");
-		}
-		else
-		{
-			var newUsers = dbRef.child("users").push().key;
-			var updates = {};
-			updates["/users/" + newUsers] = newUser;
-				
-			var result = dbRef.update(updates);
-			// console.log(result);
-			console.log("TablaAdherida creada");
-		}				
-	});
-}
 
 // function crearRoles()
 // {
