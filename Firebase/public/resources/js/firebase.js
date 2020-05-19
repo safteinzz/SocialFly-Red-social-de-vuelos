@@ -54,6 +54,13 @@ firebase.auth().onAuthStateChanged(async function(user) {
 	}
 	else
 	{
+		//<!----------------------------------------->
+		//<!--------------------------------------------------------------------------------->
+		// AQUI SE RECOGE EL USUARIO QUE ESTA LOGUEADO
+		//<!--------------------------------------------------------------------------------->
+		//<!----------------------------------------->		
+		
+		
 		const query = dbRef.child('users').orderByChild('uid').equalTo(user.uid);
 
 		var today = new Date(); 
@@ -90,6 +97,7 @@ firebase.auth().onAuthStateChanged(async function(user) {
 
 
 // <!--------------------------------------- Eventos ------------------------------------------>
+
 // Salir de la session
 $('.logOut').unbind('click').click(function () {
 	// FirebaseAuth.getInstance().signOut();
