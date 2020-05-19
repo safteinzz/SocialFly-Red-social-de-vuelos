@@ -1,0 +1,18 @@
+
+.nav-tabs .nav-link {
+    border: 1px solid transparent;
+    border-top-left-radius: .25rem;
+	border-top-right-radius: .25rem;
+	background-color: #4dde76;
+	color: white;
+	font-weight: normal;
+}
+
+.nav-tabs .nav-link :active {
+    border: 1px solid transparent;
+    border-top-left-radius: .25rem;
+	border-top-right-radius: .25rem;
+	background-color: white;
+	color: #4dde76;
+	
+}
