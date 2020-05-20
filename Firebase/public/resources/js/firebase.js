@@ -347,8 +347,8 @@ function registroUser()
 }
 
 
-// <!--------------------------------------- SERGIO ------------------------------------------>
-var usuarioLogeado = new Object();
+// <!--------------------------------------- SERGIO Y ROBER ------------------------------------------>
+// var usuarioLogeado = new Object();
 
 $(document).ready(async function () {
 	var path = window.location.pathname;
@@ -357,10 +357,8 @@ $(document).ready(async function () {
 	await getUsuario();
 
 	switch (page) {
-		case 'index.html':
-			initPrincipal();
-			await carga_principal_muro();
-			break;
+		// case 'index.html':			
+			// break;
 
 		case 'admin.html':
 			bs_input_file();			
@@ -370,6 +368,8 @@ $(document).ready(async function () {
 			bs_input_file();
 			break;
 		default:
+			initPrincipal();
+			await carga_principal_muro();
 			break;
 	}
 	console.log("firebase.js ok!");
