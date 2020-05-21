@@ -767,7 +767,7 @@ async function crearPost(varComentario) {
 		}
 		
 		var varUrlImgPerfil = usuarioLogeado.avatarURL;
-		var varNomUser = usuarioLogeado.nombre + " " usuarioLogeado.apellidos;
+		var varNomUser = usuarioLogeado.nombre + " " + usuarioLogeado.apellidos;
 		var dt = new Date();
 		var varFechaComentario = formatDate(dt);
 		var varContComent = 0;
