@@ -171,7 +171,7 @@ function subirAvatar(file, user)
 {
 	usuarioLogeado = user;
 	
-	var reference = storageRef.child('/' + usuarioLogeado.uid + '/perfil.png');
+	var reference = storageRef.child('/images/' + usuarioLogeado.uid + '/perfil.png');
 	// console.log(reference);
 	var task = reference.put (file);
 	
@@ -180,7 +180,7 @@ function subirAvatar(file, user)
     null,
     null,
     async function() {
-      var nuevaURL = "https://firebasestorage.googleapis.com/v0/b/pcsocialfly.appspot.com/o/" + usuarioLogeado.uid + "%2Fperfil.png?alt=media";
+      var nuevaURL = "https://firebasestorage.googleapis.com/v0/b/pcsocialfly.appspot.com/o/images" + usuarioLogeado.uid + "%2Fperfil.png?alt=media";
 		usuarioLogeado.avatarURL = nuevaURL;
 		await editarUsuario(usuarioLogeado);
 		alert('Avatar subido con exito');
@@ -697,7 +697,7 @@ function vuelosAsociados(valor, origen, destino) {
 */
 function getImagenStorage(carpeta, nombreImagen) {
 	var separarCarpeta = "%2F";
-	var stringHost = "https://firebasestorage.googleapis.com/v0/b/pruebafirebase-b91ce.appspot.com/o/images" + separarCarpeta;
+	var stringHost = "https://firebasestorage.googleapis.com/v0/b/pcsocialfly.appspot.com/o/images" + separarCarpeta;
 
 
 	var carpetaRemplazada = carpeta.replace("/", separarCarpeta);
