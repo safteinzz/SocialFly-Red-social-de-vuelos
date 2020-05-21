@@ -607,7 +607,6 @@ async function getUsuario() {
 		var key = Object.keys(snap_user.val())[0];
 		var val = Object.values(snap_user.val())[0];
 
-		usuarioLogeado.uid = key;
 		usuarioLogeado.nombrePerfil = val.name + " " + val.lastname;
 		usuarioLogeado.actividades = val.actividades;
 		console.log("getUsuario() => usuarioLogeado.uid: " + usuarioLogeado.uid);
