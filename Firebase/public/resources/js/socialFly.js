@@ -2,11 +2,11 @@
 
 
 
-/** INICIO METODO CONTADOR DE NOTIFICACION */
+		/** INICIO METODO CONTADOR DE NOTIFICACION */
 		var contadorNotificacion = 0;
 	
+		//Metodo para incrementar o decrementar el contador cada dos segundos se estara comprobando las notificaciones
 		window.setInterval(function(){
-			incrementarNotificacion();
 			if(contadorNotificacion > 0){
 				$('#navNotificacion').css('display','block');
 				$('#navNotificacion').text(contadorNotificacion);

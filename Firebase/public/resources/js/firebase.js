@@ -765,9 +765,9 @@ async function crearPost(varComentario) {
 				}
 			}
 		}
-
+		
 		var varUrlImgPerfil = usuarioLogeado.avatarURL;
-		var varNomUser = usuarioLogeado.nombrePerfil;
+		var varNomUser = usuarioLogeado.nombre + " " usuarioLogeado.apellidos;
 		var dt = new Date();
 		var varFechaComentario = formatDate(dt);
 		var varContComent = 0;
@@ -787,7 +787,8 @@ async function crearPost(varComentario) {
 			retrasoDestino: varRetrasoDestino,
 			contMG: varContMG,
 			contComment: varContComent,
-			carrousel: varCarrousel
+			carrousel: varCarrousel,
+			urlAvatar: varUrlImgPerfil
 		};
 
 		/// => The post does not exist => CREATING post
@@ -831,7 +832,7 @@ async function agregarPost() {
 		var varRetrasoSalida = mydataSet_post[varContadorPost].val().retrasoDestino;
 		var varDestino = mydataSet_post[varContadorPost].val().salida;
 		var varRetrasoDestino = mydataSet_post[varContadorPost].val().retrasoSalida;
-		var varUrlImgPerfil = getImagenStorage(mydataSet_post[varContadorPost].val().id_usuario + '/', 'perfil.png');
+		var varUrlImgPerfil = mydataSet_post[varContadorPost].val().urlAvatar;
 		var varNomUser = mydataSet_post[varContadorPost].val().nombreUsuario;
 		var varIdUsuario = mydataSet_post[varContadorPost].val().id_usuario;
 		var varFechaComentario = mydataSet_post[varContadorPost].val().fecha_post;
