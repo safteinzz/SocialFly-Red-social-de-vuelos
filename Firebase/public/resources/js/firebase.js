@@ -369,7 +369,7 @@ function registroUser()
 // <!--------------------------------------- SERGIO Y ROBER ------------------------------------------>
 // var usuarioLogeado = new Object();
 
-$(document).ready(async function () {
+async function cargarPantalla(){
 	var path = window.location.pathname;
 	var page = path.split("/").pop();
 
@@ -393,7 +393,7 @@ $(document).ready(async function () {
 	}
 	console.log("firebase.js ok!");
 
-});
+}
 
 async function cargarMuro() {
 	await getPublicidad();
@@ -602,7 +602,7 @@ function getFechatoBD(date) {
 async function getUsuario() {
 
 	var queryUser = dbRef.child("users");
-	var snap_user = await queryUser.orderByKey().equalTo("-M3z8umFnwpulq4LD3PZ").once("value");
+	var snap_user = await queryUser.orderByKey().equalTo(usuarioLogeado.uid).once("value");
 	if (snap_user.val() != null) {
 		var key = Object.keys(snap_user.val())[0];
 		var val = Object.values(snap_user.val())[0];
