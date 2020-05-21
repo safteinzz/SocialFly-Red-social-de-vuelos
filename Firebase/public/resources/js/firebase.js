@@ -180,7 +180,7 @@ function subirAvatar(file, user)
     null,
     null,
     async function() {
-      var nuevaURL = "https://firebasestorage.googleapis.com/v0/b/pcsocialfly.appspot.com/o/images" + usuarioLogeado.uid + "%2Fperfil.png?alt=media";
+      var nuevaURL = "https://firebasestorage.googleapis.com/v0/b/pcsocialfly.appspot.com/o/images%2F" + usuarioLogeado.uid + "%2Fperfil.png?alt=media";
 		usuarioLogeado.avatarURL = nuevaURL;
 		await editarUsuario(usuarioLogeado);
 		alert('Avatar subido con exito');
@@ -766,12 +766,11 @@ async function crearPost(varComentario) {
 			}
 		}
 
-		var varUrlImgPerfil = getImagenStorage(usuarioLogeado.uid + '/', 'perfil.png');
+		var varUrlImgPerfil = usuarioLogeado.avatarURL;
 		var varNomUser = usuarioLogeado.nombrePerfil;
 		var dt = new Date();
 		var varFechaComentario = formatDate(dt);
 		var varContComent = 0;
-
 		var varContMG = 0;
 		var varMeGustaUsuarioLogeado = false;;
 		var varIdLikeUsuario = null;
