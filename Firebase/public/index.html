@@ -45,7 +45,10 @@
 
 		waitForGlobal("usuarioLogeado", function() {			
 			$(".imagenPerfil").attr("src", usuarioLogeado.avatarURL);	
-			$(".nombreMasApellidos").html(usuarioLogeado.nombre + ' ' + usuarioLogeado.apellidos);			
+			$(".nombreMasApellidos").html(usuarioLogeado.nombre + ' ' + usuarioLogeado.apellidos);		
+
+
+			comprobarRolNavbar();		
 		});
 	</script>
 	
@@ -132,7 +135,7 @@
 	<!--------------------------------------- NAV BAR -------------------------------------->
     <nav class="navbar navbar-dark navbarMenu-green navbar-expand-sm">
 		<a class="navbar-brand" href="https://pcsocialfly.web.app/">
-			<img src="resources/images/iconAvion.png" width="30" height="30" alt="logo">
+			<img src="../resources/images/iconAvion.png" width="30" height="30" alt="logo">
 			SocialFly
 		</a>
 		
@@ -159,6 +162,8 @@
 						<span class="fa fa-search form-control-feedback"></span>
 						<input type="text" class="form-control" placeholder="Buscar">
 					</div>
+					<a class="adminitracionEnlace dropdown-item" href="https://pcsocialfly.web.app/pages/admin.html">Adminitración</a>
+					<a class="publiEnlace dropdown-item" href="https://pcsocialfly.web.app/pages/publi.html">Publicidad</a>
 					<a class="dropdown-item" href="https://pcsocialfly.web.app/pages/amigos.html">Mis amigos</a>
 					<a class="dropdown-item" href="https://pcsocialfly.web.app/pages/perfil.html">Mi perfil</a>
 					<a class="logOut dropdown-item desconectar" href="#">Desconectar</a>
@@ -562,6 +567,8 @@
 						</div>
 					</div>
 					<ul class="list-unstyled collapse" id="Resources">
+						<li><a class="adminitracionEnlace" href="https://pcsocialfly.web.app/pages/admin.html">Adminitración</a></li>
+						<li><a class="publiEnlace" href="https://pcsocialfly.web.app/pages/publi.html">Publicidad</a></li>
 						<li><a href="https://pcsocialfly.web.app/pages/amigos.html">Mis amigos</a></li>
 						<li><a href="https://pcsocialfly.web.app/pages/perfil.html">Mi perfil</a></li>
 						<li><a class="logOut">Desconectar</a></li>

@@ -113,6 +113,25 @@ $('.logOut').unbind('click').click(function () {
 });
 
 
+function comprobarRolNavbar()
+{
+	if (usuarioLogeado.id_rol == 0) //admin
+	{
+		
+	}
+	else
+	{
+		$('.adminitracionEnlace').remove();
+	}
+	if (usuarioLogeado.id_rol < 3) //aeropuerto, empresa
+	{
+		
+	}	
+	else
+	{
+		$('.publiEnlace').remove();
+	}
+}
 // <!--------------------------------------- FUNCIONES ------------------------------------------>
 
 
