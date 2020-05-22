@@ -235,6 +235,8 @@ function login(tipo) {
 			var now = today.getDate()  + '/' + (today.getMonth()+1) + '/' +today.getFullYear();
 			var ggle = 0
 			
+			var acts = {0:0, 1:0, 2:0, 3:0, 4:0};
+			
 			avatarURL = "https://firebasestorage.googleapis.com/v0/b/pcsocialfly.appspot.com/o/images%2Fguest.png?alt=media&token=5d6ca216-e16c-45c6-9adb-15c38342763e";
 			if (usuarioLog.providerData[0].providerId.startsWith("google"))
 			{
@@ -251,7 +253,8 @@ function login(tipo) {
 				apellidos:" ",
 				tlf_movil:" ",
 				avatarURL: avatarURL,
-				google: ggle
+				google: ggle,
+				actividades: acts
 			};
 			
 			await crearUser(newUser);
