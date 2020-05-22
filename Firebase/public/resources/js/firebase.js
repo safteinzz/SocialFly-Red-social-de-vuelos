@@ -163,7 +163,7 @@ function comprobarRolNavbar()
 // <!------------------- Meter actividad al user ---------------------->
 async function meterActividad(idActividad)
 {
-	boolean yaEstaMetido = false;
+	var yaEstaMetido = false;
 	for (var i = 0; i < usuarioLogeado.actividades.length; i++)
 	{
 		if (usuarioLogeado.actividades[i] == idActividad)
