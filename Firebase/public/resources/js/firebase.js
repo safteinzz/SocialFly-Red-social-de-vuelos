@@ -92,15 +92,14 @@ firebase.auth().onAuthStateChanged(async function(user) {
 			}
 		});
 		
-		
-		
-		
-		usuarioLogeado.fecha_visita = now;
-		//TODO LO QUE VAYA ANTES DE ESTO QUE SE APLIQUE A USUARIOLOGEADO SE VA A GUARDAR EN TABLA
-		editarUsuario(usuarioLogeado); //actualizar fecha ultima visita
-		
-		//LO QUE VA DESPUES DE ESTO NO SE GUARDA EN BD SOLO EN MEMORIA		
-		usuarioLogeado.nombrePerfil = usuarioLogeado.nombre + " " + usuarioLogeado.apellidos;
+		waitForGlobal("usuarioLogeado", function() {	
+			usuarioLogeado.fecha_visita = now;
+			//TODO LO QUE VAYA ANTES DE ESTO QUE SE APLIQUE A USUARIOLOGEADO SE VA A GUARDAR EN TABLA
+			editarUsuario(usuarioLogeado); //actualizar fecha ultima visita
+			
+			//LO QUE VA DESPUES DE ESTO NO SE GUARDA EN BD SOLO EN MEMORIA		
+			usuarioLogeado.nombrePerfil = usuarioLogeado.nombre + " " + usuarioLogeado.apellidos;
+		});
 	}
 });
 
@@ -108,6 +107,22 @@ firebase.auth().onAuthStateChanged(async function(user) {
 
 
 // <!--------------------------------------- Eventos ------------------------------------------>
+
+
+// <!------------------- Esperar a variables ---------------------->
+var waitForGlobal = function(key, callback)
+{
+	if (window[key])
+	{
+		callback();
+	} else
+	{
+		setTimeout(function()
+		{
+			waitForGlobal(key, callback);
+		}, 100);
+	}
+};
 
 // Salir de la session
 $('.logOut').unbind('click').click(function () {
@@ -171,6 +186,7 @@ async function borrarActividad(idBorrar, usuario)
 			delete usuario.actividades[x];
 		}
 	}
+	
 	//aqui hay que reordenar las actividades para que no haya huecos
 	var actAux;
 	for (var x = 0; x < usuario.actividades.length; x++)
@@ -266,11 +282,13 @@ function login(tipo) {
 
 			
 			avatarURL = "https://firebasestorage.googleapis.com/v0/b/pcsocialfly.appspot.com/o/images%2Fguest.png?alt=media&token=5d6ca216-e16c-45c6-9adb-15c38342763e";
+			
 			if (usuarioLog.providerData[0].providerId.startsWith("google"))
 			{
 				ggle = 1;
 				avatarURL = usuarioLog.photoURL;
 			}
+			
 			const newUser =
 			{
 				uid:usuarioLog.uid,

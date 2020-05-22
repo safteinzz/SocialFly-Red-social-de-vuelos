@@ -40,25 +40,7 @@
         <link rel="stylesheet" type="text/css" href="../resources/CSS/styles.css" />
 
         <!--------------------------------------- FUNCIONES ADICIONALES ------------------------------------------>
-        <script>
-            var waitForGlobal = function(key, callback)
-            {
-            	if (window[key])
-            	{
-            		callback();
-            	} else
-            	{
-            		setTimeout(function()
-            		{
-            			waitForGlobal(key, callback);
-            		}, 100);
-            	}
-            };
-
-
-
-
-
+        <script>        
             waitForGlobal("usuarioLogeado", function() {
             	document.getElementById("fecha_registro").innerHTML = usuarioLogeado.fecha_registro;
             	document.getElementById("fecha_visita").innerHTML = usuarioLogeado.fecha_visita;
@@ -70,7 +52,7 @@
 				
 				if(usuarioLogeado.hasOwnProperty(actividades))
 				{
-					for (int i ; i < usuarioLogeado.actividades.length; i++)
+					for (var i = 0; i < usuarioLogeado.actividades.length; i++)
 					{
 						if (usuarioLogeado.actividades[i] == 0)
 						{
