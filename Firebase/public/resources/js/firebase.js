@@ -161,42 +161,51 @@ function comprobarRolNavbar()
 
 
 // <!------------------- Meter actividad al user ---------------------->
-async function meterActividad(idActividad, usuario)
+async function meterActividad(idActividad)
 {
-	if (usuario.actividades != null)
+	boolean yaEstaMetido = false;
+	for (var i = 0; i < usuarioLogeado.actividades.length; i++)
 	{
-		usuario.actividades[usuario.actividades.length] = idActividad;
+		if (usuarioLogeado.actividades[i] == idActividad)
+		{
+			yaEstaMetido = true;
+		}
+	}
+	if (yaEstaMetido)
+	{
+		return;
+	}	
+	
+	if (usuarioLogeado.actividades != null)
+	{
+		usuarioLogeado.actividades[usuarioLogeado.actividades.length] = idActividad;
 	}
 	else
 	{
-		usuario.actividades = {
+		usuarioLogeado.actividades = {
 			0: idActividad
 		};
 	}
-	return usuario;
 }
 
 // <!------------------- Quitar actividad al user ---------------------->
-async function borrarActividad(idBorrar, usuario)
+async function borrarActividad(idBorrar)
 {
-	for (var x = 0; x < usuario.actividades.length; x++)
+	for (var x = 0; x < usuarioLogeado.actividades.length; x++)
 	{
-		if (usuario.actividades[x] == idBorrar)
+		if (usuarioLogeado.actividades[x] == idBorrar)
 		{
-			delete usuario.actividades[x];
+			delete usuarioLogeado.actividades[x];
 		}
 	}
 	
 	//aqui hay que reordenar las actividades para que no haya huecos
 	var actAux;
-	for (var x = 0; x < usuario.actividades.length; x++)
+	for (var x = 0; x < usuarioLogeado.actividades.length; x++)
 	{
-		actAux[x] = {x:usuario.actividades[x]};
+		actAux[x] = {x:usuarioLogeado.actividades[x]};
 	}
-	usuario.actividades = actAux;
-	
-	
-	return usuario;
+	usuarioLogeado.actividades = actAux;
 }
 
 // <!------------------- Getter rol ---------------------->

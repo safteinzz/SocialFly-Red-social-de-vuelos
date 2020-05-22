@@ -40,7 +40,21 @@
         <link rel="stylesheet" type="text/css" href="../resources/CSS/styles.css" />
 
         <!--------------------------------------- FUNCIONES ADICIONALES ------------------------------------------>
-        <script>        
+        <script>   
+			var waitForGlobal = function(key, callback)
+			{
+				if (window[key])
+				{
+					callback();
+				} else
+				{
+					setTimeout(function()
+					{
+						waitForGlobal(key, callback);
+					}, 100);
+				}
+			};
+			
             waitForGlobal("usuarioLogeado", function() {
             	document.getElementById("fecha_registro").innerHTML = usuarioLogeado.fecha_registro;
             	document.getElementById("fecha_visita").innerHTML = usuarioLogeado.fecha_visita;
@@ -50,7 +64,7 @@
             	document.getElementById("apellidos_input").setAttribute("placeholder", usuarioLogeado.apellidos);
             	document.getElementById("tlf_movil_input").setAttribute("placeholder", usuarioLogeado.tlf_movil);
 				
-				if(usuarioLogeado.hasOwnProperty(actividades))
+				if('actividades' in usuarioLogeado)
 				{
 					for (var i = 0; i < usuarioLogeado.actividades.length; i++)
 					{
@@ -140,43 +154,43 @@
             	}
 				if(document.getElementById("checkDeporte").checked == true)
 				{
-					await usuarioLogeado = meterActividad(0);
+					meterActividad(0,usuarioLogeado);
 				}
 				else
 				{
-					await usuarioLogeado = borrarActividad(0);
+					borrarActividad(0,usuarioLogeado);
 				}
 				if(document.getElementById("checkComida").checked == true)
 				{
-					await usuarioLogeado = meterActividad(1);
+					meterActividad(1,usuarioLogeado);
 				}
 				else
 				{
-					await usuarioLogeado = borrarActividad(1);
+					borrarActividad(1,usuarioLogeado);
 				}
 				if(document.getElementById("checkLectura").checked == true)
 				{
-					await usuarioLogeado = meterActividad(2);
+					meterActividad(2,usuarioLogeado);
 				}
 				else
 				{
-					await usuarioLogeado = borrarActividad(2);
+					borrarActividad(2,usuarioLogeado);
 				}
 				if(document.getElementById("checkCine").checked == true)
 				{
-					await usuarioLogeado = meterActividad(3);
+					meterActividad(3,usuarioLogeado);
 				}
 				else
 				{
-					await usuarioLogeado = borrarActividad(3);
+					borrarActividad(3,usuarioLogeado);
 				}
 				if(document.getElementById("checkComprarRopa").checked == true)
 				{
-					await usuarioLogeado = meterActividad(4);
+					meterActividad(4,usuarioLogeado);
 				}
 				else
 				{
-					await usuarioLogeado = borrarActividad(4);
+					borrarActividad(4,usuarioLogeado);
 				}
 
             	editarUsuario(usuarioLogeado);
