@@ -177,7 +177,7 @@ async function borrarActividad(idBorrar, usuario)
 	{
 		actAux[x] = {x:usuario.actividades[x]};
 	}
-	usuarioLogeado.actividades = actAux;
+	usuario.actividades = actAux;
 	
 	
 	return usuario;
