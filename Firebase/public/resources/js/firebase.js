@@ -83,14 +83,21 @@ firebase.auth().onAuthStateChanged(async function(user) {
 					apellidos:val.apellidos,
 					tlf_movil:val.tlf_movil,
 					google: val.google,
-					avatarURL: val.avatarURL
+					avatarURL: val.avatarURL,
+					actividades: val.actividades
 				};
 			}
 		});
 		
+		
+		
+		
 		usuarioLogeado.fecha_visita = now;
-		//actualizar fecha ultima visita
-		editarUsuario(usuarioLogeado);
+		//TODO LO QUE VAYA ANTES DE ESTO QUE SE APLIQUE A USUARIOLOGEADO SE VA A GUARDAR EN TABLA
+		editarUsuario(usuarioLogeado); //actualizar fecha ultima visita
+		
+		//LO QUE VA DESPUES DE ESTO NO SE GUARDA EN BD SOLO EN MEMORIA		
+		usuarioLogeado.nombrePerfil = usuarioLogeado.nombre + " " + usuarioLogeado.apellidos;
 	}
 });
 
@@ -218,7 +225,8 @@ async function crearUser(newUser)
 }
 
 
-// <<!------------------- LOGIN ---------------------->
+// <<!------------------- LOGIN / REGISTRO ---------------------->
+//Lo que carga el usuario no es esto!
 function login(tipo) {
 	async function nuevoLogin(usuarioLog) {
 		if (usuarioLog) 
@@ -227,7 +235,7 @@ function login(tipo) {
 			var now = today.getDate()  + '/' + (today.getMonth()+1) + '/' +today.getFullYear();
 			var ggle = 0
 			
-			avatarURL = "https://firebasestorage.googleapis.com/v0/b/pcsocialfly.appspot.com/o/guest.png?alt=media&token=1a94309a-0a55-4788-8ec5-0ec617bbab92";
+			avatarURL = "https://firebasestorage.googleapis.com/v0/b/pcsocialfly.appspot.com/o/images%2Fguest.png?alt=media&token=5d6ca216-e16c-45c6-9adb-15c38342763e";
 			if (usuarioLog.providerData[0].providerId.startsWith("google"))
 			{
 				ggle = 1;
@@ -373,7 +381,7 @@ async function cargarPantalla(){
 	var path = window.location.pathname;
 	var page = path.split("/").pop();
 
-	await getUsuario();
+	// await getUsuario();
 
 	switch (page) {
 		// case 'index.html':			
@@ -599,6 +607,7 @@ function getFechatoBD(date) {
 	return currentDate;
 }
 
+//solo se usa en las paginas de roberto y no tengo muy claro como
 async function getUsuario() {
 
 	var queryUser = dbRef.child("users");
@@ -623,7 +632,7 @@ async function carga_principal_muro() {
 	if (usuarioLogeado.uid != null) {
 
 		//Cargar la imagen de perfil
-		$(".imagenPerfil").attr("src", getImagenStorage(usuarioLogeado.uid + '/', 'perfil.png'));
+		$(".imagenPerfil").attr("src", usuarioLogeado.avatarURL);
 		//Cargar nombre del usuario
 		$('#nombrePerfil').text(usuarioLogeado.nombrePerfil);
 
