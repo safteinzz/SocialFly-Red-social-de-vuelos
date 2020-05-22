@@ -163,22 +163,20 @@ function comprobarRolNavbar()
 // <!------------------- Meter actividad al user ---------------------->
 async function meterActividad(idActividad)
 {
-	var yaEstaMetido = false;
-	for (var i = 0; i < usuarioLogeado.actividades.length; i++)
-	{
-		if (usuarioLogeado.actividades[i] == idActividad)
-		{
-			yaEstaMetido = true;
-		}
-	}
-	if (yaEstaMetido)
-	{
-		return;
-	}	
-	
 	if (usuarioLogeado.actividades != null)
 	{
-		usuarioLogeado.actividades[usuarioLogeado.actividades.length] = idActividad;
+		var yaEstaMetido = false;
+		for (var i = 0; i < usuarioLogeado.actividades.length; i++)
+		{
+			if (usuarioLogeado.actividades[i] == idActividad)
+			{
+				yaEstaMetido = true;
+			}
+		}
+		if (!yaEstaMetido)
+		{
+			usuarioLogeado.actividades[usuarioLogeado.actividades.length] = idActividad;
+		}		
 	}
 	else
 	{
@@ -200,7 +198,7 @@ async function borrarActividad(idBorrar)
 	}
 	
 	//aqui hay que reordenar las actividades para que no haya huecos
-	var actAux;
+	var actAux = usuarioLogeado.actividades;
 	for (var x = 0; x < usuarioLogeado.actividades.length; x++)
 	{
 		actAux[x] = {x:usuarioLogeado.actividades[x]};
