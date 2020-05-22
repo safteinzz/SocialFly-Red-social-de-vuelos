@@ -172,7 +172,7 @@ async function borrarActividad(idBorrar, usuario)
 		}
 	}
 	//aqui hay que reordenar las actividades para que no haya huecos
-	var actAux
+	var actAux;
 	for (int x = 0; x < usuario.actividades.length; x++)
 	{
 		actAux[x] = {x:usuario.actividades[x]};
