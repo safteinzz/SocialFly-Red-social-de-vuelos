@@ -164,7 +164,7 @@ async function meterActividad(idActividad, usuario)
 // <!------------------- Quitar actividad al user ---------------------->
 async function borrarActividad(idBorrar, usuario)
 {
-	for (int x = 0; x < usuario.actividades.length; x++)
+	for (var x = 0; x < usuario.actividades.length; x++)
 	{
 		if (usuario.actividades[x] == idBorrar)
 		{
@@ -173,7 +173,7 @@ async function borrarActividad(idBorrar, usuario)
 	}
 	//aqui hay que reordenar las actividades para que no haya huecos
 	var actAux;
-	for (int x = 0; x < usuario.actividades.length; x++)
+	for (var x = 0; x < usuario.actividades.length; x++)
 	{
 		actAux[x] = {x:usuario.actividades[x]};
 	}
