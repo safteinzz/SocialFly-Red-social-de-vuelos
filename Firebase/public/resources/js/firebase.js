@@ -38,6 +38,7 @@ var queryVuelos = dbRef.child("vuelos");
 var queryAmigos = dbRef.child("amigos");
 
 
+// <!--------------------------------------- PABLO ANTONIO ------------------------------------------>
 
 // <!--------------------------------------- RUN UP - Acceso ------------------------------------------>
 
@@ -78,14 +79,16 @@ firebase.auth().onAuthStateChanged(async function(user) {
 					id_rol:val.id_rol,
 					fecha_registro:val.fecha_registro,
 					fecha_visita:now,
-					// fecha_nacimiento:val.fecha_nacimiento,
 					nombre:val.nombre,
 					apellidos:val.apellidos,
 					tlf_movil:val.tlf_movil,
 					google: val.google,
-					avatarURL: val.avatarURL,
-					actividades: val.actividades
+					avatarURL: val.avatarURL
 				};
+				if (val.actividades != null)
+				{
+					usuarioLogeado.actividades = val.actividades;
+				}
 			}
 		});
 		
@@ -142,18 +145,38 @@ function comprobarRolNavbar()
 // <!--------------------------------------- FUNCIONES ------------------------------------------>
 
 
+// <!------------------- Meter actividad al user ---------------------->
+async function meterActividad(idActividad, usuario)
+{
+	if (usuario.actividades != null)
+	{
+		usuario.actividades[usuario.actividades.length] = idActividad;
+	}
+	else
+	{
+		usuario.actividades = {
+			0: idActividad
+		};
+	}
+	return usuario;
+}
 
-
-
-
-
-
-
-
-
-
-
-// <!--------------------------------------- PABLO ANTONIO ------------------------------------------>
+// <!------------------- Quitar actividad al user ---------------------->
+async function borrarActividad(idBorrar, usuario)
+{
+	for (int x; x < usuario.actividades.length; x++)
+	{
+		if (usuario.actividades[x] == idBorrar)
+		{
+			delete usuario.actividades[x];
+		}
+	}
+	//aqui hay que reordenar las actividades para que no haya huecos
+	
+	
+	
+	return usuario;
+}
 
 // <!------------------- Getter rol ---------------------->
 async function getRol(id)
@@ -233,9 +256,9 @@ function login(tipo) {
 		{
 			var today = new Date(); 
 			var now = today.getDate()  + '/' + (today.getMonth()+1) + '/' +today.getFullYear();
-			var ggle = 0
+			var ggle = 0;
 			
-			var acts = {0:0, 1:0, 2:0, 3:0, 4:0};
+
 			
 			avatarURL = "https://firebasestorage.googleapis.com/v0/b/pcsocialfly.appspot.com/o/images%2Fguest.png?alt=media&token=5d6ca216-e16c-45c6-9adb-15c38342763e";
 			if (usuarioLog.providerData[0].providerId.startsWith("google"))
@@ -253,8 +276,7 @@ function login(tipo) {
 				apellidos:" ",
 				tlf_movil:" ",
 				avatarURL: avatarURL,
-				google: ggle,
-				actividades: acts
+				google: ggle
 			};
 			
 			await crearUser(newUser);
@@ -295,8 +317,8 @@ function login(tipo) {
 				{
 					// alert(error.message);
 				}
-			});		
-		}		
+			});	
+		}
 	}
 	firebase.auth().onAuthStateChanged(nuevoLogin);
 }

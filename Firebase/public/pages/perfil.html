@@ -1,297 +1,393 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <title>Mi Perfil</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
-<head>
-    <title>Mi Perfil</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <!--------------------------------------- CDN ------------------------------------------>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 
-    <!--------------------------------------- CDN ------------------------------------------>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	
-	<!--------------------------------------- LIBS ------------------------------------------>
-	<link rel="stylesheet" href="../resources/lib/foundation-icons/foundation-icons.css" />
-    <link rel="stylesheet" href="../resources/lib/bootstrap/css/bootstrap.min.css">
-    <script src="../resources/lib/jquery-3.4.1.js"></script>
-    <script src="../resources/lib/bootstrap/js/bootstrap.min.js"></script>
+        <!--------------------------------------- LIBS ------------------------------------------>
+        <link rel="stylesheet" href="../resources/lib/foundation-icons/foundation-icons.css" />
+        <link rel="stylesheet" href="../resources/lib/bootstrap/css/bootstrap.min.css" />
+        <script src="../resources/lib/jquery-3.4.1.js"></script>
+        <script src="../resources/lib/bootstrap/js/bootstrap.min.js"></script>
 
-    <!--------------------------------------- SCRIPTS ------------------------------------------>
-    <!-- update the version number as needed -->
-    <script defer src="/__/firebase/7.14.0/firebase-app.js"></script>
-    <!-- include only the Firebase features as you need -->
-    <script defer src="/__/firebase/7.14.0/firebase-auth.js"></script>
-    <script defer src="/__/firebase/7.14.0/firebase-database.js"></script>
-    <script defer src="/__/firebase/7.14.0/firebase-messaging.js"></script>
-    <script defer src="/__/firebase/7.14.0/firebase-storage.js"></script>
-    <!-- initialize the SDK after all desired features are loaded -->
-    <script defer src="/__/firebase/init.js"></script>
+        <!--------------------------------------- SCRIPTS ------------------------------------------>
+        <!-- update the version number as needed -->
+        <script defer src="/__/firebase/7.14.0/firebase-app.js"></script>
+        <!-- include only the Firebase features as you need -->
+        <script defer src="/__/firebase/7.14.0/firebase-auth.js"></script>
+        <script defer src="/__/firebase/7.14.0/firebase-database.js"></script>
+        <script defer src="/__/firebase/7.14.0/firebase-messaging.js"></script>
+        <script defer src="/__/firebase/7.14.0/firebase-storage.js"></script>
+        <!-- initialize the SDK after all desired features are loaded -->
+        <script defer src="/__/firebase/init.js"></script>
 
-    <!-- The core Firebase JS SDK is always required and must be listed first -->
-    <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-app.js"></script>
-	<script src="https://kit.fontawesome.com/11d57a0be5.js" crossorigin="anonymous"></script>
+        <!-- The core Firebase JS SDK is always required and must be listed first -->
+        <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-app.js"></script>
+        <script src="https://kit.fontawesome.com/11d57a0be5.js" crossorigin="anonymous"></script>
 
-    <!-- TODO: Add SDKs for Firebase products that you want to use
+        <!-- TODO: Add SDKs for Firebase products that you want to use
      https://firebase.google.com/docs/web/setup#available-libraries -->
-    <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-analytics.js"></script>
-	
-    <script defer src="../resources/JS/firebase.js"></script>	
-	
+        <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-analytics.js"></script>
 
-    <!--------------------------------------- CSS ------------------------------------------>
-    <link rel="stylesheet" type="text/css" href="../resources/CSS/socialFly.css">
-	<link rel="stylesheet" type="text/css" href="../resources/CSS/styles.css">
-	
-	<!--------------------------------------- FUNCIONES ADICIONALES ------------------------------------------>
-	<script>
-		var waitForGlobal = function(key, callback) 
-		{
-			if (window[key]) 
-			{
-				callback();
-			} else 
-			{
-				setTimeout(function() 
-				{
-					waitForGlobal(key, callback);
-				}, 100);
-			}
-		};
-		 
-		
-		 
-		 
-		
-		waitForGlobal("usuarioLogeado", function() {
-			document.getElementById("fecha_registro").innerHTML = usuarioLogeado.fecha_registro;
-			document.getElementById("fecha_visita").innerHTML = usuarioLogeado.fecha_visita;
-			
-			document.getElementById("email_input").setAttribute("placeholder", usuarioLogeado.email);
-			document.getElementById("nombre_input").setAttribute("placeholder", usuarioLogeado.nombre);
-			document.getElementById("apellidos_input").setAttribute("placeholder", usuarioLogeado.apellidos);
-			document.getElementById("tlf_movil_input").setAttribute("placeholder", usuarioLogeado.tlf_movil);
+        <script defer src="../resources/JS/firebase.js"></script>
 
-			$(".nombreMasApellidos").html(usuarioLogeado.nombre + ' ' + usuarioLogeado.apellidos);
-			$(".imagenPerfil").attr("src", usuarioLogeado.avatarURL);
-			if (usuarioLogeado.google == 1)
-			{
-				divPass.style.display = 'none';
-			}
-			
-			
-			const secondFunction = async () => {
-			  var rol = await getRol(usuarioLogeado.id_rol);
-			  document.getElementById("nombre_rol").innerHTML = rol;
-			}	
-			secondFunction();
-			
-						
-			comprobarRolNavbar();
-		});
-		
-		<!-- $(window).on('load', function() { -->
-			<!-- document.getElementById("nombreMasApellidos").innerHTML = usuarioLogeado.nombre + ' ' + usuarioLogeado.apellidos; -->
-		<!-- });		 -->
-	</script>
-    <script>
-        function ocultarRepitePass() {
-            $(".repitePass").hide();
-        }
+        <!--------------------------------------- CSS ------------------------------------------>
+        <link rel="stylesheet" type="text/css" href="../resources/CSS/socialFly.css" />
+        <link rel="stylesheet" type="text/css" href="../resources/CSS/styles.css" />
 
-        function mostrarRepitePass() {
-            $(".repitePass").show("slow");
-        }
+        <!--------------------------------------- FUNCIONES ADICIONALES ------------------------------------------>
+        <script>
+            var waitForGlobal = function(key, callback)
+            {
+            	if (window[key])
+            	{
+            		callback();
+            	} else
+            	{
+            		setTimeout(function()
+            		{
+            			waitForGlobal(key, callback);
+            		}, 100);
+            	}
+            };
 
-        function ocultarSubmiters() {
-            $("#submiters").hide();
-        }
 
-        function mostrarSubmiters() {
-            $("#submiters").show("fast");
-        }
 
-        function inicio() {
-            ocultarSubmiters();
-            ocultarRepitePass();
-        }
 
-        $(document).ready(inicio);
 
-		function actualizar()
-		{
-			if (nombre_input.value.length > 0)
-			{
-				usuarioLogeado.nombre = nombre_input.value;
-			}
-			if (apellidos_input.value.length > 0)
-			{
-				usuarioLogeado.apellidos = apellidos_input.value;
-			}
-			if (tlf_movil_input.value.length > 0)
-			{
-				usuarioLogeado.tlf_movil = tlf_movil_input.value
-			}
-		
-			editarUsuario(usuarioLogeado);
-			alert('Actualizado con exito');
-			window.location.href = "https://pcsocialfly.web.app/pages/perfil.html";
-			<!-- var x = document.getElementsByTagName("H1")[0].getAttribute("class");  -->
-		}
-		
-		
-		
-        <!-- $(window).on("load", function() { -->
-            <!-- console.log("window loaded"); -->
-        <!-- }); -->
-    </script>
-</head>
+            waitForGlobal("usuarioLogeado", function() {
+            	document.getElementById("fecha_registro").innerHTML = usuarioLogeado.fecha_registro;
+            	document.getElementById("fecha_visita").innerHTML = usuarioLogeado.fecha_visita;
 
-<body>
-	<!--------------------------------------- NAV BAR -------------------------------------->
-    <nav class="navbar navbar-dark navbarMenu-green navbar-expand-sm">
-		<a class="navbar-brand" href="https://pcsocialfly.web.app/">
-			<img src="../resources/images/iconAvion.png" width="30" height="30" alt="logo">
-			SocialFly
-		</a>
-		
-		<div class="box">
-			<div class="buscadorMenu">
+            	document.getElementById("email_input").setAttribute("placeholder", usuarioLogeado.email);
+            	document.getElementById("nombre_input").setAttribute("placeholder", usuarioLogeado.nombre);
+            	document.getElementById("apellidos_input").setAttribute("placeholder", usuarioLogeado.apellidos);
+            	document.getElementById("tlf_movil_input").setAttribute("placeholder", usuarioLogeado.tlf_movil);
 				
-				<input type="search" id="search" placeholder="Search..." />
-				<span class="icon"><i class="fa fa-search"></i></span>
-			</div>
-		</div>
-		
-		<ul class="navbar-nav">
-			<li class="nav-item dropdown">
-				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					<label class="nombreMasApellidos"></label>
-					<img src="" width="40" height="40" class="rounded-circle imagenPerfil">
-					<span class="badge" id="navNotificacion">5</span>
-				</a>
-				<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-					<a href="#" data-target="#modalIMG" data-toggle="modal" data-id="resources/images/yo.jpg" class="color-gray-darker c6 td-hover-none abrirModalIMG">
-						<img src="" width="150" height="150" class="rounded-circle imagenPerfil" style="margin:8px;">
-					</a>
-					<div class="form-group has-search">
-						<span class="fa fa-search form-control-feedback"></span>
-						<input type="text" class="form-control" placeholder="Buscar">
-					</div>
-					<a class="adminitracionEnlace dropdown-item" href="https://pcsocialfly.web.app/pages/admin.html">Adminitración</a>
-					<a class="publiEnlace dropdown-item" href="https://pcsocialfly.web.app/pages/publi.html">Publicidad</a>
-					<a class="dropdown-item" href="https://pcsocialfly.web.app/pages/amigos.html">Mis amigos</a>
-					<a class="dropdown-item" href="https://pcsocialfly.web.app/pages/perfil.html">Mi perfil</a>
-					<a class="logOut dropdown-item desconectar" href="#">Desconectar</a>
-				</div>
-			</li>   
-		</ul>
-		
-	</nav>
+				if(usuarioLogeado.hasOwnProperty(actividades))
+				{
+					for (int i ; i < usuarioLogeado.actividades.length; i++)
+					{
+						if (usuarioLogeado.actividades[i] == 0)
+						{
+							$( "#checkDeporte" ).prop( "checked", true );
+						}
+						else if (usuarioLogeado.actividades[i] == 1)
+						{
+							$( "#checkComida" ).prop( "checked", true );
+						}
+						else if (usuarioLogeado.actividades[i] == 2)
+						{
+							$( "#checkLectura" ).prop( "checked", true );
+						}
+						else if (usuarioLogeado.actividades[i] == 3)
+						{
+							$( "#checkCine" ).prop( "checked", true );
+						}
+						else if (usuarioLogeado.actividades[i] == 4)
+						{
+							$( "#checkComprarRopa" ).prop( "checked", true );
+						}
+					}
+				}
 
-	<!--------------------------------------- BODY ---------------------------------------->
-    <div class="row container-fluid py-5">
 
-        <div class="container bootstrap snippet text-dark">
-            <div class="row">
-                <div class="col-sm-10">
-                    <h1 class="nombreMasApellidos"></h1>	
-				</div>
+            	$(".nombreMasApellidos").html(usuarioLogeado.nombre + ' ' + usuarioLogeado.apellidos);
+            	$(".imagenPerfil").attr("src", usuarioLogeado.avatarURL);
+            	if (usuarioLogeado.google == 1)
+            	{
+            		divPass.style.display = 'none';
+            	}
 
-                <div class="col-sm-2">
 
-                    <div class="profile-img-container">
-                        <img src="" class="img-thumbnail img-circle img-responsive imagenPerfil" alt="avatar image" />
-                        <span id="other">
-							<i class="fa fa-upload fa-5x"></i>				
-						</span>
-                        <input type="file" onChange="subirFoto()" class="hiddenItem" id="target" accept=".png" />
-						
-                        <!-- accept="image/*"-->
-                    </div>
-                    <script>
-                        $("#other").click(function() {
-                            $("#target").click();
-							
-                        });
-						
-						function subirFoto() { 
-							subirAvatar(document.getElementById('target').files[0], usuarioLogeado);
-						};
-                    </script>
+            	const secondFunction = async () => {
+            	  var rol = await getRol(usuarioLogeado.id_rol);
+            	  document.getElementById("nombre_rol").innerHTML = rol;
+            	}
+            	secondFunction();
+
+
+            	comprobarRolNavbar();
+            });
+
+            <!-- $(window).on('load', function() { -->
+            	<!-- document.getElementById("nombreMasApellidos").innerHTML = usuarioLogeado.nombre + ' ' + usuarioLogeado.apellidos; -->
+            <!-- });		 -->
+        </script>
+        <script>
+                  function ocultarRepitePass() {
+                      $(".repitePass").hide();
+                  }
+
+                  function mostrarRepitePass() {
+                      $(".repitePass").show("slow");
+                  }
+
+                  function ocultarSubmiters() {
+                      $("#submiters").hide();
+                  }
+
+                  function mostrarSubmiters() {
+                      $("#submiters").show("fast");
+                  }
+
+                  function inicio() {
+                      ocultarSubmiters();
+                      ocultarRepitePass();
+                  }
+
+                  $(document).ready(inicio);
+
+            async function actualizar()
+            {
+            	if (nombre_input.value.length > 0)
+            	{
+            		usuarioLogeado.nombre = nombre_input.value;
+            	}
+            	if (apellidos_input.value.length > 0)
+            	{
+            		usuarioLogeado.apellidos = apellidos_input.value;
+            	}
+            	if (tlf_movil_input.value.length > 0)
+            	{
+            		usuarioLogeado.tlf_movil = tlf_movil_input.value
+            	}
+				if(document.getElementById("checkDeporte").checked == true)
+				{
+					await usuarioLogeado = meterActividad(0);
+				}
+				else
+				{
+					await usuarioLogeado = borrarActividad(0);
+				}
+				if(document.getElementById("checkComida").checked == true)
+				{
+					await usuarioLogeado = meterActividad(1);
+				}
+				else
+				{
+					await usuarioLogeado = borrarActividad(1);
+				}
+				if(document.getElementById("checkLectura").checked == true)
+				{
+					await usuarioLogeado = meterActividad(2);
+				}
+				else
+				{
+					await usuarioLogeado = borrarActividad(2);
+				}
+				if(document.getElementById("checkCine").checked == true)
+				{
+					await usuarioLogeado = meterActividad(3);
+				}
+				else
+				{
+					await usuarioLogeado = borrarActividad(3);
+				}
+				if(document.getElementById("checkComprarRopa").checked == true)
+				{
+					await usuarioLogeado = meterActividad(4);
+				}
+				else
+				{
+					await usuarioLogeado = borrarActividad(4);
+				}
+
+            	editarUsuario(usuarioLogeado);
+            	alert('Actualizado con exito');
+            	window.location.href = "https://pcsocialfly.web.app/pages/perfil.html";
+            	<!-- var x = document.getElementsByTagName("H1")[0].getAttribute("class");  -->
+            }
+
+
+
+                  <!-- $(window).on("load", function() { -->
+                      <!-- console.log("window loaded"); -->
+                  <!-- }); -->
+        </script>
+    </head>
+
+    <body>
+        <!--------------------------------------- NAV BAR -------------------------------------->
+        <nav class="navbar navbar-dark navbarMenu-green navbar-expand-sm">
+            <a class="navbar-brand" href="https://pcsocialfly.web.app/">
+                <img src="../resources/images/iconAvion.png" width="30" height="30" alt="logo" />
+                SocialFly
+            </a>
+
+            <div class="box">
+                <div class="buscadorMenu">
+                    <input type="search" id="search" placeholder="Search..." />
+                    <span class="icon"><i class="fa fa-search"></i></span>
                 </div>
-
             </div>
-            <div class="row">
-                <div class="col-sm-4">
-                    <!--left col-->
 
-                    <ul class="list-group mt-4">
-                        <li class="list-group-item text-muted">Perfil</li>
-                        <li class="list-group-item text-right"><span class="pull-left"><strong>Se registró</strong></span> <span id="fecha_registro"></span></li>
-                        <li class="list-group-item text-right"><span class="pull-left"><strong>Ultima conexión</strong></span> <span id="fecha_visita"></span></li>
-                        <li class="list-group-item text-right"><span class="pull-left"><strong>Rol</strong></span> <span id="nombre_rol"></span></li>
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <label class="nombreMasApellidos"></label>
+                        <img src="" width="40" height="40" class="rounded-circle imagenPerfil" />
+                        <span class="badge" id="navNotificacion">5</span>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a href="#" data-target="#modalIMG" data-toggle="modal" data-id="resources/images/yo.jpg" class="color-gray-darker c6 td-hover-none abrirModalIMG">
+                            <img src="" width="150" height="150" class="rounded-circle imagenPerfil" style="margin: 8px;" />
+                        </a>
+                        <div class="form-group has-search">
+                            <span class="fa fa-search form-control-feedback"></span>
+                            <input type="text" class="form-control" placeholder="Buscar" />
+                        </div>
+                        <a class="adminitracionEnlace dropdown-item" href="https://pcsocialfly.web.app/pages/admin.html">Adminitración</a>
+                        <a class="publiEnlace dropdown-item" href="https://pcsocialfly.web.app/pages/publi.html">Publicidad</a>
+                        <a class="dropdown-item" href="https://pcsocialfly.web.app/pages/amigos.html">Mis amigos</a>
+                        <a class="dropdown-item" href="https://pcsocialfly.web.app/pages/perfil.html">Mi perfil</a>
+                        <a class="logOut dropdown-item desconectar" href="#">Desconectar</a>
+                    </div>
+                </li>
+            </ul>
+        </nav>
 
-                    </ul>					
-					
+        <!--------------------------------------- BODY ---------------------------------------->
+        <div class="row container-fluid py-5">
+            <div class="container bootstrap snippet text-dark">
+                <div class="row">
+                    <div class="col-sm-10">
+                        <h1 class="nombreMasApellidos"></h1>
+                    </div>
 
+                    <div class="col-sm-2">
+                        <div class="profile-img-container">
+                            <img src="" class="img-thumbnail img-circle img-responsive imagenPerfil" alt="avatar image" />
+                            <span id="other">
+                                <i class="fa fa-upload fa-5x"></i>
+                            </span>
+                            <input type="file" onChange="subirFoto()" class="hiddenItem" id="target" accept=".png" />
+
+                            <!-- accept="image/*"-->
+                        </div>
+                        <script>
+                            $("#other").click(function () {
+                                $("#target").click();
+                            });
+
+                            function subirFoto() {
+                                subirAvatar(document.getElementById("target").files[0], usuarioLogeado);
+                            }
+                        </script>
+                    </div>
                 </div>
-                <!--/col-3-->
-                <div class="col-sm-8">
 
-                    <hr>
-                    
-						 <div class="m-2">
+                <div class="row">
+                    <div class="col-md-12 colFormulario">
+                        <!-- INICIO CHECKBOX ACTIVIDADES -->
+                        <div class="input-group">
+                            <label class="label">Actividades</label>
+                            <div id="divActividades" class="checkbox-style disabled">
+                                <div class="custom-control custom-checkbox custom-control-inline">
+                                    <input type="checkbox" class="custom-control-input mostrarSubmiters" id="checkDeporte" />
+                                    <label class="custom-control-label" for="checkDeporte">Deporte <i class="fas fa-swimmer iconGenero"></i></label>
+                                </div>
+                                <div class="custom-control custom-checkbox custom-control-inline">
+                                    <input type="checkbox" class="custom-control-input mostrarSubmiters" id="checkComida" />
+                                    <label class="custom-control-label" for="checkComida">Comida <i class="fas fa-utensils iconGenero"></i></label>
+                                </div>
+                                <div class="custom-control custom-checkbox custom-control-inline">
+                                    <input type="checkbox" class="custom-control-input mostrarSubmiters" id="checkLectura" />
+                                    <label class="custom-control-label" for="checkLectura">Lectura <i class="fas fa-book iconGenero"></i></label>
+                                </div>
+                                <div class="custom-control custom-checkbox custom-control-inline">
+                                    <input type="checkbox" class="custom-control-input mostrarSubmiters" id="checkCine" />
+                                    <label class="custom-control-label" for="checkCine">Cine <i class="fas fa-video iconGenero"></i></label>
+                                </div>
+                                <div class="custom-control custom-checkbox custom-control-inline">
+                                    <input type="checkbox" class="custom-control-input mostrarSubmiters" id="checkComprarRopa" />
+                                    <label class="custom-control-label" for="checkComprarRopa">Comprar ropa <i class="fas fa-tshirt iconGenero"></i></label>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- FIN CHECKBOX ACTIVIDADES -->
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <!--left col-->
+
+                        <ul class="list-group mt-4">
+                            <li class="list-group-item text-muted">Perfil</li>
+                            <li class="list-group-item text-right">
+                                <span class="pull-left"><strong>Se registró</strong></span> <span id="fecha_registro"></span>
+                            </li>
+                            <li class="list-group-item text-right">
+                                <span class="pull-left"><strong>Ultima conexión</strong></span> <span id="fecha_visita"></span>
+                            </li>
+                            <li class="list-group-item text-right">
+                                <span class="pull-left"><strong>Rol</strong></span> <span id="nombre_rol"></span>
+                            </li>
+                        </ul>
+                    </div>
+                    <!--/col-3-->
+                    <div class="col-sm-8">
+                        <hr />
+
+                        <div class="m-2">
                             <div class="col-xs-6">
                                 <label for="email">
                                     <h4>Email</h4>
-								</label>
-								<!-- <a id="cambiarMail" class="btn btn-lg"> <i class="fa fa-angle-right mr-2"></i> Cambiar</a> -->
-								<!-- <script> -->
-									<!-- $('#cambiarMail').unbind('click').click(function () { -->
-										<!-- resetPass(usuarioLogeado.email);	 -->
-									<!-- }); -->
-								<!-- </script> -->
-                                <input type="email" class="form-control mostrarSubmiters" name="email" id="email_input" placeholder="" disabled>
+                                </label>
+                                <!-- <a id="cambiarMail" class="btn btn-lg"> <i class="fa fa-angle-right mr-2"></i> Cambiar</a> -->
+                                <!-- <script> -->
+                                <!-- $('#cambiarMail').unbind('click').click(function () { -->
+                                <!-- resetPass(usuarioLogeado.email);	 -->
+                                <!-- }); -->
+                                <!-- </script> -->
+                                <input type="email" class="form-control mostrarSubmiters" name="email" id="email_input" placeholder="" disabled />
                             </div>
                         </div>
 
                         <div id="divPass" class="m-2">
                             <div class="col-xs-6">
                                 <label for="password">
-                                    <h4>Contraseña</h4>									
-								</label>
-								<a id="cambiarPass" class="btn btn-lg"> <i class="fa fa-angle-right  mr-2"></i> Cambiar</a>
-								<script>
-									$('#cambiarPass').unbind('click').click(function () {
-										resetPass(usuarioLogeado.email);	
-									});
-								</script>
-                                <input type="password" class="form-control mostrarRepitePass" name="password" id="password" placeholder="······················" disabled>								
-							</div>
+                                    <h4>Contraseña</h4>
+                                </label>
+                                <a id="cambiarPass" class="btn btn-lg"> <i class="fa fa-angle-right mr-2"></i> Cambiar</a>
+                                <script>
+                                    $("#cambiarPass")
+                                        .unbind("click")
+                                        .click(function () {
+                                            resetPass(usuarioLogeado.email);
+                                        });
+                                </script>
+                                <input type="password" class="form-control mostrarRepitePass" name="password" id="password" placeholder="······················" disabled />
+                            </div>
                         </div>
-						
+
                         <!-- <div class="form-group repitePass"> -->
-                            <!-- <div class="col-xs-6"> -->
-                                <!-- <label for="password2"> -->
-                                    <!-- <h4>Verifica contraseña</h4></label> -->
-                                <!-- <input type="password" class="form-control" name="password2" id="password2" placeholder=""> -->
-                            <!-- </div> -->
+                        <!-- <div class="col-xs-6"> -->
+                        <!-- <label for="password2"> -->
+                        <!-- <h4>Verifica contraseña</h4></label> -->
+                        <!-- <input type="password" class="form-control" name="password2" id="password2" placeholder=""> -->
                         <!-- </div> -->
-						
+                        <!-- </div> -->
+
                         <div class="m-2">
                             <div class="col-xs-6">
                                 <label for="Nombre">
                                     <h4>Nombre</h4>
-								</label>
-                                <input type="text" class="form-control mostrarSubmiters" name="first_name" id="nombre_input" placeholder="">
+                                </label>
+                                <input type="text" class="form-control mostrarSubmiters" name="first_name" id="nombre_input" placeholder="" />
                             </div>
                         </div>
                         <div class="m-2">
-
                             <div class="col-xs-6">
                                 <label for="Apellidos">
                                     <h4>Apellidos</h4>
-								</label>
-                                <input type="text" class="form-control mostrarSubmiters" name="last_name" id="apellidos_input" placeholder="">
+                                </label>
+                                <input type="text" class="form-control mostrarSubmiters" name="last_name" id="apellidos_input" placeholder="" />
                             </div>
                         </div>
 
@@ -299,172 +395,169 @@
                             <div class="col-xs-6">
                                 <label for="Movil">
                                     <h4>Teléfono Movil</h4>
-								</label>
-                                <input type="text" class="form-control mostrarSubmiters" name="mobile" id="tlf_movil_input" placeholder="">
+                                </label>
+                                <input type="text" class="form-control mostrarSubmiters" name="mobile" id="tlf_movil_input" placeholder="" />
                             </div>
                         </div>
-						
-						<!-- <div class="form-group"> -->
-                            <!-- <div class="col-xs-6"> -->
-                                <!-- <label for="FechaNacimiento"> -->
-                                    <!-- <h4>Fecha nacimiento</h4> -->
-								<!-- </label>								 -->
-                                <!-- <input type="text" class="form-control mostrarSubmiters" name="fecha_nacimiento" id="fecha_nacimiento_input" placeholder="" onfocus="(this.type='date')" onblur="(this.type='text')"> -->
-                            <!-- </div> -->
+
+                        <!-- <div class="form-group"> -->
+                        <!-- <div class="col-xs-6"> -->
+                        <!-- <label for="FechaNacimiento"> -->
+                        <!-- <h4>Fecha nacimiento</h4> -->
+                        <!-- </label>								 -->
+                        <!-- <input type="text" class="form-control mostrarSubmiters" name="fecha_nacimiento" id="fecha_nacimiento_input" placeholder="" onfocus="(this.type='date')" onblur="(this.type='text')"> -->
                         <!-- </div> -->
-						
+                        <!-- </div> -->
 
-
-                       
                         <div class="m-2" id="submiters">
                             <div class="col-xs-12 d-flex flex-row-reverse">
-                                <br>
-                                <button class="btn btn-lg ocultarTodoClk"> Cancelar</button>
-                                <button id ="updateUser" class="btn btn-lg btn-success"><i class="fa fa-check-circle"></i> Actualizar</button>
+                                <br />
+                                <button class="btn btn-lg ocultarTodoClk">Cancelar</button>
+                                <button id="updateUser" class="btn btn-lg btn-success"><i class="fa fa-check-circle"></i> Actualizar</button>
                             </div>
                         </div>
                         <script>
-                            $('.ocultarTodoClk').on('click', inicio);
-							
-							$('#updateUser').unbind('click').click(function () 
-							{
-								actualizar();
-							});
-                            $('.ocultarSubmiters').on('input', ocultarSubmiters);
-                            $('.mostrarSubmiters').on('input', mostrarSubmiters);
-                            $('#password').on('input', function() {
+                            $(".ocultarTodoClk").on("click", inicio);
+
+                            $("#updateUser")
+                                .unbind("click")
+                                .click(function () {
+                                    actualizar();
+                                });
+                            $(".ocultarSubmiters").on("input", ocultarSubmiters);
+                            $(".mostrarSubmiters").on("input", mostrarSubmiters);
+                            $("#password").on("input", function () {
                                 mostrarRepitePass();
                                 mostrarSubmiters();
                             });
                         </script>
-                    
+                    </div>
                 </div>
             </div>
-
         </div>
-    </div>
 
-    <!-- INICIO PIE DE PAGINA -->
-	<footer id="footer" class="d-flex-column text-center">
-		<hr class="mt-0 mb-0">
-		<!--Social buttons-->
-		<div class="text-center">
-			<h4>Síguenos</h4>
-			<ul class="list-unstyled list-inline">
-				<li class="list-inline-item">
-					<a href="#!" class="sbtn btn-large mx-1" title="Facebook">
-						<i class="fab fa-facebook-square fa-2x"></i>
-					</a>
-				</li>
-				<li class="list-inline-item">
-					<a href="#!" class="sbtn btn-large mx-1" title="Linkedin">
-						<i class="fab fa-linkedin fa-2x"></i>
-					</a>
-				</li>
-				<li class="list-inline-item">
-					<a href="#!" class="sbtn btn-large mx-1" title="Twitter">
-						<i class="fab fa-twitter-square fa-2x"></i>
-					</a>
-				</li>
-				<li class="list-inline-item">
-					<a href="#!" class="sbtn btn-large mx-1" title="Youtube">
-						<i class="fab fa-youtube-square fa-2x"></i>
-					</a>
-				</li>
-			</ul>
-		</div>
-		<!--/.Social buttons-->
-		<hr class="mb-0">
-		<!--Footer Links-->
-			
-		
-		<div class="containerFooter text-left text-md-center">
-			<div class="row">
-				<!--First column-->
-				<div class="col-md-3 mx-auto shfooter contendorMostrarOpciones">
-					<div class="d-md-none title">
-						<div class="mt-3 font-weight-bold" id="mostrarOpciones">Mostrar opciones
-							<div class="float-right navbar-toggler">
-								<i class="fas fa-angle-down"></i>
-								<i class="fas fa-angle-up"></i>
-							</div>
-						</div>
-					</div>
-				</div>
-				
-				<hr class="clearfix w-100 d-md-none mb-0 collapse">
-				<div class="col-md-3 mx-auto shfooter">
-					<h5 class="my-2 font-weight-bold d-none d-md-block">¿Por qué SocialFly?</h5>
-					<div class="d-md-none title" data-target="#Product" data-toggle="collapse">
-						<div class="mt-3 font-weight-bold collapse" id="subMenu1">¿Por qué SocialFly?
-							<div class="float-right navbar-toggler">
-								<i class="fas fa-angle-down"></i>
-								<i class="fas fa-angle-up"></i>
-							</div>
-						</div>
-					</div>
-					<ul class="list-unstyled collapse" id="Product">
-						<li><a href="#">Seguridad</a></li>
-						<li><a href="#">Privacidad</a></li>
-						<li><a href="#">Pioneros</a></li>
-					</ul>
-				</div>
-				<!--/.First column-->
-				<hr class="clearfix w-100 d-md-none mb-0 collapse">
-				<!--Second column-->
-				<div class="col-md-3 mx-auto shfooter">
-					<h5 class="my-2 font-weight-bold d-none d-md-block">Menu</h5>
-					<div class="d-md-none title" data-target="#Company" data-toggle="collapse">
-						<div class="mt-3 font-weight-bold collapse" id="subMenu2">Menu
-							<div class="float-right navbar-toggler">
-								<i class="fas fa-angle-down"></i>
-								<i class="fas fa-angle-up"></i>
-							</div>
-						</div>
-					</div>
-					<ul class="list-unstyled collapse" id="Company">
-						<li><a href="https://pcsocialfly.web.app/">Inicio</a></li>
-						<li><a href="#">Sobre nosotros</a></li>
-						<li><a href="#">Contactanos</a></li>
-					</ul>
-				</div>
-				<!--/.Second column-->
-				<hr class="clearfix w-100 d-md-none mb-0 collapse">
-				<!--Third column-->
-				<div class="col-md-3 mx-auto shfooter">
-					<h5 class="my-2 font-weight-bold d-none d-md-block">Perfil</h5>
-					<div class="d-md-none title" data-target="#Resources" data-toggle="collapse">
-						<div class="mt-3 font-weight-bold collapse" id="subMenu3">Perfil
-							<div class="float-right navbar-toggler">
-								<i class="fas fa-angle-down"></i>
-								<i class="fas fa-angle-up"></i>
-							</div>
-						</div>
-					</div>
-					<ul class="list-unstyled collapse" id="Resources">
-						<li><a class="adminitracionEnlace" href="https://pcsocialfly.web.app/pages/admin.html">Adminitración</a></li>
-						<li><a class="publiEnlace" href="https://pcsocialfly.web.app/pages/publi.html">Publicidad</a></li>
-						<li><a href="https://pcsocialfly.web.app/pages/amigos.html">Mis amigos</a></li>
-						<li><a href="https://pcsocialfly.web.app/pages/perfil.html">Mi perfil</a></li>
-						<li><a class="logOut">Desconectar</a></li>
-					</ul>
-				</div>
-				<!--/.Third column-->
+        <!-- INICIO PIE DE PAGINA -->
+        <footer id="footer" class="d-flex-column text-center">
+            <hr class="mt-0 mb-0" />
+            <!--Social buttons-->
+            <div class="text-center">
+                <h4>Síguenos</h4>
+                <ul class="list-unstyled list-inline">
+                    <li class="list-inline-item">
+                        <a href="#!" class="sbtn btn-large mx-1" title="Facebook">
+                            <i class="fab fa-facebook-square fa-2x"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#!" class="sbtn btn-large mx-1" title="Linkedin">
+                            <i class="fab fa-linkedin fa-2x"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#!" class="sbtn btn-large mx-1" title="Twitter">
+                            <i class="fab fa-twitter-square fa-2x"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#!" class="sbtn btn-large mx-1" title="Youtube">
+                            <i class="fab fa-youtube-square fa-2x"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <!--/.Social buttons-->
+            <hr class="mb-0" />
+            <!--Footer Links-->
 
-			</div>			
-		</div>
-		<!--/.Footer Links-->
-		<!--Copyright-->
-		<div class="text-center" style="font-size:12px;">
-			© Copyright 
-			<script>
-			  document.write(new Date().getFullYear())
-			</script>
-			Copyright.es - Todos los Derechos Reservados
-		</div>
-		<!--/.Copyright-->
-	</footer>
-	<!-- FIN PIE DE PAGINA -->
-</body>
+            <div class="containerFooter text-left text-md-center">
+                <div class="row">
+                    <!--First column-->
+                    <div class="col-md-3 mx-auto shfooter contendorMostrarOpciones">
+                        <div class="d-md-none title">
+                            <div class="mt-3 font-weight-bold" id="mostrarOpciones">
+                                Mostrar opciones
+                                <div class="float-right navbar-toggler">
+                                    <i class="fas fa-angle-down"></i>
+                                    <i class="fas fa-angle-up"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
+                    <hr class="clearfix w-100 d-md-none mb-0 collapse" />
+                    <div class="col-md-3 mx-auto shfooter">
+                        <h5 class="my-2 font-weight-bold d-none d-md-block">¿Por qué SocialFly?</h5>
+                        <div class="d-md-none title" data-target="#Product" data-toggle="collapse">
+                            <div class="mt-3 font-weight-bold collapse" id="subMenu1">
+                                ¿Por qué SocialFly?
+                                <div class="float-right navbar-toggler">
+                                    <i class="fas fa-angle-down"></i>
+                                    <i class="fas fa-angle-up"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <ul class="list-unstyled collapse" id="Product">
+                            <li><a href="#">Seguridad</a></li>
+                            <li><a href="#">Privacidad</a></li>
+                            <li><a href="#">Pioneros</a></li>
+                        </ul>
+                    </div>
+                    <!--/.First column-->
+                    <hr class="clearfix w-100 d-md-none mb-0 collapse" />
+                    <!--Second column-->
+                    <div class="col-md-3 mx-auto shfooter">
+                        <h5 class="my-2 font-weight-bold d-none d-md-block">Menu</h5>
+                        <div class="d-md-none title" data-target="#Company" data-toggle="collapse">
+                            <div class="mt-3 font-weight-bold collapse" id="subMenu2">
+                                Menu
+                                <div class="float-right navbar-toggler">
+                                    <i class="fas fa-angle-down"></i>
+                                    <i class="fas fa-angle-up"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <ul class="list-unstyled collapse" id="Company">
+                            <li><a href="https://pcsocialfly.web.app/">Inicio</a></li>
+                            <li><a href="#">Sobre nosotros</a></li>
+                            <li><a href="#">Contactanos</a></li>
+                        </ul>
+                    </div>
+                    <!--/.Second column-->
+                    <hr class="clearfix w-100 d-md-none mb-0 collapse" />
+                    <!--Third column-->
+                    <div class="col-md-3 mx-auto shfooter">
+                        <h5 class="my-2 font-weight-bold d-none d-md-block">Perfil</h5>
+                        <div class="d-md-none title" data-target="#Resources" data-toggle="collapse">
+                            <div class="mt-3 font-weight-bold collapse" id="subMenu3">
+                                Perfil
+                                <div class="float-right navbar-toggler">
+                                    <i class="fas fa-angle-down"></i>
+                                    <i class="fas fa-angle-up"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <ul class="list-unstyled collapse" id="Resources">
+                            <li><a class="adminitracionEnlace" href="https://pcsocialfly.web.app/pages/admin.html">Adminitración</a></li>
+                            <li><a class="publiEnlace" href="https://pcsocialfly.web.app/pages/publi.html">Publicidad</a></li>
+                            <li><a href="https://pcsocialfly.web.app/pages/amigos.html">Mis amigos</a></li>
+                            <li><a href="https://pcsocialfly.web.app/pages/perfil.html">Mi perfil</a></li>
+                            <li><a class="logOut">Desconectar</a></li>
+                        </ul>
+                    </div>
+                    <!--/.Third column-->
+                </div>
+            </div>
+            <!--/.Footer Links-->
+            <!--Copyright-->
+            <div class="text-center" style="font-size: 12px;">
+                © Copyright
+                <script>
+                    document.write(new Date().getFullYear());
+                </script>
+                Copyright.es - Todos los Derechos Reservados
+            </div>
+            <!--/.Copyright-->
+        </footer>
+        <!-- FIN PIE DE PAGINA -->
+    </body>
 </html>
