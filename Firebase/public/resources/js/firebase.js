@@ -161,6 +161,47 @@ function comprobarRolNavbar()
 
 
 // <!------------------- Meter actividad al user ---------------------->
+//RELLENANDO CASILLAS
+// async function meterActividad(idActividad)
+// {
+	// if (usuarioLogeado.actividades != null)
+	// {
+		// var noEstaMetido = true;
+		// for (var i = 0; i < Object.keys(usuarioLogeado.actividades).length; i++)
+		// {
+			// if (usuarioLogeado.actividades[i] == idActividad)
+			// {
+				// noEstaMetido = false;
+				// i = usuarioLogeado.actividades.length; //salir del bucle
+			// }
+		// }
+		// if (noEstaMetido)
+		// {
+			// var metido = false;
+			// for (var i = 0; i < Object.keys(usuarioLogeado.actividades).length; i++)
+			// {
+				// if (usuarioLogeado.actividades[i] == null)
+				// {
+					// metido = true;
+					// usuarioLogeado.actividades[i] = idActividad;
+					// i = Object.keys(usuarioLogeado.actividades).length;
+				// }
+			// }
+			// if (!metido)
+			// {
+				// usuarioLogeado.actividades[Object.keys(usuarioLogeado.actividades).length] = idActividad;
+			// }	
+		// }		
+	// }
+	// else
+	// {
+		// usuarioLogeado.actividades = {
+			// 0: idActividad
+		// };
+	// }
+// }
+
+//ORDENANDO ARRAY
 async function meterActividad(idActividad)
 {
 	if (usuarioLogeado.actividades != null)
@@ -176,20 +217,7 @@ async function meterActividad(idActividad)
 		}
 		if (noEstaMetido)
 		{
-			var metido = false;
-			for (var i = 0; i < Object.keys(usuarioLogeado.actividades).length; i++)
-			{
-				if (usuarioLogeado.actividades[i] == null)
-				{
-					metido = true;
-					usuarioLogeado.actividades[i] = idActividad;
-					i = Object.keys(usuarioLogeado.actividades).length;
-				}
-			}
-			if (!metido)
-			{
-				usuarioLogeado.actividades[Object.keys(usuarioLogeado.actividades).length] = idActividad;
-			}	
+			usuarioLogeado.actividades[Object.keys(usuarioLogeado.actividades).length] = idActividad;
 		}		
 	}
 	else
@@ -212,12 +240,16 @@ async function borrarActividad(idBorrar)
 	}
 	
 	
-	// var actAux = new Object();
-	// for (var x = 0; x < Object.keys(usuarioLogeado.actividades).length; x++)
-	// {
-		// actAux[x] = usuarioLogeado.actividades[x];
-	// }
-	// usuarioLogeado.actividades = actAux;
+	var actAux = new Object();
+	for (var x = 0, p = 0; x <= Object.keys(usuarioLogeado.actividades).length; x++)
+	{
+		if (usuarioLogeado.actividades[x] != null) 
+		{
+			actAux[p] = usuarioLogeado.actividades[x];
+			p++;
+		}
+	}
+	usuarioLogeado.actividades = actAux;
 }
 
 // <!------------------- Getter rol ---------------------->
