@@ -154,11 +154,11 @@
             	}
 				if(document.getElementById("checkDeporte").checked == true)
 				{
-					meterActividad(0);
+					await meterActividad(0);
 				}
 				else
 				{
-					borrarActividad(0);
+					await borrarActividad(0);
 				}
 				if(document.getElementById("checkComida").checked == true)
 				{
@@ -166,31 +166,31 @@
 				}
 				else
 				{
-					borrarActividad(1);
+					await borrarActividad(1);
 				}
 				if(document.getElementById("checkLectura").checked == true)
 				{
-					meterActividad(2);
+					await meterActividad(2);
 				}
 				else
 				{
-					borrarActividad(2);
+					await borrarActividad(2);
 				}
 				if(document.getElementById("checkCine").checked == true)
 				{
-					meterActividad(3);
+					await meterActividad(3);
 				}
 				else
 				{
-					borrarActividad(3);
+					await borrarActividad(3);
 				}
 				if(document.getElementById("checkComprarRopa").checked == true)
 				{
-					meterActividad(4);
+					await meterActividad(4);
 				}
 				else
 				{
-					borrarActividad(4);
+					await borrarActividad(4);
 				}
 
             	editarUsuario(usuarioLogeado);

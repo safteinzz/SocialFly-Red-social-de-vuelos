@@ -165,17 +165,31 @@ async function meterActividad(idActividad)
 {
 	if (usuarioLogeado.actividades != null)
 	{
-		var yaEstaMetido = false;
-		for (var i = 0; i < usuarioLogeado.actividades.length; i++)
+		var noEstaMetido = true;
+		for (var i = 0; i < Object.keys(usuarioLogeado.actividades).length; i++)
 		{
 			if (usuarioLogeado.actividades[i] == idActividad)
 			{
-				yaEstaMetido = true;
+				noEstaMetido = false;
+				i = usuarioLogeado.actividades.length; //salir del bucle
 			}
 		}
-		if (!yaEstaMetido)
+		if (noEstaMetido)
 		{
-			usuarioLogeado.actividades[usuarioLogeado.actividades.length] = idActividad;
+			var metido = false;
+			for (var i = 0; i < Object.keys(usuarioLogeado.actividades).length; i++)
+			{
+				if (usuarioLogeado.actividades[i] == null)
+				{
+					metido = true;
+					usuarioLogeado.actividades[i] = idActividad;
+					i = Object.keys(usuarioLogeado.actividades).length;
+				}
+			}
+			if (!metido)
+			{
+				usuarioLogeado.actividades[Object.keys(usuarioLogeado.actividades).length] = idActividad;
+			}	
 		}		
 	}
 	else
@@ -189,7 +203,7 @@ async function meterActividad(idActividad)
 // <!------------------- Quitar actividad al user ---------------------->
 async function borrarActividad(idBorrar)
 {
-	for (var x = 0; x < usuarioLogeado.actividades.length; x++)
+	for (var x = 0; x < Object.keys(usuarioLogeado.actividades).length; x++)
 	{
 		if (usuarioLogeado.actividades[x] == idBorrar)
 		{
@@ -197,13 +211,13 @@ async function borrarActividad(idBorrar)
 		}
 	}
 	
-	//aqui hay que reordenar las actividades para que no haya huecos
-	var actAux = usuarioLogeado.actividades;
-	for (var x = 0; x < usuarioLogeado.actividades.length; x++)
-	{
-		actAux[x] = {x:usuarioLogeado.actividades[x]};
-	}
-	usuarioLogeado.actividades = actAux;
+	
+	// var actAux = new Object();
+	// for (var x = 0; x < Object.keys(usuarioLogeado.actividades).length; x++)
+	// {
+		// actAux[x] = usuarioLogeado.actividades[x];
+	// }
+	// usuarioLogeado.actividades = actAux;
 }
 
 // <!------------------- Getter rol ---------------------->
