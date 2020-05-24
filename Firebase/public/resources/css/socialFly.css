@@ -10,6 +10,8 @@
 		background: #4dde76 !important;
 		color: black;
 		font-weight: bold;
+		padding-top: 0px;
+		padding-bottom: 0px;
 	}
 	
 	.navAvatar{
@@ -94,7 +96,59 @@
 		margin-left: auto;
 	}
 	
-	
+	/* OPCIONES MENU NAVBAR */
+	nav.shift ul {
+  list-style: none;
+  text-align: center;
+  margin-bottom: 0px;
+}
+nav.shift ul li {
+  display: inline-block;
+}
+nav.shift ul li a {
+  display: block;
+  padding: 15px;
+  text-decoration: none;
+  color: white;
+  font-weight: 800;
+  margin: 0 10px;
+}
+nav.shift ul li a,
+nav.shift ul li a:after,
+nav.shift ul li a:before {
+  transition: all .5s;
+}
+nav.shift ul li a:hover {
+  color: #555;
+}
+
+nav.shift ul li a {
+  position:relative;
+  z-index: 1;
+}
+
+nav.shift ul li a:after {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  margin: auto;
+  width: 100%;
+  height: 1px;
+  content: '.';
+  color: transparent;
+  background: #42a05d !important;
+  visibility: none;
+  opacity: 0;
+  z-index: -1;
+}
+nav.shift ul li a:hover:after {
+  opacity: 1;
+  visibility: visible;
+  height: 100%;
+}
 	
 	
 	/* MODAL */
