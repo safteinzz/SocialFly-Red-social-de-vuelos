@@ -524,11 +524,28 @@ var varArrayPublicidad = [];
 
 async function cargarPublicidad() {
 	await cargarMuroPublicidadDerecha();
+	//PRUEBA
 }
 
 async function getPublicidad() {
 	console.log("INICIO - Recuperar publicidad de BD");
 	var queryPublicidad = dbRef.child("publicidad");
+	
+	if(usuarioLogeado.actividades == null){
+		var queryActividad = dbRef.child("actividades");
+		var snap_actividades = await queryActividad.orderByChild("id_actividad").once("value");
+		if (snap_actividades.val() != null) {
+			var arrayActividades = [];
+			
+			snap_actividades.forEach((child) => {
+				arrayActividades.push(child.val().id_actividad);
+			});
+			
+			usuarioLogeado.actividades = arrayActividades;
+		}
+		
+		
+	}
 
 	for (var x = 0; x < usuarioLogeado.actividades.length; x++) {
 
