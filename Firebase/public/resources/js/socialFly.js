@@ -309,7 +309,7 @@
 			var stringPOST = "<div class='post' id='" + varIdPOST + "'> "
 				+ "<div class='header'>";
 				
-				if(varIdUsuario == usuarioLogeado.dni){
+				if(varIdUsuario == usuarioLogeado.uid){
 					stringPOST += "<div class='float-right botones botonDelete'>"
 							+ "			<a href='#' class='abrirModalDelete' data-target='#modalDelete' data-toggle='modal' onclick='abrirModalDelete(\"" + varIdPOST + "\");'>"
 							+ "				<i class='fas fa-trash-alt'></i>"
@@ -491,7 +491,7 @@
 
 			var stringComment = "";
 			
-				if(varIdUsuario == usuarioLogeado.dni){
+				if(varIdUsuario == usuarioLogeado.uid){
 					stringComment += "<div class='comentarioPOST comentarioUsuarioLogeado' id='" + idComment + "'>"
 								+ "		<div class='header'>";
 				} else {
@@ -511,7 +511,7 @@
 				+ "		</div>";
 				
 				
-				if(varIdUsuario == usuarioLogeado.dni){
+				if(varIdUsuario == usuarioLogeado.uid){
 					stringComment += "		<p class='comentarioLogeado'>"
 												+ varTextoComentario.replace(new RegExp("\n","g"), "<br/>")
 									+ "		</p>";
