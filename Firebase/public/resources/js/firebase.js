@@ -46,7 +46,8 @@ var queryAmigos = dbRef.child("amigos");
 
 firebase.auth().onAuthStateChanged(async function(user) {
 	if (!user && window.location.href != "https://pcsocialfly.web.app/pages/acceso.html") 
-	//if(false){
+	//if(false)
+	{
 		window.location.href = "https://pcsocialfly.web.app/pages/acceso.html";
 	}
 	else if (!user)
