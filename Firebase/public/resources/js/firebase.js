@@ -46,10 +46,11 @@ var queryAmigos = dbRef.child("amigos");
 
 firebase.auth().onAuthStateChanged(async function(user) {
 	if (!user && window.location.href != "https://pcsocialfly.web.app/pages/acceso.html") 
-	{
+	//if(false){
 		window.location.href = "https://pcsocialfly.web.app/pages/acceso.html";
 	}
 	else if (!user)
+	//else if(false)
 	{
 		//no hacer nada
 	}
@@ -63,6 +64,8 @@ firebase.auth().onAuthStateChanged(async function(user) {
 		
 		
 		const query = dbRef.child('users').orderByChild('uid').equalTo(user.uid);
+		//const query = dbRef.child('users').orderByChild('uid').equalTo("jKJklhgKFyVeeopT3GRQhDeFZhc2");
+		
 
 		var today = new Date(); 
 		var now = today.getDate()  + '/' + (today.getMonth()+1) + '/' +today.getFullYear();
@@ -74,8 +77,8 @@ firebase.auth().onAuthStateChanged(async function(user) {
 				var val = Object.values(snapshot.val())[0]; 
 				usuarioLogeado =
 				{
-					uid:user.uid,
-					email:user.email,
+					uid:val.uid,
+					email:val.email,
 					id_rol:val.id_rol,
 					fecha_registro:val.fecha_registro,
 					fecha_visita:now,
@@ -1026,7 +1029,7 @@ function crearComentario(varTextoComentario) {
 		$('#modalComent #messagesComentario').css('display', 'block');
 		$('#modalComent #messagesComentario #contenidoMensaje').html("<b>ERROR:</b> Es obligatorio escribir algún <u>comentario</u>.");
 	} else {
-		var varUrlImgPerfil = getImagenStorage(usuarioLogeado.uid + '/', 'perfil.png');
+		var varUrlImgPerfil = usuarioLogeado.avatarURL;
 		var varNomUser = usuarioLogeado.nombrePerfil;
 
 		var dt = new Date();
@@ -1038,7 +1041,8 @@ function crearComentario(varTextoComentario) {
 			contenido: varTextoComentario,
 			fecha_comentario: varFechaComentario,
 			nombreUsuario: varNomUser,
-			id_post: idPostComentarios
+			id_post: idPostComentarios,
+			urlAvatar: varUrlImgPerfil
 		};
 
 		var newComentario = dbRef.child("comentarios").push().key;
@@ -1072,7 +1076,7 @@ async function cargarComentarios(idPost) {
 		var varTextoComentario = mydataSet_coment[x].val().contenido;
 		var varIdUsuario = mydataSet_coment[x].val().id_usuario;
 		var varNomUser = mydataSet_coment[x].val().nombreUsuario;
-		var varUrlImgPerfil = getImagenStorage(mydataSet_coment[x].val().id_usuario + '/', 'perfil.png');
+		var varUrlImgPerfil = mydataSet_coment[x].val().urlAvatar;
 		var varFechaComentario = mydataSet_coment[x].val().fecha_comentario;
 
 		console.log("Contenido comentario: " + varTextoComentario);

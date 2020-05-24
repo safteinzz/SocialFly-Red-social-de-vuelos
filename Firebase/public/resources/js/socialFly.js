@@ -54,10 +54,11 @@
 				if( $(this).scrollTop() > 60 ){
 					$('.ir-arriba').slideDown(300);
 					$('.muroDerecha').css("top", "0px");
-					
+					$('#botonesMenuIzquierdo').slideDown(300);
 				} else {
 					$('.ir-arriba').slideUp(300);
 					$('.muroDerecha').css("top", "72px");
+					$('#botonesMenuIzquierdo').slideUp(300);
 				}
 			});
 			/** FIN BOTON SUBIR PANTALLA */
