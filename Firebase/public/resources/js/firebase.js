@@ -235,25 +235,28 @@ async function meterActividad(idActividad)
 // <!------------------- Quitar actividad al user ---------------------->
 async function borrarActividad(idBorrar)
 {
-	for (var x = 0; x < Object.keys(usuarioLogeado.actividades).length; x++)
+	if('actividades' in usuarioLogeado)
 	{
-		if (usuarioLogeado.actividades[x] == idBorrar)
+		for (var x = 0; x < Object.keys(usuarioLogeado.actividades).length; x++)
 		{
-			delete usuarioLogeado.actividades[x];
+			if (usuarioLogeado.actividades[x] == idBorrar)
+			{
+				delete usuarioLogeado.actividades[x];
+			}
 		}
-	}
-	
-	
-	var actAux = new Object();
-	for (var x = 0, p = 0; x <= Object.keys(usuarioLogeado.actividades).length; x++)
-	{
-		if (usuarioLogeado.actividades[x] != null) 
+		
+		
+		var actAux = new Object();
+		for (var x = 0, p = 0; x <= Object.keys(usuarioLogeado.actividades).length; x++)
 		{
-			actAux[p] = usuarioLogeado.actividades[x];
-			p++;
+			if (usuarioLogeado.actividades[x] != null) 
+			{
+				actAux[p] = usuarioLogeado.actividades[x];
+				p++;
+			}
 		}
+		usuarioLogeado.actividades = actAux;
 	}
-	usuarioLogeado.actividades = actAux;
 }
 
 // <!------------------- Getter rol ---------------------->
