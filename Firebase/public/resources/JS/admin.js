@@ -19,7 +19,7 @@ $(document).ready(async function () {
     var path = window.location.pathname;
     var page = path.split("/").pop();
 
-    await getUsuario();
+    // await getUsuario();
 
     switch (page) {
         case 'admin.html':
@@ -621,8 +621,8 @@ function tab_table_config_cols(tab_control) {
                     align: 'center'
                 }],
                 [{
-                    field: 'dni',
-                    title: 'DNI',
+                    field: 'uid',
+                    title: 'uid',
                     sortable: true,
                     footerFormatter: totalNameFormatter,
                     align: 'center'
@@ -758,8 +758,8 @@ function tab_table_config_cols(tab_control) {
                     footerFormatter: totalNameFormatter,
                     align: 'center'
                 }, {
-                    field: 'dni_persona',
-                    title: 'DNI ',
+                    field: 'uid_persona',
+                    title: 'uid ',
                     sortable: true,
                     footerFormatter: totalNameFormatter,
                     align: 'center'
@@ -885,7 +885,7 @@ async function tab_table_config_data(tab_control) {
                 snap_query.forEach((child) => {
                     var fila_json = {
                         key: child.key,
-                        dni: child.val().dni,
+                        uid: child.val().uid,
                         email: child.val().email,
                         lastname: child.val().lastname,
                         name: child.val().name,
@@ -924,7 +924,7 @@ async function tab_table_config_data(tab_control) {
                     var fila_json = {
                         key: child.key,
                         asiento: child.val().asiento,
-                        dni_persona: child.val().dni_persona,
+                        uid_persona: child.val().uid_persona,
                         id_vuelo: child.val().id_vuelo
                     };
                     mydataSet.push(fila_json);
@@ -951,24 +951,24 @@ async function load_amigos_table() {
     let mydataSet = [];
     var mis_amigos = [];
     var queryAmigos = dbRef.child("amigos");
-    var snap_amigos = await queryAmigos.orderByChild("dni").equalTo(usuarioLogeado.dni).once("value");
+    var snap_amigos = await queryAmigos.orderByChild("uid").equalTo(usuarioLogeado.uid).once("value");
     if (snap_amigos != null) {
         snap_amigos.forEach((child) => {
-            mis_amigos.push([child.key, child.val().dni_amigo]);
+            mis_amigos.push([child.key, child.val().uid_amigo]);
         });
 
         for (i = 0; i < mis_amigos.length; i++) {
-            var dni_amigo = mis_amigos[i][1];
-            let queryUsers = dbRef.child("users").orderByChild("dni").equalTo(dni_amigo);
+            var uid_amigo = mis_amigos[i][1];
+            let queryUsers = dbRef.child("users").orderByChild("uid").equalTo(uid_amigo);
             var snap_users = await queryUsers.once("value");
 
             if (snap_users != null) {
                 snap_users.forEach((child) => {
-                    var foto_perfil = getImagenStorage(child.val().dni + '/', 'perfil.png');
+                    var foto_perfil = getImagenStorage(child.val().uid + '/', 'perfil.png');
                     var fila_json = {
                         key: child.key,
                         foto_perfil: foto_perfil,
-                        dni: child.val().dni,
+                        uid: child.val().uid,
                         name: child.val().name,
                         lastname: child.val().lastname,
                         email: child.val().email
@@ -981,15 +981,15 @@ async function load_amigos_table() {
     }
 
     /*  var row_amigo = snap_amigos.val();
-        let queryUsers = dbRef.child("users").orderByChild("dni").equalTo(row_amigo.dni_amigo);
+        let queryUsers = dbRef.child("users").orderByChild("uid").equalTo(row_amigo.uid_amigo);
         let join = queryUsers.on('value', snap_users => {
             var row_user = snap_users.val();
             var foto_perfil = "";
-            var foto_perfil = getImagenStorage(row_user.dni + '/', 'perfil.png');
+            var foto_perfil = getImagenStorage(row_user.uid + '/', 'perfil.png');
             var fila_json = {
                 key: snap_users.key,
                 foto_perfil: foto_perfil,
-                dni: row_user.dni,
+                uid: row_user.uid,
                 name: row_user.name,
                 lastname: row_user.lastname,
                 email: row_user.email
@@ -1015,8 +1015,8 @@ async function load_amigos_table() {
                 }
             }
         }, {
-            field: 'dni',
-            title: 'DNI',
+            field: 'uid',
+            title: 'uid',
             sortable: true,
             align: 'center'
         }, {
@@ -1161,7 +1161,7 @@ async function validate_publicidad() {
         carrousel: carrousel,
         nombre_actividad: actividad_seleccionada,
         nombre_aeropuerto: aeropuerto_seleccionado,
-        id_usuario: usuarioLogeado.dni,
+        id_usuario: usuarioLogeado.uid,
         nombre_usuario: usuarioLogeado.nombrePerfil
     };
 
@@ -1191,7 +1191,7 @@ async function modal_gestion(opcion) {
             break;
 
         case 'tab_usuarios':
-            document.getElementById("input_dni").value = "";
+            document.getElementById("input_uid").value = "";
             document.getElementById("input_nombre").value = "";
             document.getElementById("input_apellido").value = "";
             document.getElementById("input_email").value = "";
@@ -1337,19 +1337,19 @@ async function modal_save_data() {
         // USUARIOS
         case 'tab_usuarios':
 
-            var dni = document.getElementById("input_dni").value;
+            var uid = document.getElementById("input_uid").value;
             var nombre = document.getElementById("input_nombre").value;
             var apellido = document.getElementById("input_apellido").value;
             var email = document.getElementById("input_email").value;
             var feedback_label = "feedback_usuario";
 
-            // check dni
-            if (dni == "") {
-                document.getElementById(feedback_label).innerHTML = "Debe indicar su DNI"
+            // check uid
+            if (uid == "") {
+                document.getElementById(feedback_label).innerHTML = "Debe indicar su uid"
                 return;
             }
-            if (dni.length < 9) {
-                document.getElementById(feedback_label).innerHTML = "El DNI es demasiado corto"
+            if (uid.length < 9) {
+                document.getElementById(feedback_label).innerHTML = "El uid es demasiado corto"
                 return;
             }
             // check nombre
@@ -1389,7 +1389,7 @@ async function modal_save_data() {
             }
             else {
                 var new_row = {
-                    dni: dni,
+                    uid: uid,
                     name: nombre,
                     lastname: apellido,
                     email: email
