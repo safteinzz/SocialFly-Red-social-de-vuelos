@@ -335,7 +335,6 @@ function login(tipo) {
 			var today = new Date(); 
 			var now = today.getDate()  + '/' + (today.getMonth()+1) + '/' +today.getFullYear();
 			var ggle = 0;
-			
 
 			
 			avatarURL = "https://firebasestorage.googleapis.com/v0/b/pcsocialfly.appspot.com/o/images%2Fguest.png?alt=media&token=5d6ca216-e16c-45c6-9adb-15c38342763e";
@@ -349,6 +348,7 @@ function login(tipo) {
 			const newUser =
 			{
 				uid:usuarioLog.uid,
+				email:usuarioLog.email,
 				id_rol:3,
 				fecha_registro:now,
 				fecha_visita: now,				
