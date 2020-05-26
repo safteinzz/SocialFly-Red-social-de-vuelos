@@ -20,19 +20,22 @@ $(document).ready(async function () {
     var page = path.split("/").pop();
 
     // await getUsuario();
+	waitForGlobal("usuarioLogeado", function() {	
+		switch (page) {
+			case 'admin.html':
+				//manage_tab_table(tabs_pagina[0]); // cargamos sobre primer tab
+				manage_master_tab(master_tab_public_control);
+				break;
+			case 'amigos.html':
+				load_amigos_table();
+				break;
+			case 'publi.html':
+				load_data_publi();
+				break;
+		}		
+	});
 
-    switch (page) {
-        case 'admin.html':
-            //manage_tab_table(tabs_pagina[0]); // cargamos sobre primer tab
-            manage_master_tab(master_tab_public_control);
-            break;
-        case 'amigos.html':
-            load_amigos_table();
-            break;
-        case 'publi.html':
-            load_data_publi();
-            break;
-    }
+    
 });
 
 // <----------------------------------------------->
