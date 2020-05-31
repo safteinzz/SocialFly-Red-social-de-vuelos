@@ -10,17 +10,11 @@
   <script src="https://kit.fontawesome.com/11d57a0be5.js" crossorigin="anonymous"></script>
 
   <!-- BOOTSTRAP 3.4.1 -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-    crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-    crossorigin="anonymous"></script>
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	
 
   <!-- ESTILO TABLAS -->
   <link href="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.css" rel="stylesheet">
@@ -33,10 +27,9 @@
 
 
   <!-- FIREBASE -->
-  <script src="https://www.gstatic.com/firebasejs/7.10.0/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/7.10.0/firebase-app.js"></script>
 
-  <script defer src="https://www.gstatic.com/firebasejs/7.10.0/firebase-database.js"></script>
-  <script defer src="https://www.gstatic.com/firebasejs/7.10.0/firebase-storage.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/7.10.0/firebase.js"></script>
 
   <!-- LOCAL -->
 
@@ -112,6 +105,13 @@
 			<img src="../resources/images/iconAvion.png" width="30" height="30" alt="logo">
 			SocialFly
 		</a>
+		<nav class="shift">
+			<ul>
+				<li><a href="https://pcsocialfly.web.app/">Muro</a></li>
+				<li><a href="https://pcsocialfly.web.app/pages/perfil.html">Mi perfil</a></li>
+				<li><a href="https://pcsocialfly.web.app/pages/amigos.html">Mis amigos</a></li>
+			</ul>
+		</nav>
 		
 		<div class="box">
 			<div class="buscadorMenu">
@@ -152,21 +152,23 @@
   <!-- INICIO CONTENIDO FORMULARIO-->
 
   <div class="col-md-1 float-left muroIzquierda text-center">
-    <div style="margin-bottom: 10px;">
-      <a href="plantilla.html" class="iconReload" style="padding-right: 6px;padding-left: 6px;">
-        <i class="fas fa-home"></i>
-      </a>
-    </div>
-    <div style="margin-bottom: 10px;">
-      <a href="plantillaFormulario.html" class="iconReload">
-        <i class="fas fa-user-cog"></i>
-      </a>
-    </div>
-    <div style="margin-bottom: 10px;">
-      <a href="amigos.html" class="iconReload">
-        <i class="fas fa-users"></i>
-      </a>
-    </div>
+    <div id="botonesMenuIzquierdo" style="display: none;">
+		<div style="margin-bottom: 10px;">
+			<a href="https://pcsocialfly.web.app/" class="iconReload" style="font-size: 30px;">
+				<i class="fas fa-sync-alt"></i>
+			</a>
+		</div>
+		<div style="margin-bottom: 10px;">
+			<a href="https://pcsocialfly.web.app/pages/perfil.html" class="iconReload">
+				<i class="fas fa-user-cog"></i>
+			</a>
+		</div>
+		<div style="margin-bottom: 10px;">
+			<a href="https://pcsocialfly.web.app/pages/amigos.html" class="iconReload">
+				<i class="fas fa-users"></i>
+			</a>
+		</div>
+	</div>
   </div>
 
   <!-- CONTENIDO FORMULARIO -->
