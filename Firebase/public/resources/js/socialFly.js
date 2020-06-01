@@ -543,12 +543,27 @@
 		/** INICIO CREAR PUBLICIDAD MURO CENTRAL - VERSION MOVIL */
 		var varContadorPostPublicidad = 0; //Este contador cuando llegue a tres es cuando meterá una post de publicidad
 		var contadorPublicidad = 0;
-		function crearPublicidadMuroCentral(isMuroCentral, varId, varNombreEmpresa, varIdUsuario, varNombreAeropuerto, varComentarioPublicidad, varCarrousel){
+		function crearPublicidadMuroCentral(isMuroCentral, varId, varNombreEmpresa, varIdUsuario, varNombreAeropuerto, varComentarioPublicidad, varCarrousel, varMedia){
 			contadorPublicidad++;
 			var varIdPOST = "publicidad" + varId + contadorPublicidad;
 			
 			
 			var varStringCarrousel = crearCarrousel(varCarrousel, varIdPOST);
+			
+			var stringEstrellas = "";
+			
+			var stringEstrellaMarcada = '<span class="fa fa-star"></span>';
+			var stringEstrellaNoMarcada = '<span class="far fa-star"></span>';
+			for(var x = 1; x <= 5; x++){
+				if(varMedia >= 1){
+					varMedia --;
+					stringEstrellas += stringEstrellaMarcada;
+				} else {
+					stringEstrellas += stringEstrellaNoMarcada;
+				}
+			}
+			
+			
 			
 			var stringComment = 
 			"	<div class='post publicidad'>"
@@ -569,12 +584,15 @@
 			+ "				</a>"
 			+ "			</div>"
 			+ "		</div>"
+			+ " 	<div style='color:#4dde76;'>"
+			+ 			stringEstrellas
+			+ "		</div>"
 			+ "		<div class='comentario'>"
 			+ "			<p>"
 							+ varComentarioPublicidad
 			+ "			</p>"
 												
-						+	varStringCarrousel;
+						+	varStringCarrousel
 			+ "		</div>"
 			+ "	</div>";
 			

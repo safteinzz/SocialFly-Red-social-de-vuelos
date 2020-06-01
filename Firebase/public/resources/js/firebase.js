@@ -45,13 +45,13 @@ var queryAmigos = dbRef.child("amigos");
 // var user = firebase.auth().currentUser;
 
 firebase.auth().onAuthStateChanged(async function(user) {
-	if (!user && window.location.href != "https://pcsocialfly.web.app/pages/acceso.html") 
-	//if(false)
+	//if (!user && window.location.href != "https://pcsocialfly.web.app/pages/acceso.html") 
+	if(false)
 	{
 		window.location.href = "https://pcsocialfly.web.app/pages/acceso.html";
 	}
-	else if (!user)
-	//else if(false)
+	//else if (!user)
+	else if(false)
 	{
 		//no hacer nada
 	}
@@ -64,8 +64,8 @@ firebase.auth().onAuthStateChanged(async function(user) {
 		//<!----------------------------------------->		
 		
 		
-		const query = dbRef.child('users').orderByChild('uid').equalTo(user.uid);
-		//const query = dbRef.child('users').orderByChild('uid').equalTo("jKJklhgKFyVeeopT3GRQhDeFZhc2");
+		//const query = dbRef.child('users').orderByChild('uid').equalTo(user.uid);
+		const query = dbRef.child('users').orderByChild('uid').equalTo("jKJklhgKFyVeeopT3GRQhDeFZhc2");
 		
 
 		var today = new Date(); 
@@ -589,9 +589,48 @@ function cargarMuroPublicidadDerecha() {
 			if (!varArrayPublicidad[numAleatorio][1]) {
 				//Comprobamos que el primer booleano del array es false, si es false todavía no está en uso
 
+				//Cargar media
+				var varMedia = 0;
+				if(varArrayPublicidad[numAleatorio][0].val().votos != null){
+					var contador5 = 0;
+					var contador4 = 0;
+					var contador3 = 0;
+					var contador2 = 0;
+					var contador1 = 0;
+					var contador0 = 0;
+					
+					for(var x = 0; x < varArrayPublicidad[numAleatorio][0].val().votos.length; x++){
+						var puntuacion = varArrayPublicidad[numAleatorio][0].val().votos[x].puntuacion;
+						
+						switch (puntuacion){
+							case 5 :
+								contador5 ++;
+								break;
+							case 4 :
+								contador4 ++;
+								break;
+							case 3 :
+								contador3 ++;
+								break;
+							case 2 :
+								contador2 ++;
+								break;
+							case 1 :
+								contador1 ++;
+								break;
+							case 0 :
+								contador0 ++;
+								break;
+						}
+					}
+					
+					varMedia = ( (contador5 * 5) + (contador4 * 4) +(contador3 * 3) + (contador2 * 2)  + (contador1 * 1) ) / (contador0 + contador1 + contador2 + contador3 + contador4 + contador5);
+				}
+
+
 				var value = varArrayPublicidad[numAleatorio][0].val();
 				var varStringPublicidad = crearPublicidadMuroCentral(false, varArrayPublicidad[numAleatorio][0].key, value.nombre_usuario, value.id_usuario, value.nombre_aeropuerto,
-					value.comentario, value.carrousel);
+					value.comentario, value.carrousel, varMedia);
 
 				$('.muroDerecha .post').first().after(varStringPublicidad);
 
@@ -617,8 +656,47 @@ function crearPublicidadMuro() {
 			//Comprobamos que el primer booleano del array es false, si es false todavía no está en uso
 			console.log("Entramos PUBLICIDAD MURO CENTRAL");
 			var value = varArrayPublicidad[numAleatorio][0].val();
+			
+			//Cargar media
+			var varMedia = 0;
+			if(varArrayPublicidad[numAleatorio][0].val().votos != null){
+				var contador5 = 0;
+				var contador4 = 0;
+				var contador3 = 0;
+				var contador2 = 0;
+				var contador1 = 0;
+				var contador0 = 0;
+				
+				for(var x = 0; x < varArrayPublicidad[numAleatorio][0].val().votos.length; x++){
+					var puntuacion = varArrayPublicidad[numAleatorio][0].val().votos[x].puntuacion;
+					
+					switch (puntuacion){
+						case 5 :
+							contador5 ++;
+							break;
+						case 4 :
+							contador4 ++;
+							break;
+						case 3 :
+							contador3 ++;
+							break;
+						case 2 :
+							contador2 ++;
+							break;
+						case 1 :
+							contador1 ++;
+							break;
+						case 0 :
+							contador0 ++;
+							break;
+					}
+				}
+				
+				varMedia = ( (contador5 * 5) + (contador4 * 4) +(contador3 * 3) + (contador2 * 2)  + (contador1 * 1) ) / (contador0 + contador1 + contador2 + contador3 + contador4 + contador5);
+			}
+			
 			stringReturn = crearPublicidadMuroCentral(true, varArrayPublicidad[numAleatorio][0].key, value.nombre_usuario, value.id_usuario, value.nombre_aeropuerto,
-				value.comentario, value.carrousel);
+				value.comentario, value.carrousel, varMedia);
 
 			varArrayPublicidad[numAleatorio][2] = true;
 			contadorPublicidadMuroCentral++;
