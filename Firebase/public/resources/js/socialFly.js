@@ -558,11 +558,11 @@
 				stringComment += "			<div class='tituloPublicidad'>Publicidad</div>";
 			}
 			
-			stringComment += "			<a href='#' class='usuarioPost'>"
+			stringComment += "			<a href='https://pcsocialfly.web.app/pages/publicidad.html?id=" + varId + "' class='usuarioPost'>"
 							+ varNombreEmpresa
 			+ "			</a>"
 			+ "			<div class='datosVuelo'>"
-			+ "				<a href='#' style='text-decoration: none;'>"
+			+ "				<a href='https://pcsocialfly.web.app/pages/publicidad.html?id=" + varId + "' style='text-decoration: none;'>"
 			+ "					<div class='salidaVuelo'>"
 									+ varNombreAeropuerto
 			+ "					</div>"

@@ -490,17 +490,24 @@ async function cargarPantalla(){
 	var page = path.split("/").pop();
 
 	// await getUsuario();
-
+		
 	switch (page) {
 		// case 'index.html':			
 			// break;
 
 		case 'admin.html':
-			bs_input_file();			
+			bs_input_file();		
+			manage_master_tab(master_tab_public_control);			
 			break;
-			
+		case 'amigos.html':
+			load_amigos_table();
+			break;	
 		case 'publi.html':
 			bs_input_file();
+			load_data_publi();
+			break;
+		case 'publicidad.html':
+			load_publicidad();
 			break;
 		default:
 			initPrincipal();
@@ -556,7 +563,7 @@ async function getPublicidad() {
 
 	for (var x = 0; x < usuarioLogeado.actividades.length; x++) {
 
-		var snap_publi = await queryPublicidad.orderByChild("id_tipo_actividad").equalTo(usuarioLogeado.actividades[x]).once("value");
+		var snap_publi = await queryPublicidad.orderByChild("id_tipo_actividad").equalTo(String(usuarioLogeado.actividades[x])).once("value");
 		if (snap_publi.val() != null) {
 
 			snap_publi.forEach((child) => {
@@ -1144,4 +1151,60 @@ function borrarPost(varIdPost) {
 		});
 
 
+}
+
+/** INICIO CARGAR DATOS DE UNA PUBLICIDAD */
+async function load_publicidad(){
+	var varKey = getParameterByName('id');
+	var queryPubli = dbRef.child("publicidad");
+	var snap_publi = await queryPubli.orderByKey().equalTo(varKey).once("value");
+	if (snap_publi.val() != null) {
+		var val = Object.values(snap_publi.val())[0];
+		
+		$('#input_aeropuerto').val(val.nombre_aeropuerto);
+		$('#input_comentario').val(val.comentario);
+		$('#input_hashtag').val(val.hashtag);
+		$('#input_actividad').val(val.nombre_actividad);
+		var stringCarrousel = crearCarrousel(val.carrousel, "Publicidad" + varKey);
+		$('#carrouselFotos').html(stringCarrousel);
+	} 
+}
+
+function agregarVoto(varPuntuacion){
+	var elemento = $('.votado').length
+	if( elemento == 0 ){
+		console.log(usuarioLogeado.uid);
+		$('.votar').addClass("votado");
+		$('.votar').removeClass("votar");
+		var spanContador;
+		switch (varPuntuacion){
+			case 5 :
+				console.log("caso 5");
+				spanContador = $("#puntuacion5estrellas");
+				break;
+			case 4 :
+				console.log("caso 4");
+				spanContador = $("#puntuacion4estrellas");
+				break;
+			case 3 :
+				console.log("caso 3");
+				spanContador = $("#puntuacion3estrellas");
+				break;
+			case 2 :
+				console.log("caso 2");
+				spanContador = $("#puntuacion2estrellas");
+				break;
+			case 1 :
+				console.log("caso 1");
+				spanContador = $("#puntuacion1estrellas");
+				break;
+			case 0 :
+				console.log("caso 0");
+				spanContador = $("#puntuacion0estrellas");
+				break;
+		}
+		
+		var numeroContador = parseInt(spanContador.text()) + 1;
+		spanContador.text(numeroContador);
+	}
 }

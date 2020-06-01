@@ -1005,6 +1005,16 @@ nav.shift ul li a:hover:after {
 	/* RATING ESTRELLAS */
 	@import url(//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css);
 	
+	#rating #titulo{
+		font-size:25px;
+		color:black;
+		font-weight: bold;
+	}
+	
+	#rating #comprobacion{
+		color:black;
+	}
+	
 	.votacion div{
 		display: inline;
 	}
@@ -1013,7 +1023,7 @@ nav.shift ul li a:hover:after {
 		color: black;
 	}
 	
-	.puntuacion label{
+	.puntuacion span{
 		font-weight: bold;
 	}
 	
