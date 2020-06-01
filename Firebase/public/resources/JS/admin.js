@@ -15,28 +15,7 @@ var tabs_pagina = ['tab_aeropuertos', 'tab_actividades', 'tab_likes',
 ];
 
 // <-------------------------- load paginas ------------------------------>
-$(document).ready(async function () {
-    var path = window.location.pathname;
-    var page = path.split("/").pop();
 
-    // await getUsuario();
-	waitForGlobal("usuarioLogeado", function() {	
-		switch (page) {
-			case 'admin.html':
-				//manage_tab_table(tabs_pagina[0]); // cargamos sobre primer tab
-				manage_master_tab(master_tab_public_control);
-				break;
-			case 'amigos.html':
-				load_amigos_table();
-				break;
-			case 'publi.html':
-				load_data_publi();
-				break;
-		}		
-	});
-
-    
-});
 
 // <----------------------------------------------->
 // <--------------- ADMINISTRACION ---------------->
@@ -1095,16 +1074,16 @@ async function load_amigos_table() {
 // cargar datos FORMULARIO
 async function load_data_publi() {
     // lista para actividades
-    var queryDB = dbRef.child("actividad").orderByChild("nombre_actividad");
+    var queryDB = dbRef.child("actividades").orderByChild("id_actividad");
     var snap_query = await queryDB.once("value");
     if (snap_query.val() != null) {
         var actividadesList = document.getElementById('actividadesList');
         snap_query.forEach((child) => {
             // creo el elemento
             var newElement = document.createElement('option');
-            newElement.setAttribute('value', child.val().nombre_actividad);
+            newElement.setAttribute('value', child.val().id_actividad);
             newElement.setAttribute('id', child.key);
-            newElement.text = child.val().nombre_actividad;
+            newElement.text = child.val().nombre;
 
             actividadesList.appendChild(newElement); // Lo añado al select
         });
@@ -1135,6 +1114,7 @@ async function validate_publicidad() {
     var hashtag = document.getElementById('input_hashtag').value;
     var actividad_seleccionada = document.getElementById('actividadesList').value;
     var aeropuerto_seleccionado = document.getElementById('aeropuertosList').value;
+	var nombre_actividad_seleccionada = $("#actividadesList option:selected").text();
 
     if (aeropuerto_seleccionado == "") {
         $('#feedback_form').html("No hay ningun aeropuerto seleccionado");
@@ -1162,7 +1142,8 @@ async function validate_publicidad() {
         comentario: comentario,
         hashtag: hashtag,
         carrousel: carrousel,
-        nombre_actividad: actividad_seleccionada,
+        id_tipo_actividad: actividad_seleccionada,
+		nombre_actividad: nombre_actividad_seleccionada,
         nombre_aeropuerto: aeropuerto_seleccionado,
         id_usuario: usuarioLogeado.uid,
         nombre_usuario: usuarioLogeado.nombrePerfil
