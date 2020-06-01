@@ -45,13 +45,13 @@ var queryAmigos = dbRef.child("amigos");
 // var user = firebase.auth().currentUser;
 
 firebase.auth().onAuthStateChanged(async function(user) {
-	//if (!user && window.location.href != "https://pcsocialfly.web.app/pages/acceso.html") 
-	if(false)
+	if (!user && window.location.href != "https://pcsocialfly.web.app/pages/acceso.html") 
+	//if(false)
 	{
 		window.location.href = "https://pcsocialfly.web.app/pages/acceso.html";
 	}
-	//else if (!user)
-	else if(false)
+	else if (!user)
+	//else if(false)
 	{
 		//no hacer nada
 	}
@@ -64,8 +64,8 @@ firebase.auth().onAuthStateChanged(async function(user) {
 		//<!----------------------------------------->		
 		
 		
-		//const query = dbRef.child('users').orderByChild('uid').equalTo(user.uid);
-		const query = dbRef.child('users').orderByChild('uid').equalTo("jKJklhgKFyVeeopT3GRQhDeFZhc2");
+		const query = dbRef.child('users').orderByChild('uid').equalTo(user.uid);
+		//const query = dbRef.child('users').orderByChild('uid').equalTo("jKJklhgKFyVeeopT3GRQhDeFZhc2");
 		
 
 		var today = new Date(); 
@@ -894,13 +894,13 @@ var mydataSet_amigos = [];
 async function cargarAmigos() {
 
 	var queryAmigos = dbRef.child("amigos");
-	var snap_amigos = await queryAmigos.orderByChild("dni").equalTo(usuarioLogeado.uid).once("value");
+	var snap_amigos = await queryAmigos.orderByChild("uid").equalTo(usuarioLogeado.uid).once("value");
 	mydataSet_amigos.push(usuarioLogeado.uid);
 	if (snap_amigos.val() != null) {
 		console.log("cargarPost => hay post con ese dni");
 		// paso 1: añadimos los resultados en un array        
 		snap_amigos.forEach((child) => {
-			mydataSet_amigos.push(child.val().dni_amigo);
+			mydataSet_amigos.push(child.val().uid_amigo);
 		});
 	}
 }
