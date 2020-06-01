@@ -1170,13 +1170,15 @@ async function load_publicidad(){
 		var stringCarrousel = crearCarrousel(val.carrousel, "Publicidad" + varKey);
 		$('#carrouselFotos').html(stringCarrousel);
 		
+		var contador5 = 0;
+		var contador4 = 0;
+		var contador3 = 0;
+		var contador2 = 0;
+		var contador1 = 0;
+		var contador0 = 0;
+		
 		if(val.votos != null){
-			var contador5 = 0;
-			var contador4 = 0;
-			var contador3 = 0;
-			var contador2 = 0;
-			var contador1 = 0;
-			var contador0 = 0;
+			
 			var votado = false;
 			for(var x = 0; x < val.votos.length; x++){
 				switch (val.votos[x].puntuacion){
@@ -1205,12 +1207,13 @@ async function load_publicidad(){
 				}
 			}
 			
-			$("#puntuacion5estrellas").text(contador4);
-			$("#puntuacion4estrellas").text(contador3);
-			$("#puntuacion3estrellas").text(contador5);
+			$("#puntuacion5estrellas").text(contador5);
+			$("#puntuacion4estrellas").text(contador4);
+			$("#puntuacion3estrellas").text(contador3);
 			$("#puntuacion2estrellas").text(contador2);
 			$("#puntuacion1estrellas").text(contador1);
 			$("#puntuacion0estrellas").text(contador0);
+			
 			
 			$("#totalVotos").text(contador0 + contador1 + contador2 + contador3 + contador4 + contador5);
 			
@@ -1220,6 +1223,22 @@ async function load_publicidad(){
 				$('#comprobacion').text("Ya has votado");
 			}
 		}
+		
+		var varMedia = ( (contador5 * 5) + (contador4 * 4) +(contador3 * 3) + (contador2 * 2)  + (contador1 * 1) ) / (contador0 + contador1 + contador2 + contador3 + contador4 + contador5);
+		var stringEstrellas = "";
+		
+		var stringEstrellaMarcada = '<span class="fa fa-star"></span>';
+		var stringEstrellaNoMarcada = '<span class="far fa-star"></span>';
+		for(var x = 1; x <= 5; x++){
+			if(varMedia >= 1){
+				varMedia --;
+				stringEstrellas += stringEstrellaMarcada;
+			} else {
+				stringEstrellas += stringEstrellaNoMarcada;
+			}
+		}
+		
+		$('#puntuacionMedia').html(stringEstrellas);
 	} 
 }
 
