@@ -1,0 +1,576 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+    <head>
+        <title>Resultados de la busqueda</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+
+        <!-- ICONOS DE FONTAWESOME -->
+        <script src="https://kit.fontawesome.com/11d57a0be5.js" crossorigin="anonymous"></script>
+        <!-- BOOTSTRAP 3.4.1 -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <!-- CSS -->
+        <link rel="stylesheet" type="text/css" href="../resources/CSS/socialFly.css" />
+
+        <script src="https://www.gstatic.com/firebasejs/7.10.0/firebase-app.js"></script>
+
+        <script defer src="https://www.gstatic.com/firebasejs/7.10.0/firebase.js"></script>
+
+        <script defer src="../resources/JS/firebase.js"></script>
+
+        <!-- JS -->
+        <script src="../resources/JS/socialFly.js"></script>
+
+        <script>
+            //recibir user
+            var waitForGlobal = function (key, callback) {
+                if (window[key]) {
+                    callback();
+                } else {
+                    setTimeout(function () {
+                        waitForGlobal(key, callback);
+                    }, 100);
+                }
+            };
+
+            waitForGlobal("usuarioLogeado", function () {
+                $(".imagenPerfil").attr("src", usuarioLogeado.avatarURL);
+                $(".nombreMasApellidos").html(usuarioLogeado.nombre + " " + usuarioLogeado.apellidos);
+
+                cargarPantalla();
+
+                comprobarRolNavbar();
+            });
+
+            function openCity(evt, cityName) {
+                var i, tabcontent, tablinks;
+                tabcontent = document.getElementsByClassName("tabcontent");
+                for (i = 0; i < tabcontent.length; i++) {
+                    tabcontent[i].style.display = "none";
+                }
+
+                tablinks = document.getElementsByClassName("tablinks");
+                for (i = 0; i < tablinks.length; i++) {
+                    tablinks[i].className = tablinks[i].className.replace("active", "");
+                }
+
+                document.getElementById(cityName).style.display = "block";
+                evt.currentTarget.className += " active";
+            }
+        </script>
+    </head>
+
+    <body>
+        <!--------------------------------------- NAV BAR -------------------------------------->
+        <nav class="navbar navbar-dark navbarMenu-green navbar-expand-sm">
+            <a class="navbar-brand" href="https://pcsocialfly.web.app/">
+                <img src="../resources/images/iconAvion.png" width="30" height="30" alt="logo" />
+                SocialFly
+            </a>
+            <nav class="shift">
+                <ul>
+                    <li><a href="https://pcsocialfly.web.app/">Muro</a></li>
+                    <li><a href="https://pcsocialfly.web.app/pages/perfil.html">Mi perfil</a></li>
+                    <li><a href="https://pcsocialfly.web.app/pages/amigos.html">Mis amigos</a></li>
+                </ul>
+            </nav>
+
+            <div class="box">
+                <div class="buscadorMenu">
+                    <input type="search" id="search" placeholder="Search..." />
+                    <span class="icon"><i class="fa fa-search"></i></span>
+                </div>
+            </div>
+
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <label class="nombreMasApellidos"></label>
+                        <img src="" width="40" height="40" class="rounded-circle imagenPerfil" />
+                        <span class="badge" id="navNotificacion">5</span>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a href="#" data-target="#modalIMG" data-toggle="modal" data-id="../resources/images/yo.jpg" class="color-gray-darker c6 td-hover-none abrirModalIMG">
+                            <img src="" width="150" height="150" class="rounded-circle imagenPerfil" style="margin: 8px;" />
+                        </a>
+                        <div class="form-group has-search">
+                            <span class="fa fa-search form-control-feedback"></span>
+                            <input type="text" class="form-control" placeholder="Buscar" />
+                        </div>
+                        <a class="adminitracionEnlace dropdown-item" href="https://pcsocialfly.web.app/pages/admin.html">Adminitración</a>
+                        <a class="publiEnlace dropdown-item" href="https://pcsocialfly.web.app/pages/publi.html">Publicidad</a>
+                        <a class="dropdown-item" href="https://pcsocialfly.web.app/pages/amigos.html">Mis amigos</a>
+                        <a class="dropdown-item" href="https://pcsocialfly.web.app/pages/perfil.html">Mi perfil</a>
+                        <a class="logOut dropdown-item desconectar" href="#">Desconectar</a>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- INICIO BOTON SUBIR SCROLL -->
+        <span id="irArriba" class="ir-arriba fas fa-chevron-up"></span>
+        <!-- FIN BOTON SUBIR SCROLL -->
+
+        <!-- INICIO BOTON REFRESCAR PAGINA -->
+        <a id="btnReload" href="https://pcsocialfly.web.app/">
+            <span class="btnReload fas fa-sync-alt"></span>
+        </a>
+        <!-- FIN BOTON REFRESCAR PAGINA -->
+
+        <!-- INICIO CONTENIDO -->
+        <div class="col-md-12" id="contenedor">
+            <div class="col-md-1 float-left muroIzquierda text-center">
+                <div id="botonesMenuIzquierdo" style="display: none;">
+                    <div style="margin-bottom: 10px;">
+                        <a href="https://pcsocialfly.web.app/" class="iconReload" style="font-size: 30px;">
+                            <i class="fas fa-sync-alt"></i>
+                        </a>
+                    </div>
+                    <div style="margin-bottom: 10px;">
+                        <a href="https://pcsocialfly.web.app/pages/perfil.html" class="iconReload">
+                            <i class="fas fa-user-cog"></i>
+                        </a>
+                    </div>
+                    <div style="margin-bottom: 10px;">
+                        <a href="https://pcsocialfly.web.app/pages/amigos.html" class="iconReload">
+                            <i class="fas fa-users"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9 float-left contenedorCentral">
+                <h1 class="display-2 text-center">Resultados de la Busqueda</h1>
+
+                <div class="container w3-animate-opacity">
+                    <div class="tab">
+                        <button class="tablinks" onclick="openCity(event, 'Servers')">Servers List</button>
+                        <button class="tablinks" onclick="openCity(event, 'Fruits')">Fruits Price</button>
+                        <button class="tablinks" onclick="openCity(event, 'Workers')">Workers List</button>
+                    </div>
+                    <div id="Servers" class="tabcontent">
+                        <table class="w3-animate-opacity">
+                            <tr>
+                                <th>Servers List</th>
+                                <th>Status</th>
+                                <th>Time</th>
+                            </tr>
+                            <tr>
+                                <td>Ubuntu Server 16.04.4</td>
+                                <td class="actived"><a href="#">Available</a></td>
+                                <td>1 year, 11 months, 23 hours, 59minutes, 59seconds</td>
+                            </tr>
+                            <tr>
+                                <td>Virtual Machine Windows Server 2002</td>
+                                <td class="actived"><a href="#">Available</a></td>
+                                <td>2 year, 11 months, 23 hours, 59minutes, 59seconds</td>
+                            </tr>
+                            <tr>
+                                <td>Windows 10 Spark server</td>
+                                <td class="deactivated"><a href="#">Unavailable</a></td>
+                                <td>0 year, 6 months, 2 hours, 9minutes, 40seconds</td>
+                            </tr>
+                            <tr>
+                                <td>Windows XP Professional</td>
+                                <td class="deactivated"><a href="#">Unavailable</a></td>
+                                <td>0 year, 0 month, 0 hours, 0 minutes, 0 seconds</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div id="Fruits" class="tabcontent w3-animate-opacity">
+                        <table>
+                            <tr>
+                                <th>Fruits</th>
+                                <th>Ammount</th>
+                                <th>Price</th>
+                            </tr>
+                            <tr>
+                                <td>Orange</td>
+                                <td>1 unit</td>
+                                <td>U$ 0,10</td>
+                            </tr>
+                            <tr>
+                                <td>Pineapple</td>
+                                <td>1 unit</td>
+                                <td>U$ 0,20</td>
+                            </tr>
+                            <tr>
+                                <td>Strawberry</td>
+                                <td>1 unit</td>
+                                <td>U$ 0,40</td>
+                            </tr>
+                            <tr>
+                                <td>Apple</td>
+                                <td>2 units</td>
+                                <td>U$ 0,40</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div id="Workers" class="tabcontent w3-animate-opacity">
+                        <table>
+                            <tr>
+                                <th>Officers</th>
+                                <th>Department</th>
+                                <th>Date of birth</th>
+                                <th>Status</th>
+                            </tr>
+                            <tr>
+                                <td>Leandro Bizzinotto Ferreira</td>
+                                <td>Web Designer</td>
+                                <td>23/09/1994</td>
+                                <td class="intraining">In training</td>
+                            </tr>
+                            <tr>
+                                <td>Cristiano Bizzinotto Ferreira</td>
+                                <td>Advertising</td>
+                                <td>23/09/1994</td>
+                                <td class="available">Available</td>
+                            </tr>
+                            <tr>
+                                <td>Amanda Maria Bizzinotto Ferreira</td>
+                                <td>Polyglot, Translator, Developer</td>
+                                <td>17/07/1993</td>
+                                <td class="vacation">Vacation</td>
+                            </tr>
+                            <tr>
+                                <td>Luis Antonio Ferreira</td>
+                                <td>Personal Manager</td>
+                                <td>20/08/1966</td>
+                                <td class="available">Available</td>
+                            </tr>
+                            <tr>
+                                <td>Luis Antonio Ferreira</td>
+                                <td>Personal Manager</td>
+                                <td>20/08/1968</td>
+                                <td class="available">Available</td>
+                            </tr>
+                            <tr>
+                                <td>Rita Helena Bizzinotto Ferreira</td>
+                                <td>Housewife</td>
+                                <td>20/07/1962</td>
+                                <td class="disable">Disable</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="muro">
+                    <div class="post" style="border: 0px;"></div>
+                </div>
+                <div class="muro" id="muroCargarMas" onclick="agregarPost();">
+                    <div id="buttonCargarMas"><i class="fas fa-arrow-down" style="margin-right: 20px;"></i>CARGAR MÁS<i class="fas fa-arrow-down" style="margin-left: 20px;"></i></div>
+                </div>
+            </div>
+
+            <!-- INICIO MURO DERECHA / PUBLICIDAD -->
+            <div class="col-md-2 float-left muroDerecha">
+                <div class="post" style="border: 0px; padding: 0px;"></div>
+
+                <!--
+			<div class="post">
+				<div class="header">
+					<a href="#" style="text-decoration: none;font-weight: bold;">
+						McDonalds
+					</a>
+					<a href="#" style="text-decoration: none;">
+						<div class="datosVuelo">
+							<div class="salidaVuelo">
+								Barajas(Madrid)
+							</div>
+						</div>
+					</a>
+				</div>
+				<div class="comentario">
+					<p>
+					El mejor restaurante del mundo ven a visitarnos.
+					</p>
+					
+					
+					<div id="publicidadMcDonaldsBarra" class="carousel slide" data-ride="carousel">
+						<ol class="carousel-indicators">
+							<li data-target="#publicidadMcDonaldsBarra" data-slide-to="0" class="active"></li>
+							<li data-target="#publicidadMcDonaldsBarra" data-slide-to="1"></li>
+						</ol>
+						<div class="carousel-inner">
+							<div class="carousel-item active">
+								<img class="d-block w-100 mx-auto imagenCarousel" data-id="https://i1.wp.com/www.sopitas.com/wp-content/uploads/2015/07/Mc-Trio-McDonalds.jpg" src="https://i1.wp.com/www.sopitas.com/wp-content/uploads/2015/07/Mc-Trio-McDonalds.jpg" alt="First slide">
+							</div>
+							<div class="carousel-item">
+								<img class="d-block w-100 mx-auto imagenCarousel" data-id="https://www.dream-alcala.com/wp-content/uploads/2018/12/mcdonalds_hamburguesas_menu.jpg" src="https://www.dream-alcala.com/wp-content/uploads/2018/12/mcdonalds_hamburguesas_menu.jpg" alt="Second slide">
+							</div>
+						</div>
+						<a class="carousel-control-prev" href="#publicidadMcDonaldsBarra" role="button" data-slide="prev">
+							<span class="carousel-control-prev-icon fas fa-chevron-left" aria-hidden="true"></span>
+							<span class="sr-only">Previous</span>
+						</a>
+						<a class="carousel-control-next" href="#publicidadMcDonaldsBarra" role="button" data-slide="next">
+							<span class="carousel-control-next-icon fas fa-chevron-right" aria-hidden="true"></span>
+							<span class="sr-only">Next</span>
+						</a>
+					</div>
+					
+				</div>
+				
+			</div>
+			
+			-->
+
+                <!--
+			<div class="post">
+				<div class="header">
+					<a href="#" style="text-decoration: none;font-weight: bold;">
+						Domino's Pizza
+					</a>
+					<a href="#" style="text-decoration: none;">
+						<div class="datosVuelo">
+							<div class="salidaVuelo">
+								Barajas(Madrid)
+							</div>
+						</div>
+					</a>
+				</div>
+				<div class="comentario">
+					<p>
+						Pizzas mejores que la mierda esa del Telepizza
+					</p>
+					
+					
+					<div id="publicidadDominosBarra" class="carousel slide" data-ride="carousel">
+						<ol class="carousel-indicators">
+							<li data-target="#publicidadDominosBarra" data-slide-to="0" class="active"></li>
+							<li data-target="#publicidadDominosBarra" data-slide-to="1"></li>
+							<li data-target="#publicidadDominosBarra" data-slide-to="2"></li>
+						</ol>
+						<div class="carousel-inner">
+							<div class="carousel-item active">
+								<img class="d-block w-100 mx-auto imagenCarousel" data-id="https://restauracionnews.com/wp-content/uploads/2019/11/1200x628_Dominos-RollExtra.jpg" src="https://restauracionnews.com/wp-content/uploads/2019/11/1200x628_Dominos-RollExtra.jpg" alt="First slide">
+							</div>
+							<div class="carousel-item">
+								<img class="d-block w-100 mx-auto imagenCarousel" data-id="https://www.ecestaticos.com/imagestatic/clipping/2e0/449/2e044981491f3c1ed169bf86c7553268/roll-extra-la-nueva-apuesta-de-domino-s-pizza.jpg?mtime=1554114452" src="https://www.ecestaticos.com/imagestatic/clipping/2e0/449/2e044981491f3c1ed169bf86c7553268/roll-extra-la-nueva-apuesta-de-domino-s-pizza.jpg?mtime=1554114452" alt="Second slide">
+							</div>
+							<div class="carousel-item">
+								<img class="d-block w-100 mx-auto imagenCarousel" data-id="https://cdn.forbes.com.mx/2016/10/dominospizza22.jpg" src="https://cdn.forbes.com.mx/2016/10/dominospizza22.jpg" alt="Second slide">
+							</div>
+						</div>
+						<a class="carousel-control-prev" href="#publicidadDominosBarra" role="button" data-slide="prev">
+							<span class="carousel-control-prev-icon fas fa-chevron-left" aria-hidden="true"></span>
+							<span class="sr-only">Previous</span>
+						</a>
+						<a class="carousel-control-next" href="#publicidadDominosBarra" role="button" data-slide="next">
+							<span class="carousel-control-next-icon fas fa-chevron-right" aria-hidden="true"></span>
+							<span class="sr-only">Next</span>
+						</a>
+					</div>
+					
+				</div>
+				
+			</div>
+			
+			-->
+            </div>
+            <!-- FIN MURO DERECHA / PUBLICIDAD -->
+        </div>
+        <!-- FIN CONTENIDO -->
+
+        <!-- INICIO MODAL IMAGEN -->
+        <div aria-hidden="true" aria-labelledby="myModalLabel" class="modal fade" id="modalIMG" role="dialog" tabindex="-1">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-body mb-0 p-0">
+                        <img id="imagenDelModal" src="" alt="" style="width: 100%;" />
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-outline-primary btn-rounded btn-md ml-4 text-center btn-close" data-dismiss="modal" type="button">Close</button>
+                        <div><a href="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg" class="btn btn-outline-primary btn-rounded btn-md ml-4 text-center" target="_blank">Download</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- FIN MODAL IMAGEN -->
+
+        <!-- INICIO MODAL COMENTARIO -->
+        <div aria-hidden="true" aria-labelledby="modalComent" class="modal fade" id="modalComent" role="dialog" tabindex="-1">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-body" style="padding: 0px;">
+                        <div class="contenidoMensajes"></div>
+                    </div>
+                    <div style="border-top: 1px solid #e9ecef; padding: 5px 10px;">
+                        <div style="margin-bottom: 10px;">
+                            <div class="col-md-12">
+                                Escribe tu comentario:
+                            </div>
+                        </div>
+                        <div style="margin-bottom: 10px;">
+                            <div class="col-md-12">
+                                <div class="input-group">
+                                    <textarea class="input--style-4" id="textAreaNuevaRespuesta" placeholder="Introduce un comentario" rows="1"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- INICIO DIV MENSAJE ALERTA -->
+                        <div id="messagesComentario" class="alert alert-danger alert-dismissible" style="display: none;">
+                            <button type="button" class="close" onclick="ocultarDiv('#modalComent #messagesComentario');">&times;</button>
+                            <div id="contenidoMensaje"></div>
+                        </div>
+                        <!-- FIN DIV MENSAJE ALERTA -->
+
+                        <div style="margin-bottom: 10px; padding-right: 15px; padding-left: 15px;">
+                            <button id="btnCrearComentario" class="btn-principal btn btn-rounded btn-md ml-4" type="button" style="width: 100%;">Enviar</button>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-outline-primary btn-rounded btn-md ml-4 text-center btn-close" data-dismiss="modal" type="button">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- FIN MODAL COMENTARIO -->
+
+        <!-- INICIO MODAL BORRAR POST -->
+        <div aria-hidden="true" aria-labelledby="modalDelete" class="modal fade" id="modalDelete" role="dialog" tabindex="-1">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        ¿Estás seguro que desea eliminar la publicación?
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-outline-primary btn-rounded btn-md ml-4 text-center btn-close" data-dismiss="modal" type="button">Cancelar</button>
+                        <button id="btnEliminarPost" class="btn btn-outline-primary btn-rounded btn-md ml-4 text-center" data-dismiss="modal" type="button">Confirmar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- FIN MODAL BORRAR POST -->
+
+        <!-- INICIO PIE DE PAGINA -->
+        <footer id="footer" class="d-flex-column text-center">
+            <hr class="mt-0 mb-0" />
+            <!--Social buttons-->
+            <div class="text-center">
+                <h4>Síguenos</h4>
+                <ul class="list-unstyled list-inline">
+                    <li class="list-inline-item">
+                        <a href="#!" class="sbtn btn-large mx-1" title="Facebook">
+                            <i class="fab fa-facebook-square fa-2x"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#!" class="sbtn btn-large mx-1" title="Linkedin">
+                            <i class="fab fa-linkedin fa-2x"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#!" class="sbtn btn-large mx-1" title="Twitter">
+                            <i class="fab fa-twitter-square fa-2x"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#!" class="sbtn btn-large mx-1" title="Youtube">
+                            <i class="fab fa-youtube-square fa-2x"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <!--/.Social buttons-->
+            <hr class="mb-0" />
+            <!--Footer Links-->
+
+            <div class="containerFooter text-left text-md-center">
+                <div class="row">
+                    <!--First column-->
+                    <div class="col-md-3 mx-auto shfooter contendorMostrarOpciones">
+                        <div class="d-md-none title">
+                            <div class="mt-3 font-weight-bold" id="mostrarOpciones">
+                                Mostrar opciones
+                                <div class="float-right navbar-toggler">
+                                    <i class="fas fa-angle-down"></i>
+                                    <i class="fas fa-angle-up"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="clearfix w-100 d-md-none mb-0 collapse" />
+                    <div class="col-md-3 mx-auto shfooter">
+                        <h5 class="my-2 font-weight-bold d-none d-md-block">¿Por qué SocialFly?</h5>
+                        <div class="d-md-none title" data-target="#Product" data-toggle="collapse">
+                            <div class="mt-3 font-weight-bold collapse" id="subMenu1">
+                                ¿Por qué SocialFly?
+                                <div class="float-right navbar-toggler">
+                                    <i class="fas fa-angle-down"></i>
+                                    <i class="fas fa-angle-up"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <ul class="list-unstyled collapse" id="Product">
+                            <li><a href="#">Seguridad</a></li>
+                            <li><a href="#">Privacidad</a></li>
+                            <li><a href="#">Pioneros</a></li>
+                        </ul>
+                    </div>
+                    <!--/.First column-->
+                    <hr class="clearfix w-100 d-md-none mb-0 collapse" />
+                    <!--Second column-->
+                    <div class="col-md-3 mx-auto shfooter">
+                        <h5 class="my-2 font-weight-bold d-none d-md-block">Menu</h5>
+                        <div class="d-md-none title" data-target="#Company" data-toggle="collapse">
+                            <div class="mt-3 font-weight-bold collapse" id="subMenu2">
+                                Menu
+                                <div class="float-right navbar-toggler">
+                                    <i class="fas fa-angle-down"></i>
+                                    <i class="fas fa-angle-up"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <ul class="list-unstyled collapse" id="Company">
+                            <li><a href="https://pcsocialfly.web.app/">Inicio</a></li>
+                            <li><a href="#">Sobre nosotros</a></li>
+                            <li><a href="#">Contactanos</a></li>
+                        </ul>
+                    </div>
+                    <!--/.Second column-->
+                    <hr class="clearfix w-100 d-md-none mb-0 collapse" />
+                    <!--Third column-->
+                    <div class="col-md-3 mx-auto shfooter">
+                        <h5 class="my-2 font-weight-bold d-none d-md-block">Perfil</h5>
+                        <div class="d-md-none title" data-target="#Resources" data-toggle="collapse">
+                            <div class="mt-3 font-weight-bold collapse" id="subMenu3">
+                                Perfil
+                                <div class="float-right navbar-toggler">
+                                    <i class="fas fa-angle-down"></i>
+                                    <i class="fas fa-angle-up"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <ul class="list-unstyled collapse" id="Resources">
+                            <li><a class="adminitracionEnlace" href="https://pcsocialfly.web.app/pages/admin.html">Adminitración</a></li>
+                            <li><a class="publiEnlace" href="https://pcsocialfly.web.app/pages/publi.html">Publicidad</a></li>
+                            <li><a href="https://pcsocialfly.web.app/pages/amigos.html">Mis amigos</a></li>
+                            <li><a href="https://pcsocialfly.web.app/pages/perfil.html">Mi perfil</a></li>
+                            <li><a class="logOut">Desconectar</a></li>
+                        </ul>
+                    </div>
+                    <!--/.Third column-->
+                </div>
+            </div>
+            <!--/.Footer Links-->
+            <!--Copyright-->
+            <div class="text-center" style="font-size: 12px;">
+                © Copyright
+                <script>
+                    document.write(new Date().getFullYear());
+                </script>
+                Copyright.es - Todos los Derechos Reservados
+            </div>
+            <!--/.Copyright-->
+        </footer>
+        <!-- FIN PIE DE PAGINA -->
+
+        <script></script>
+    </body>
+</html>
