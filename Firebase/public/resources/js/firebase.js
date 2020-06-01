@@ -64,40 +64,12 @@ firebase.auth().onAuthStateChanged(async function(user) {
 		//<!----------------------------------------->		
 		
 		
-		const query = dbRef.child('users').orderByChild('uid').equalTo(user.uid);
-		//const query = dbRef.child('users').orderByChild('uid').equalTo("jKJklhgKFyVeeopT3GRQhDeFZhc2");
 		
-
-		var today = new Date(); 
-		var now = today.getDate()  + '/' + (today.getMonth()+1) + '/' +today.getFullYear();
-		await query.once('value',snapshot => 
-		{
-			if (snapshot.val() != null)
-			{
-				var key = Object.keys(snapshot.val())[0];  
-				var val = Object.values(snapshot.val())[0]; 
-				usuarioLogeado =
-				{
-					uid:val.uid,
-					email:val.email,
-					id_rol:val.id_rol,
-					fecha_registro:val.fecha_registro,
-					fecha_visita:now,
-					nombre:val.nombre,
-					apellidos:val.apellidos,
-					tlf_movil:val.tlf_movil,
-					google: val.google,
-					avatarURL: val.avatarURL
-				};
-				if (val.actividades != null)
-				{
-					usuarioLogeado.actividades = val.actividades;
-				}
-			}
-		});
+		//const query = dbRef.child('users').orderByChild('uid').equalTo("jKJklhgKFyVeeopT3GRQhDeFZhc2");
+		usuarioLogeado = await getUsuarioPorUid(user.uid);
 		
 		waitForGlobal("usuarioLogeado", function() {	
-			usuarioLogeado.fecha_visita = now;
+			// usuarioLogeado.fecha_visita = now;
 			//TODO LO QUE VAYA ANTES DE ESTO QUE SE APLIQUE A USUARIOLOGEADO SE VA A GUARDAR EN TABLA
 			editarUsuario(usuarioLogeado); //actualizar fecha ultima visita
 			
@@ -107,7 +79,39 @@ firebase.auth().onAuthStateChanged(async function(user) {
 	}
 });
 
-
+async function getUsuarioPorUid(uidParametro)
+{
+	var today = new Date(); 
+	var now = today.getDate()  + '/' + (today.getMonth()+1) + '/' +today.getFullYear();
+	
+	const query = dbRef.child('users').orderByChild('uid').equalTo(uidParametro);
+	await query.once('value',snapshot => 
+	{
+		if (snapshot.val() != null)
+		{
+			var key = Object.keys(snapshot.val())[0];  
+			var val = Object.values(snapshot.val())[0]; 
+			user =
+			{
+				uid:val.uid,
+				email:val.email,
+				id_rol:val.id_rol,
+				fecha_registro:val.fecha_registro,
+				fecha_visita:now,
+				nombre:val.nombre,
+				apellidos:val.apellidos,
+				tlf_movil:val.tlf_movil,
+				google: val.google,
+				avatarURL: val.avatarURL
+			};
+			if (val.actividades != null)
+			{
+				user.actividades = val.actividades;
+			}
+		}
+	});
+	return user;
+}
 
 
 // <!--------------------------------------- Eventos ------------------------------------------>
