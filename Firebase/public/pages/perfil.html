@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Mi Perfil</title>
+        <title>Perfil</title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
@@ -40,7 +40,12 @@
         <link rel="stylesheet" type="text/css" href="../resources/CSS/styles.css" />
 
         <!--------------------------------------- FUNCIONES ADICIONALES ------------------------------------------>
-        <script>   
+        <script>	
+			sessionStorage.setItem("uid_busqueda", "ulqZoAV506Z5uXOO1YcOe6dDwUn2");  //PROBAR 
+			
+			
+			
+			
 			var waitForGlobal = function(key, callback)
 			{
 				if (window[key])
@@ -55,36 +60,64 @@
 				}
 			};
 			
-            waitForGlobal("usuarioLogeado", function() {
-            	document.getElementById("fecha_registro").innerHTML = usuarioLogeado.fecha_registro;
-            	document.getElementById("fecha_visita").innerHTML = usuarioLogeado.fecha_visita;
-
-            	document.getElementById("email_input").setAttribute("placeholder", usuarioLogeado.email);
-            	document.getElementById("nombre_input").setAttribute("placeholder", usuarioLogeado.nombre);
-            	document.getElementById("apellidos_input").setAttribute("placeholder", usuarioLogeado.apellidos);
-            	document.getElementById("tlf_movil_input").setAttribute("placeholder", usuarioLogeado.tlf_movil);
+			
+			
+			var usuarioRellenar;
+			
+			//coger usuario logeado y rellenar navbar
+            waitForGlobal("usuarioLogeado", async function() {  
+				$(".imagenPerfil").attr("src", usuarioLogeado.avatarURL);	
+				$(".nombreMasApellidos").html(usuarioLogeado.nombre + ' ' + usuarioLogeado.apellidos);		
+            	comprobarRolNavbar();				
 				
-				if('actividades' in usuarioLogeado)
+				//comprobar si estamos buscando un usuario			
+				if(sessionStorage.getItem("uid_busqueda") != null)
 				{
-					for (var i = 0; i < usuarioLogeado.actividades.length; i++)
+					usuarioRellenar = await getUsuarioPorUid(sessionStorage.getItem("uid_busqueda"));	
+					divPass.style.display = 'none';
+					sessionStorage.removeItem("uid_busqueda");
+					
+					//comprobar si son amigos si son amigos poner boton de dejar de serlo, si no lo son poner boton agregar
+					
+				}
+				//si no estamos buscando rellenamos por el usuario del auth
+				else
+				{
+					usuarioRellenar = usuarioLogeado;
+					$('.inputsPerfil').removeAttr('disabled');
+				}
+				
+
+				//rellenar el perfil con el usuario buscado con nuestro usuario si no hay usuario buscado
+				document.getElementById("fecha_registro").innerHTML = usuarioRellenar.fecha_registro;
+				document.getElementById("fecha_visita").innerHTML = usuarioRellenar.fecha_visita;
+
+				document.getElementById("email_input").setAttribute("placeholder", usuarioRellenar.email);
+				document.getElementById("nombre_input").setAttribute("placeholder", usuarioRellenar.nombre);
+				document.getElementById("apellidos_input").setAttribute("placeholder", usuarioRellenar.apellidos);
+				document.getElementById("tlf_movil_input").setAttribute("placeholder", usuarioRellenar.tlf_movil);
+				
+				if('actividades' in usuarioRellenar)
+				{
+					for (var i = 0; i < usuarioRellenar.actividades.length; i++)
 					{
-						if (usuarioLogeado.actividades[i] == 0)
+						if (usuarioRellenar.actividades[i] == 0)
 						{
 							$( "#checkDeporte" ).prop( "checked", true );
 						}
-						else if (usuarioLogeado.actividades[i] == 1)
+						else if (usuarioRellenar.actividades[i] == 1)
 						{
 							$( "#checkComida" ).prop( "checked", true );
 						}
-						else if (usuarioLogeado.actividades[i] == 2)
+						else if (usuarioRellenar.actividades[i] == 2)
 						{
 							$( "#checkLectura" ).prop( "checked", true );
 						}
-						else if (usuarioLogeado.actividades[i] == 3)
+						else if (usuarioRellenar.actividades[i] == 3)
 						{
 							$( "#checkCine" ).prop( "checked", true );
 						}
-						else if (usuarioLogeado.actividades[i] == 4)
+						else if (usuarioRellenar.actividades[i] == 4)
 						{
 							$( "#checkComprarRopa" ).prop( "checked", true );
 						}
@@ -92,23 +125,24 @@
 				}
 
 
-            	$(".nombreMasApellidos").html(usuarioLogeado.nombre + ' ' + usuarioLogeado.apellidos);
-            	$(".imagenPerfil").attr("src", usuarioLogeado.avatarURL);
-            	if (usuarioLogeado.google == 1)
-            	{
-            		divPass.style.display = 'none';
-            	}
+				$(".perfilNombreMasApellidos").html(usuarioRellenar.nombre + ' ' + usuarioRellenar.apellidos);
+				$(".perfilImagenPerfil").attr("src", usuarioRellenar.avatarURL);
+				
+				
+				if (usuarioRellenar.google == 1)
+				{
+					divPass.style.display = 'none';
+				}
 
 
-            	const secondFunction = async () => {
-            	  var rol = await getRol(usuarioLogeado.id_rol);
-            	  document.getElementById("nombre_rol").innerHTML = rol;
-            	}
-            	secondFunction();
-
-
-            	comprobarRolNavbar();
+				const secondFunction = async () => {
+				  var rol = await getRol(usuarioRellenar.id_rol);
+				  document.getElementById("nombre_rol").innerHTML = rol;
+				}
+				secondFunction();
             });
+			
+			
 
             <!-- $(window).on('load', function() { -->
             	<!-- document.getElementById("nombreMasApellidos").innerHTML = usuarioLogeado.nombre + ' ' + usuarioLogeado.apellidos; -->
@@ -259,16 +293,16 @@
             <div class="container bootstrap snippet text-dark">
                 <div class="row">
                     <div class="col-sm-10">
-                        <h1 class="nombreMasApellidos"></h1>
+                        <h1 class="perfilNombreMasApellidos"></h1>
                     </div>
 
                     <div class="col-sm-2">
                         <div class="profile-img-container">
-                            <img src="" class="img-thumbnail img-circle img-responsive imagenPerfil" alt="avatar image" />
+                            <img src="" class="img-thumbnail img-circle img-responsive perfilImagenPerfil" alt="avatar image" />
                             <span id="other">
                                 <i class="fa fa-upload fa-5x"></i>
                             </span>
-                            <input type="file" onChange="subirFoto()" class="hiddenItem" id="target" accept=".png" />
+                            <input type="file" onChange="subirFoto()" class="hiddenItem inputsPerfil" id="target" accept=".png" disabled="disabled"/>
 
                             <!-- accept="image/*"-->
                         </div>
@@ -283,7 +317,21 @@
                         </script>
                     </div>
                 </div>
-
+				
+				
+				<div class="row m-2">
+					<a href="#" class="follow btn btn-outline-success" onclick="change_btn();"> <i class="fas fa-user-friends"></i> Añadir amigo</a>
+					<script>
+						// Javascript File
+						function change_btn(){
+							//comprobar clase o comprobar si son amigos, puedo tener una variable que me dice si son amigos, seria mas facil
+							$('.follow').removeClass("btn-outline-success");
+							$('.follow').addClass("btn-danger");
+							$('.follow').html("&cross; Borrar amigo");
+						}
+					</script>
+				</div>
+			
                 <div class="row">
                     <div class="col-md-12 colFormulario">
                         <!-- INICIO CHECKBOX ACTIVIDADES -->
@@ -291,23 +339,23 @@
                             <label class="label">Actividades</label>
                             <div id="divActividades" class="checkbox-style">
                                 <div class="custom-control custom-checkbox custom-control-inline">
-                                    <input type="checkbox" class="custom-control-input mostrarSubmiters" id="checkDeporte" />
+                                    <input type="checkbox" class="custom-control-input mostrarSubmiters inputsPerfil" id="checkDeporte" disabled="disabled"/>
                                     <label class="custom-control-label" for="checkDeporte">Deporte <i class="fas fa-swimmer iconGenero"></i></label>
                                 </div>
                                 <div class="custom-control custom-checkbox custom-control-inline">
-                                    <input type="checkbox" class="custom-control-input mostrarSubmiters" id="checkComida" />
+                                    <input type="checkbox" class="custom-control-input mostrarSubmiters inputsPerfil" id="checkComida" disabled="disabled"/>
                                     <label class="custom-control-label" for="checkComida">Comida <i class="fas fa-utensils iconGenero"></i></label>
                                 </div>
                                 <div class="custom-control custom-checkbox custom-control-inline">
-                                    <input type="checkbox" class="custom-control-input mostrarSubmiters" id="checkLectura" />
+                                    <input type="checkbox" class="custom-control-input mostrarSubmiters inputsPerfil" id="checkLectura" disabled="disabled"/>
                                     <label class="custom-control-label" for="checkLectura">Lectura <i class="fas fa-book iconGenero"></i></label>
                                 </div>
                                 <div class="custom-control custom-checkbox custom-control-inline">
-                                    <input type="checkbox" class="custom-control-input mostrarSubmiters" id="checkCine" />
+                                    <input type="checkbox" class="custom-control-input mostrarSubmiters inputsPerfil" id="checkCine" disabled="disabled"/>
                                     <label class="custom-control-label" for="checkCine">Cine <i class="fas fa-video iconGenero"></i></label>
                                 </div>
                                 <div class="custom-control custom-checkbox custom-control-inline">
-                                    <input type="checkbox" class="custom-control-input mostrarSubmiters" id="checkComprarRopa" />
+                                    <input type="checkbox" class="custom-control-input mostrarSubmiters inputsPerfil" id="checkComprarRopa" disabled="disabled"/>
                                     <label class="custom-control-label" for="checkComprarRopa">Comprar ropa <i class="fas fa-tshirt iconGenero"></i></label>
                                 </div>
                             </div>
@@ -348,7 +396,7 @@
                                 <!-- resetPass(usuarioLogeado.email);	 -->
                                 <!-- }); -->
                                 <!-- </script> -->
-                                <input type="email" class="form-control mostrarSubmiters" name="email" id="email_input" placeholder="" disabled />
+                                <input type="email" class="form-control mostrarSubmiters" name="email" id="email_input" placeholder="" disabled /> 
                             </div>
                         </div>
 
@@ -382,7 +430,7 @@
                                 <label for="Nombre">
                                     <h4>Nombre</h4>
                                 </label>
-                                <input type="text" class="form-control mostrarSubmiters" name="first_name" id="nombre_input" placeholder="" />
+                                <input type="text" class="form-control mostrarSubmiters inputsPerfil" name="first_name" id="nombre_input" placeholder="" disabled="disabled"/>
                             </div>
                         </div>
                         <div class="m-2">
@@ -390,7 +438,7 @@
                                 <label for="Apellidos">
                                     <h4>Apellidos</h4>
                                 </label>
-                                <input type="text" class="form-control mostrarSubmiters" name="last_name" id="apellidos_input" placeholder="" />
+                                <input type="text" class="form-control mostrarSubmiters inputsPerfil" name="last_name" id="apellidos_input" placeholder="" disabled="disabled"/>
                             </div>
                         </div>
 
@@ -399,7 +447,7 @@
                                 <label for="Movil">
                                     <h4>Teléfono Movil</h4>
                                 </label>
-                                <input type="text" class="form-control mostrarSubmiters" name="mobile" id="tlf_movil_input" placeholder="" />
+                                <input type="text" class="form-control mostrarSubmiters inputsPerfil" name="mobile" id="tlf_movil_input" placeholder="" disabled="disabled"/>
                             </div>
                         </div>
 
