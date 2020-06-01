@@ -368,7 +368,7 @@ function login(tipo) {
 			
 			await crearUser(newUser);
 			// await sleep(1000);
-			alert('Login confirmado'); //esto esta para esperar la creación mas que otra cosa
+			alert('Login confirmado'); //esto esta para esperar la creaciï¿½n mas que otra cosa
 			window.location.href = "https://pcsocialfly.web.app/pages/perfil.html";
 		}
 		else if (tipo == "google") 
@@ -398,7 +398,7 @@ function login(tipo) {
 				}
 				else if (error.code == 'auth/wrong-password')
 				{
-					alert(`Contraseña erronea o el correo esta registrado desde otro proveedor`);
+					alert(`Contraseï¿½a erronea o el correo esta registrado desde otro proveedor`);
 				}
 				else
 				{
@@ -424,12 +424,12 @@ async function editarUsuario(userUpdate)
 	});
 }
 
-// <!------------------- resetear contraseña ---------------------->
+// <!------------------- resetear contraseï¿½a ---------------------->
 
 function resetPass(mail)
 {	
 	firebase.auth().sendPasswordResetEmail(mail).then(function() {
-		alert(`Email de resteo de contraseña enviado a ${mail}`);
+		alert(`Email de resteo de contraseï¿½a enviado a ${mail}`);
 	}).catch(function(error) {
 		alert('Error al enviar, es posible que el correo no exista');
 	});
@@ -448,12 +448,12 @@ function registroUser()
 	//Comprobar pass repetida
 	if (!(document.getElementById("pass").value == document.getElementById("repitePass").value))
 	{
-		alert("Las contraseñas son diferentes");	
+		alert("Las contraseï¿½as son diferentes");	
 	}	
 
 	if (document.getElementById("pass").value.length < 6)
 	{
-		alert("Las contraseñas deben tener al menos 6 caracteres");	
+		alert("Las contraseï¿½as deben tener al menos 6 caracteres");	
 	}
 	
 	
@@ -476,7 +476,7 @@ function registroUser()
 			}
 			else if (error.code == 'auth/weak-password')
 			{
-				alert('La contraseña no es suficientemente fuerte, al menos 6 caracteres necesarios');
+				alert('La contraseï¿½a no es suficientemente fuerte, al menos 6 caracteres necesarios');
 			}
 			else
 			{
@@ -505,7 +505,10 @@ async function cargarPantalla(){
 			break;
 		case 'amigos.html':
 			load_amigos_table();
-			break;	
+			break;
+		case 'vuelos.html':
+			load_vuelos_table();
+			break;			
 		case 'publi.html':
 			bs_input_file();
 			load_data_publi();
@@ -572,7 +575,7 @@ async function getPublicidad() {
 
 			snap_publi.forEach((child) => {
 				varArrayPublicidad.push([child,
-					false, false] //el booleano indicará si ya se ha mostrado la publicidad, el primero es para la publicidad del muro derecho y el segundo para la publicidad del muro central (versión movil)
+					false, false] //el booleano indicarï¿½ si ya se ha mostrado la publicidad, el primero es para la publicidad del muro derecho y el segundo para la publicidad del muro central (versiï¿½n movil)
 				);
 			});
 		}
@@ -591,7 +594,7 @@ function cargarMuroPublicidadDerecha() {
 			var numAleatorio = Math.floor(Math.random() * varArrayPublicidad.length);
 
 			if (!varArrayPublicidad[numAleatorio][1]) {
-				//Comprobamos que el primer booleano del array es false, si es false todavía no está en uso
+				//Comprobamos que el primer booleano del array es false, si es false todavï¿½a no estï¿½ en uso
 
 				//Cargar media
 				var varMedia = 0;
@@ -655,9 +658,9 @@ function crearPublicidadMuro() {
 	do {
 		var numAleatorio = Math.floor(Math.random() * varArrayPublicidad.length);
 
-		console.log("numero aleatorio " + numAleatorio + " tamaño " + varArrayPublicidad.length);
+		console.log("numero aleatorio " + numAleatorio + " tamaï¿½o " + varArrayPublicidad.length);
 		if (!varArrayPublicidad[numAleatorio][2]) {
-			//Comprobamos que el primer booleano del array es false, si es false todavía no está en uso
+			//Comprobamos que el primer booleano del array es false, si es false todavï¿½a no estï¿½ en uso
 			console.log("Entramos PUBLICIDAD MURO CENTRAL");
 			var value = varArrayPublicidad[numAleatorio][0].val();
 			
@@ -709,8 +712,8 @@ function crearPublicidadMuro() {
 	} while (continuarWhile);
 
 	if (contadorPublicidadMuroCentral > (varArrayPublicidad.length / 2)) {
-		// Si se han creado post de publicidad más veces que la mitad del tamaño del array entonces ponemos los valores a false del array de publicidad
-		//de esta forma se consigue que a partir de ese numero se pueda repetir la publicidad otra vez pero además tardará menos en buscar un numero aleatorio no usado
+		// Si se han creado post de publicidad mï¿½s veces que la mitad del tamaï¿½o del array entonces ponemos los valores a false del array de publicidad
+		//de esta forma se consigue que a partir de ese numero se pueda repetir la publicidad otra vez pero ademï¿½s tardarï¿½ menos en buscar un numero aleatorio no usado
 		contadorPublicidadMuroCentral = 0;
 		for (var x = 0; x < varArrayPublicidad.length; x++) {
 			varArrayPublicidad[x][2] = false;
@@ -740,7 +743,7 @@ function crearPublicidad() {
 	/// => The user does not exist => CREATING USER
 	var newPublicidad = dbRef.child("publicidad").push().key;
 
-	// Write the new post´s data simultaeously in the posts list and the user´s post list
+	// Write the new postï¿½s data simultaeously in the posts list and the userï¿½s post list
 	var updates = {};
 	updates["/publicidad/" + newPublicidad] = publicidad;
 
@@ -902,7 +905,7 @@ async function cargarAmigos() {
 	mydataSet_amigos.push(usuarioLogeado.uid);
 	if (snap_amigos.val() != null) {
 		console.log("cargarPost => hay post con ese dni");
-		// paso 1: añadimos los resultados en un array        
+		// paso 1: aï¿½adimos los resultados en un array        
 		snap_amigos.forEach((child) => {
 			mydataSet_amigos.push(child.val().uid_amigo);
 		});
@@ -915,7 +918,7 @@ function vuelosAsociados(valor, origen, destino) {
 
 /**
 	METODO PARA DEVOLVER LA URL DE UNA IMAGEN GUARDADA EN EL STORAGE
-	@CARPETA - SERÁ LA RUTA DONDE ESTE LA IMAGEN, LA RUTA INICIAL EMPIEZA EN LA CARPETA 'IMAGES'
+	@CARPETA - SERï¿½ LA RUTA DONDE ESTE LA IMAGEN, LA RUTA INICIAL EMPIEZA EN LA CARPETA 'IMAGES'
 	@NOMBREIMAGEN - NOMBRE DE LA IMAGEN A BUSCAR EN DICHA CARPETA
 */
 function getImagenStorage(carpeta, nombreImagen) {
@@ -966,7 +969,7 @@ async function crearPost(varComentario) {
 
 	if (varComentario == "") {
 		$('.muroComentario #messagesComentario').css('display', 'block');
-		$('.muroComentario #contenidoMensaje').html("<b>ERROR:</b> Es obligatorio escribir algún <u>comentario</u>.");
+		$('.muroComentario #contenidoMensaje').html("<b>ERROR:</b> Es obligatorio escribir algï¿½n <u>comentario</u>.");
 	} else {
 
 		var varCarrousel = upload();
@@ -1017,7 +1020,7 @@ async function crearPost(varComentario) {
 		/// => The post does not exist => CREATING post
 		var newPosts = dbRef.child("posts").push().key;
 		console.log("KEY: " + newPosts);
-		// Write the new post´s data simultaeously in the posts list and the post´s post list
+		// Write the new postï¿½s data simultaeously in the posts list and the postï¿½s post list
 		var updates = {};
 		updates["/posts/" + newPosts] = post;
 
@@ -1103,7 +1106,7 @@ async function cargarPost() {
 
 		if (snap_posts.val() != null) {
 			console.log("cargarPost => hay post con ese dni");
-			// paso 1: añadimos los resultados en un array        
+			// paso 1: aï¿½adimos los resultados en un array        
 			snap_posts.forEach((child) => {
 				mydataSet_post.push(child);
 			});
@@ -1120,7 +1123,7 @@ function crearComentario(varTextoComentario) {
 
 	if (varTextoComentario == "") {
 		$('#modalComent #messagesComentario').css('display', 'block');
-		$('#modalComent #messagesComentario #contenidoMensaje').html("<b>ERROR:</b> Es obligatorio escribir algún <u>comentario</u>.");
+		$('#modalComent #messagesComentario #contenidoMensaje').html("<b>ERROR:</b> Es obligatorio escribir algï¿½n <u>comentario</u>.");
 	} else {
 		var varUrlImgPerfil = usuarioLogeado.avatarURL;
 		var varNomUser = usuarioLogeado.nombrePerfil;
