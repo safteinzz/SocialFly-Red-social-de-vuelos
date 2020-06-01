@@ -1002,6 +1002,57 @@ nav.shift ul li a:hover:after {
 	
 	
 	
+	/* RATING ESTRELLAS */
+	@import url(//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css);
+	
+	.votacion div{
+		display: inline;
+	}
+	
+	.puntuacion{
+		color: black;
+	}
+	
+	.puntuacion label{
+		font-weight: bold;
+	}
+	
+	#rating{
+		color: #4dde76 !important;
+	}
+	
+	#rating .votar:hover{
+		cursor: pointer;
+	}
+	
+	.votar #estrellas5:hover{
+		color: #42a05d !important;
+	}
+	
+	.votar #estrellas4:hover {
+		color: #42a05d !important;
+	}
+	
+	.votar #estrellas3:hover{
+		color: #42a05d !important;
+	}
+	
+	.votar #estrellas2:hover{
+		color: #42a05d !important;
+	}
+	
+	.votar #estrellas1:hover{
+		color: #42a05d !important;
+	}
+	
+	.votar #estrellas0:hover{
+		color: #42a05d !important;
+	}
+	
+	
+	
+	
+	
 	/* MEDIA RESPONSIVE MENOR QUE 767PX */
 	@media (max-width:767px) {
 		.muroIzquierda, .muroDerecha{
