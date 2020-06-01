@@ -3,6 +3,7 @@
 
 var $table = $('#table_admin');
 var $table_amigos = $('#table_amigos');
+var $table_vuelos = $('#table_vuelos');
 var $remove = $('#remove');
 var selections = [];
 
@@ -45,14 +46,6 @@ function detailFormatter(index, row) {
 
 function operateFormatter(value, row, index) {
     return [
-        '<a class="like" href="javascript:void(0)" title="Like">',
-        '<i class="fa fa-heart"></i>',
-        '</a>  ',
-
-        '<a class"eye" href="javascript:void(0)" title="View">',
-        '<i class="fas fa-eye" style="color:black; margin-right:10px;"></i>',
-        '</a>  ',
-
         '<a class="remove" href="javascript:void(0)" title="Remove">',
         '<i class="fa fa-trash"></i>',
         '</a>'
@@ -128,7 +121,7 @@ function get_tablabd_tab(tab_control) {
             nombre_tabla = "vuelos";
             break;
         case 'tab_vuelospersonas':
-            nombre_tabla = "vuelo_personas";
+            nombre_tabla = "vuelos_users";
             break;
         default:
             alert("Opción de nombre para tab_control no definida");
@@ -162,7 +155,7 @@ function get_modalName_tab(tab_control) {
             nombre_modal = "Modal_vuelos";
             break;
         case 'tab_vuelospersonas':
-            nombre_modal = "Modal_vuelo_personas";
+            nombre_modal = "Modal_vuelos_personas";
             break;
         default:
             alert("Opción de nombre para tab_control no definida");
@@ -325,7 +318,7 @@ function tab_table_config_cols(tab_control) {
                     valign: 'middle'
                 }, {
                     field: 'operate',
-                    title: 'Item Operate',
+                    title: 'Eliminar',
                     align: 'center',
                     clickToSelect: false,
                     events: window.operateEvents,
@@ -364,7 +357,7 @@ function tab_table_config_cols(tab_control) {
                     align: 'center'
                 }, {
                     field: 'operate',
-                    title: 'Item Operate',
+                    title: 'Eliminar',
                     align: 'center',
                     clickToSelect: false,
                     events: window.operateEvents,
@@ -415,7 +408,7 @@ function tab_table_config_cols(tab_control) {
                     align: 'center'
                 }, {
                     field: 'operate',
-                    title: 'Item Operate',
+                    title: 'Eliminar',
                     align: 'center',
                     clickToSelect: false,
                     events: window.operateEvents,
@@ -501,7 +494,7 @@ function tab_table_config_cols(tab_control) {
                     align: 'center'
                 }, {
                     field: 'operate',
-                    title: 'Item Operate',
+                    title: 'Eliminar',
                     align: 'center',
                     clickToSelect: false,
                     events: window.operateEvents,
@@ -570,7 +563,7 @@ function tab_table_config_cols(tab_control) {
                     align: 'center'
                 }, {
                     field: 'operate',
-                    title: 'Item Operate',
+                    title: 'Eliminar',
                     align: 'center',
                     clickToSelect: false,
                     events: window.operateEvents,
@@ -599,7 +592,7 @@ function tab_table_config_cols(tab_control) {
                     footerFormatter: totalTextFormatter
                 }, {
                     title: 'Item Detail',
-                    colspan: 5,
+                    colspan: 7,
                     align: 'center'
                 }],
                 [{
@@ -627,8 +620,20 @@ function tab_table_config_cols(tab_control) {
                     align: 'center',
                     footerFormatter: totalTextFormatter
                 }, {
+                    field: 'phone',
+                    title: 'Teléfono',
+                    sortable: true,
+                    align: 'center',
+                    footerFormatter: totalTextFormatter
+                }, {
+                    field: 'date_add',
+                    title: 'Fecha registro',
+                    sortable: true,
+                    align: 'center',
+                    footerFormatter: totalTextFormatter
+                },{
                     field: 'operate',
-                    title: 'Item Operate',
+                    title: 'Eliminar',
                     align: 'center',
                     clickToSelect: false,
                     events: window.operateEvents,
@@ -703,7 +708,7 @@ function tab_table_config_cols(tab_control) {
                     align: 'center'
                 }, {
                     field: 'operate',
-                    title: 'Item Operate',
+                    title: 'Eliminar',
                     align: 'center',
                     clickToSelect: false,
                     events: window.operateEvents,
@@ -730,7 +735,7 @@ function tab_table_config_cols(tab_control) {
                     footerFormatter: totalTextFormatter
                 }, {
                     title: 'Item Detail',
-                    colspan: 4,
+                    colspan: 5,
                     align: 'center'
                 }],
                 [{
@@ -741,19 +746,25 @@ function tab_table_config_cols(tab_control) {
                     align: 'center'
                 }, {
                     field: 'uid_persona',
-                    title: 'uid ',
+                    title: 'UID ',
                     sortable: true,
                     footerFormatter: totalNameFormatter,
                     align: 'center'
                 }, {
-                    field: 'asiento',
-                    title: 'Número de asiento',
+                    field: 'lastname',
+                    title: 'Apellidos',
+                    sortable: true,
+                    footerFormatter: totalNameFormatter,
+                    align: 'center'
+                }, {
+                    field: 'name',
+                    title: 'Nombre',
                     sortable: true,
                     footerFormatter: totalNameFormatter,
                     align: 'center'
                 }, {
                     field: 'operate',
-                    title: 'Item Operate',
+                    title: 'Eliminar',
                     align: 'center',
                     clickToSelect: false,
                     events: window.operateEvents,
@@ -869,9 +880,10 @@ async function tab_table_config_data(tab_control) {
                         key: child.key,
                         uid: child.val().uid,
                         email: child.val().email,
-                        lastname: child.val().lastname,
-                        name: child.val().name,
-                        pass: child.val().pass
+                        phone: child.val().tlf_movil,
+                        lastname: child.val().apellidos,
+                        name: child.val().nombre,   
+                        date_add: child.val().fecha_registro                      
                     };
                     mydataSet.push(fila_json);
                 });
@@ -899,19 +911,43 @@ async function tab_table_config_data(tab_control) {
             break;
 
         case 'tab_vuelospersonas':
-            queryDB = dbRef.child("vuelos_personas").orderByChild("id_vuelo");
-            snap_query = await queryDB.once("value");
+            var vuelos_uid=[];
+            queryDB = dbRef.child("vuelos_users").orderByChild("id_vuelo");
+            snap_query = await queryDB.once("value");            
             if (snap_query.val() != null) {
                 snap_query.forEach((child) => {
-                    var fila_json = {
-                        key: child.key,
-                        asiento: child.val().asiento,
-                        uid_persona: child.val().uid_persona,
-                        id_vuelo: child.val().id_vuelo
-                    };
-                    mydataSet.push(fila_json);
+                    vuelos_uid.push([child.val().id_vuelo, child.val().uid]);
                 });
             }
+
+            console.log(vuelos_uid);
+
+            for(i=0; i<vuelos_uid.length; i++){
+                var id_vuelo=vuelos_uid[i][0];
+                var uid_pasajero=vuelos_uid[i][1];
+                    
+                var nombre="";
+                var apellidos="";
+                var query_user = dbRef.child('users').orderByChild('uid').equalTo(uid_pasajero);
+                
+                var snap_user = await query_user.once("value");
+                if (snap_user.val() != null) {
+                    var key = Object.keys(snap_user.val())[0];  
+                    var val = Object.values(snap_user.val())[0]; 
+                    nombre=val.nombre;
+                    apellidos=val.apellidos;
+                
+                    var fila_json = {
+                        key: key,                                                
+                        id_vuelo: id_vuelo,
+                        uid_persona: uid_pasajero,
+                        name: nombre,
+                        lastname: apellidos
+                    };
+                    mydataSet.push(fila_json);
+                }
+            }
+            
             break;
 
         default:
@@ -951,8 +987,8 @@ async function load_amigos_table() {
                         key: child.key,
                         foto_perfil: foto_perfil,
                         uid: child.val().uid,
-                        name: child.val().name,
-                        lastname: child.val().lastname,
+                        name: child.val().nombre,
+                        lastname: child.val().apellidos,
                         email: child.val().email
                     };
                     console.log(JSON.stringify(fila_json, null, 2));
@@ -960,25 +996,7 @@ async function load_amigos_table() {
                 });
             }
         }
-    }
-
-    /*  var row_amigo = snap_amigos.val();
-        let queryUsers = dbRef.child("users").orderByChild("uid").equalTo(row_amigo.uid_amigo);
-        let join = queryUsers.on('value', snap_users => {
-            var row_user = snap_users.val();
-            var foto_perfil = "";
-            var foto_perfil = getImagenStorage(row_user.uid + '/', 'perfil.png');
-            var fila_json = {
-                key: snap_users.key,
-                foto_perfil: foto_perfil,
-                uid: row_user.uid,
-                name: row_user.name,
-                lastname: row_user.lastname,
-                email: row_user.email
-            };
-            mis_amigos.push(fila_json);
-        });
-    */
+    }   
 
     var config_cols = [
         [{
@@ -992,8 +1010,9 @@ async function load_amigos_table() {
             },
             events: {
                 'click .fotaza': function (e, value, row) {
-                    //alert(JSON.stringify(row))
-                    alert("click en foto")
+                    // establecemos la sesión con el uid del amigo
+                    sessionStorage.setItem("uid_busqueda", value.uid);
+                    window.location.href = "https://pcsocialfly.web.app/pages/perfil.html";                    
                 }
             }
         }, {
@@ -1022,7 +1041,9 @@ async function load_amigos_table() {
             align: 'center',
             width: 25,
             formatter: function (e, value) {
-                return '<a href="#">Enlace a perfil</a>'
+                // establecemos la sesión con el uid del amigo
+                sessionStorage.setItem("uid_busqueda", value.uid);
+                return '<a href="https://pcsocialfly.web.app/pages/perfil.html">Enlace a perfil</a>'
             },
         }
         ]
@@ -1064,6 +1085,89 @@ async function load_amigos_table() {
     //     })
     //     $remove.prop('disabled', true)
     // })
+}
+
+/**
+ * Carga de datos de mis vuelos
+ * @param {*} mis_vuelos
+ */
+async function load_vuelos_table() {
+    let mydataSet = [];
+    var mis_vuelos = [];
+    var queryVuelos_users = dbRef.child("vuelos_users");
+    var snap_vuelos_users = await queryVuelos_users.orderByChild("uid").equalTo(usuarioLogeado.uid).once("value"); 
+    if (snap_vuelos_users != null) {
+        snap_vuelos_users.forEach((child) => {            
+            mis_vuelos.push([child.key, child.val().id_vuelo]);
+        });       
+
+        for (i = 0; i < mis_vuelos.length; i++) {
+            var id_vuelo = mis_vuelos[i][1];
+            let queryVuelos = dbRef.child("vuelos").orderByChild("id_vuelo").equalTo(id_vuelo);
+            var snap_vuelos = await queryVuelos.once("value");
+
+            if (snap_vuelos != null) {
+                snap_vuelos.forEach((child) => {                    
+                    var fila_json = {
+                        key: child.key,                        
+                        id_vuelo: child.val().id_vuelo,
+                        origen: child.val().origen,
+                        destino: child.val().destino,
+                        fecha_llegada: child.val().fecha_llegada,
+                        fecha_salida: child.val().fecha_salida
+                    };
+                    console.log(JSON.stringify(fila_json, null, 2));
+                    mydataSet.push(fila_json);
+                });
+            }
+        }
+    }   
+
+    var config_cols = [
+        [ {
+            field: 'id_vuelo',
+            title: 'Id Vuelo',
+            sortable: true,
+            align: 'center'
+        }, {
+            field: 'origen',
+            title: 'Origen',
+            sortable: true,
+            align: 'left'
+        }, {
+            field: 'destino',
+            title: 'Destino',
+            sortable: true,
+            align: 'left'
+        }, {
+            field: 'fecha_salida',
+            title: 'Fecha Salida',
+            sortable: true,
+            align: 'left'
+        }, {
+            field: 'fecha_llegada',
+            title: 'Fecha Llegada',
+            sortable: true,
+            align: 'left'
+        }        
+        ]
+    ];
+
+    $table_vuelos.bootstrapTable('destroy').bootstrapTable({//height: 500,
+        data: mydataSet,
+        pagination: true,
+        columns: config_cols
+    })
+
+    $table_vuelos.click(function () {
+        var ids = getIdSelections()
+        $table_vuelos.bootstrapTable('remove', {
+            field: 'key',
+            values: ids
+        })
+        alert("click en tabla")
+        //$remove.prop('disabled', true)
+    })   
 
 }
 
@@ -1179,6 +1283,7 @@ async function modal_gestion(opcion) {
             document.getElementById("input_nombre").value = "";
             document.getElementById("input_apellido").value = "";
             document.getElementById("input_email").value = "";
+            document.getElementById("input_phone").value = "";            
             document.getElementById("feedback_usuario").innerHTML = "";
             break;
 
@@ -1187,6 +1292,9 @@ async function modal_gestion(opcion) {
             document.getElementById("input_fechaSalida").value = "";
             document.getElementById("input_fechaLlegada").value = "";
             document.getElementById("feedback_vuelos").innerHTML = "";
+
+            removeOptions(document.getElementById('OrigenList'));
+            removeOptions(document.getElementById('DestinoList'));
 
             // lista para aeropuertos
             var queryDB = dbRef.child("aeropuerto").orderByChild("nombre");
@@ -1223,6 +1331,54 @@ async function modal_gestion(opcion) {
             }
 
             break;
+
+            case 'tab_vuelospersonas':
+
+                removeOptions(document.getElementById('VuelosList'));
+                removeOptions(document.getElementById('UsersList'));
+                document.getElementById("feedback_vuelos_personas").innerHTML = "";
+    
+                // lista para aeropuertos
+                var queryDB_vuelos = dbRef.child("vuelos").orderByChild("id_vuelo");
+                var snap_query_vuelos = await queryDB_vuelos.once("value");
+                if (snap_query_vuelos.val() != null) {
+    
+                    var VuelosList = document.getElementById('VuelosList');                    
+                    // lista vuelos
+                    snap_query_vuelos.forEach((child) => {
+                        // creo el elemento
+                        var newElement = document.createElement('option');
+                        newElement.setAttribute('value', child.val().id_vuelo);
+                        newElement.text = child.val().id_vuelo + " # " + child.val().origen + " - " + child.val().destino;
+    
+                        console.log(newElement);
+    
+                        // Lo añado                                        
+                        VuelosList.appendChild(newElement);                        
+                    });
+                }
+
+                // lista para usuarios
+                var queryDB_users = dbRef.child("users").orderByChild("apellidos");
+                var snap_query_users = await queryDB_users.once("value");
+                if (snap_query_users.val() != null) {
+    
+                    var UsersList = document.getElementById('UsersList');                    
+                    // lista usuarios
+                    snap_query_users.forEach((child) => {
+                        // creo el elemento
+                        var newElement = document.createElement('option');
+                        newElement.setAttribute('value', child.val().uid);
+                        newElement.text = child.val().apellidos + ", " + child.val().nombre + " # " + child.val().uid;
+    
+                        console.log(newElement);
+    
+                        // Lo añado                                        
+                        UsersList.appendChild(newElement);                        
+                    });
+                }                   
+    
+                break;            
 
         default:
             alert("Gestión no creada aún para " + tab_public_control);
@@ -1325,6 +1481,7 @@ async function modal_save_data() {
             var nombre = document.getElementById("input_nombre").value;
             var apellido = document.getElementById("input_apellido").value;
             var email = document.getElementById("input_email").value;
+            var telefono = document.getElementById("input_phone").value;
             var feedback_label = "feedback_usuario";
 
             // check uid
@@ -1374,9 +1531,10 @@ async function modal_save_data() {
             else {
                 var new_row = {
                     uid: uid,
-                    name: nombre,
-                    lastname: apellido,
-                    email: email
+                    nombre: nombre,
+                    apellifos: apellido,
+                    email: email,
+                    tlf_movil: telefono
                 };
 
                 if (bbdd_insert("users", new_row) == true) {
@@ -1463,6 +1621,54 @@ async function modal_save_data() {
                 }
             }
             break;
+
+        // VUELOS PERSONAS
+        case 'tab_vuelospersonas':
+            
+            var id_vuelo = document.getElementById("VuelosList").value;
+            var uid_pasajero = document.getElementById("UsersList").value;
+
+            var feedback_label = "feedback_vuelos_personas";            
+
+            // check id_vuelo
+            if (id_vuelo == "") {
+                document.getElementById(feedback_label).innerHTML = "Debe indicar el número de vuelo"
+                return;
+            }
+            // check destino
+            if (uid_pasajero == "") {
+                document.getElementById(feedback_label).innerHTML = "Debe indicar el pasajero"
+                return;
+            }
+
+            // check existencia => tabla, campo y valor
+            var query = dbRef.child("vuelos_users").orderByChild("id_vuelo").equalTo(id_vuelo);
+
+            var ladd_DB = true;
+
+            var snap_vuelos_users = await query.once("value");
+            if(snap_vuelos_users!=null){
+                snap_vuelos_users.forEach((child) => {                    
+                    if(child.val().uid == uid_pasajero){
+                        document.getElementById(feedback_label).innerHTML = "El pasajero seleccionado ya está asociado al vuelo "+id_vuelo;
+                        ladd_DB= false;
+                    }                    
+                });
+            }
+
+            if ( ladd_DB == false ){
+                return;
+            }          
+
+            var new_row = {
+                id_vuelo: id_vuelo,
+                uid: uid_pasajero
+            };
+            if (bbdd_insert("vuelos_users", new_row) == true) {
+                alert("Pasajero asociado al vuelo correctamente");
+            }
+            
+            break;            
     }
 
     var nombre_modal = get_modalName_tab(tab_public_control); // nombre del modal
@@ -1486,25 +1692,12 @@ async function bbdd_existe_registro(table_name, campo_bd, valor_bd) {
             .equalTo(valor_bd);
 
         var snap = await query.once("value");
-
-        // console.log(snap.val());
-
-        // if(snap.val()==null){
-        //     alert('NO EXISTE!!!')
-        //     return fa;
-        // }
-        // else{
-        //     alert('SÍ QUE EXISTE!!!')
-        //     return true;
-        // }
-
         return (snap.val() == null ? false : true);
     }
     catch (error) {
         alert("Se ha producido un error de en la gestión de " + table_name);
         console.error(error);
     }
-
 }
 // <----------------- insert tabla ------------------------->
 function bbdd_insert(table_name, row_values) {
@@ -1589,4 +1782,12 @@ function date_japon(date_dd_mm_yyyy) {
     var anio = date_dd_mm_yyyy.substring(6, 10);
     return anio + mes + dia;
 }
-
+//-------------------------------------------
+// borrar elementos de un option List
+//-------------------------------------------
+function removeOptions(selectElement) {
+    var i, L = selectElement.options.length - 1;
+    for(i = L; i >= 0; i--) {
+       selectElement.remove(i);
+    }
+ }
