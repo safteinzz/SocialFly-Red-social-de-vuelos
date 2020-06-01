@@ -1010,8 +1010,15 @@ async function load_amigos_table() {
             },
             events: {
                 'click .fotaza': function (e, value, row) {
+                                       
+                    var uid_amigo = row.uid;                                        
                     // establecemos la sesión con el uid del amigo
-                    sessionStorage.setItem("uid_busqueda", value.uid);
+                    sessionStorage.clear(); // limpiamos sesión
+                    sessionStorage.setItem("uid_busqueda", uid_amigo);
+
+                    alert("Parámetro uid_amigo:" + uid_amigo)
+                    alert("Get SESSION:" + sessionStorage.getItem("uid_busqueda"))                    
+                    
                     window.location.href = "https://pcsocialfly.web.app/pages/perfil.html";                    
                 }
             }
@@ -1020,16 +1027,6 @@ async function load_amigos_table() {
             title: 'uid',
             sortable: true,
             align: 'center'
-        }, {
-            field: 'name',
-            title: 'Nombre',
-            sortable: true,
-            align: 'left'
-        }, {
-            field: 'lastname',
-            title: 'Apellidos',
-            sortable: true,
-            align: 'left'
         }, {
             title: 'nombre_apellidos',
             align: 'left',
@@ -1042,7 +1039,8 @@ async function load_amigos_table() {
             width: 25,
             formatter: function (e, value) {
                 // establecemos la sesión con el uid del amigo
-                sessionStorage.setItem("uid_busqueda", value.uid);
+                sessionStorage.clear(); // limpiamos sesión
+                sessionStorage.setItem("uid_busqueda", value.uid);                
                 return '<a href="https://pcsocialfly.web.app/pages/perfil.html">Enlace a perfil</a>'
             },
         }
