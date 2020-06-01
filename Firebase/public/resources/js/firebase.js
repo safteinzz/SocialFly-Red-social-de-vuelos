@@ -1154,12 +1154,14 @@ function borrarPost(varIdPost) {
 }
 
 /** INICIO CARGAR DATOS DE UNA PUBLICIDAD */
+var varPublicidad;
+
 async function load_publicidad(){
 	var varKey = getParameterByName('id');
 	var queryPubli = dbRef.child("publicidad");
-	var snap_publi = await queryPubli.orderByKey().equalTo(varKey).once("value");
-	if (snap_publi.val() != null) {
-		var val = Object.values(snap_publi.val())[0];
+	varPublicidad = await queryPubli.orderByKey().equalTo(varKey).once("value");
+	if (varPublicidad.val() != null) {
+		var val = Object.values(varPublicidad.val())[0];
 		
 		$('#input_aeropuerto').val(val.nombre_aeropuerto);
 		$('#input_comentario').val(val.comentario);
@@ -1167,44 +1169,113 @@ async function load_publicidad(){
 		$('#input_actividad').val(val.nombre_actividad);
 		var stringCarrousel = crearCarrousel(val.carrousel, "Publicidad" + varKey);
 		$('#carrouselFotos').html(stringCarrousel);
+		
+		if(val.votos != null){
+			var contador5 = 0;
+			var contador4 = 0;
+			var contador3 = 0;
+			var contador2 = 0;
+			var contador1 = 0;
+			var contador0 = 0;
+			var votado = false;
+			for(var x = 0; x < val.votos.length; x++){
+				switch (val.votos[x].puntuacion){
+					case 5 :
+						contador5 ++;
+						break;
+					case 4 :
+						contador4 ++;
+						break;
+					case 3 :
+						contador3 ++;
+						break;
+					case 2 :
+						contador2 ++;
+						break;
+					case 1 :
+						contador1 ++;
+						break;
+					case 0 :
+						contador0 ++;
+						break;
+				}
+				
+				if(val.votos[x].uid == usuarioLogeado.uid){
+					votado = true;
+				}
+			}
+			
+			$("#puntuacion5estrellas").text(contador4);
+			$("#puntuacion4estrellas").text(contador3);
+			$("#puntuacion3estrellas").text(contador5);
+			$("#puntuacion2estrellas").text(contador2);
+			$("#puntuacion1estrellas").text(contador1);
+			$("#puntuacion0estrellas").text(contador0);
+			
+			$("#totalVotos").text(contador0 + contador1 + contador2 + contador3 + contador4 + contador5);
+			
+			if(votado){
+				$('.votar').addClass("votado");
+				$('.votar').removeClass("votar");
+				$('#comprobacion').text("Ya has votado");
+			}
+		}
 	} 
 }
 
-function agregarVoto(varPuntuacion){
+async function agregarVoto(varPuntuacion){
 	var elemento = $('.votado').length
 	if( elemento == 0 ){
 		console.log(usuarioLogeado.uid);
 		$('.votar').addClass("votado");
 		$('.votar').removeClass("votar");
+		$('#comprobacion').text("Ya has votado");
 		var spanContador;
 		switch (varPuntuacion){
 			case 5 :
-				console.log("caso 5");
 				spanContador = $("#puntuacion5estrellas");
 				break;
 			case 4 :
-				console.log("caso 4");
 				spanContador = $("#puntuacion4estrellas");
 				break;
 			case 3 :
-				console.log("caso 3");
 				spanContador = $("#puntuacion3estrellas");
 				break;
 			case 2 :
-				console.log("caso 2");
 				spanContador = $("#puntuacion2estrellas");
 				break;
 			case 1 :
-				console.log("caso 1");
 				spanContador = $("#puntuacion1estrellas");
 				break;
 			case 0 :
-				console.log("caso 0");
 				spanContador = $("#puntuacion0estrellas");
 				break;
 		}
 		
 		var numeroContador = parseInt(spanContador.text()) + 1;
 		spanContador.text(numeroContador);
+		
+		var varVoto = new Object();
+		varVoto.puntuacion = varPuntuacion;
+		varVoto.uid = usuarioLogeado.uid
+		
+		var varPublicidadTemporal = Object.values(varPublicidad.val())[0];
+		
+		if(varPublicidadTemporal.votos == null){
+			varPublicidadTemporal.votos = [];
+		}
+		
+		varPublicidadTemporal.votos.push(varVoto);
+		
+		
+		var query = dbRef.child('/publicidad/').orderByKey().equalTo(Object.keys(varPublicidad.val())[0]);
+		await query.once ('value', snapshot =>
+		{
+			if (snapshot.val() != null)
+			{
+				var key = Object.keys(snapshot.val())[0];
+				snapshot.ref.child(key).set(varPublicidadTemporal);
+			}
+		});
 	}
 }

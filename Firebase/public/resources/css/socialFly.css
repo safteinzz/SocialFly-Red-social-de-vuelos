@@ -1005,9 +1005,16 @@ nav.shift ul li a:hover:after {
 	/* RATING ESTRELLAS */
 	@import url(//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css);
 	
+	#rating label{
+		color:black;
+	}
+	
 	#rating #titulo{
 		font-size:25px;
-		color:black;
+		font-weight: bold;
+	}
+	
+	#rating #totalVotos{
 		font-weight: bold;
 	}
 	
