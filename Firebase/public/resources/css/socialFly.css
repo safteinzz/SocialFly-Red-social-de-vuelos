@@ -1067,14 +1067,16 @@ nav.shift ul li a:hover:after {
 	}
 	
 	
-	
+	@media (max-width:1100px) {
+		.shift{
+			display:none;
+		}
+	}
 	
 	
 	/* MEDIA RESPONSIVE MENOR QUE 767PX */
 	@media (max-width:767px) {
-		.shift{
-			display:none;
-		}
+		
 		
 		.muroIzquierda, .muroDerecha{
 			display: none;
