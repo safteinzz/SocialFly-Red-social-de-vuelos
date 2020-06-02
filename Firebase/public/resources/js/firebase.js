@@ -74,9 +74,21 @@ firebase.auth().onAuthStateChanged(async function(user) {
 			
 			//LO QUE VA DESPUES DE ESTO NO SE GUARDA EN BD SOLO EN MEMORIA		
 			usuarioLogeado.nombrePerfil = usuarioLogeado.nombre + " " + usuarioLogeado.apellidos;
+			
+			//Esta parte se encarga de escuchar en todo momento si tienes una notificacion a tu nombre
+			dbRef.child("notificaciones").on("child_added", snap => {
+				if (snap.val() != null) {
+					if(snap.val().id_usuario == usuarioLogeado.uid && !snap.val().leido){
+						incrementarNotificacion();
+					}
+				}
+
+			});
 		});
 	}
 });
+
+
 
 async function getUsuarioPorUid(uidParametro)
 {
@@ -1402,20 +1414,15 @@ async function agregarVoto(varPuntuacion){
 
 /** INICIO NOTIFICACIONES */
 //Funcion de escuchar nuevas notificaciones
-dbRef.child("notificaciones").on("child_added", snap => {
-	if (snap.val() != null) {
-		if(!snap.val().leido){
-			incrementarNotificacion();
-		}
-	}
+function cargarNotificaciones() {
+	
+}
 
-});
-
-function createNotificacion(varMensaje){
+function createNotificacion(varMensaje, varUidAmigo){
 	var dt = new Date();
 
 	var notificacion = {
-		id_usuario: usuarioLogeado.uid,
+		id_usuario: varUidAmigo,
 		mensaje: varMensaje,
 		leido: false,
 		fecha: getFechatoBD(dt)
@@ -1453,7 +1460,11 @@ function operateBorrar(value, row, index) {
 
 function deleteNotificacion(varIndex){
 	var ref = dbRef.child("/notificaciones/" + mydataSet_notificaciones[varIndex].key);
-
+	
+	if(!mydataSet_notificaciones[varIndex].leido){
+		decrementarNotificacion();
+	}
+	
 	ref
 	.remove()
 	.then(function() {
