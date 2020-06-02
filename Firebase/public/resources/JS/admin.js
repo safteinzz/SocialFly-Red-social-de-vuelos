@@ -1034,6 +1034,15 @@ async function load_amigos_table() {
                 return '<p> ' + value.name + ' ' + value.lastname + '</p>'
             },
         }, {
+            title: 'Contactar',
+            align: 'left',
+			width: 25,
+            formatter: function (e, value) {
+                return "<a href='#' data-target='#modalMensajeria' data-toggle='modal' onclick='cambiarDataIdModalMensajeria(\"" + value.uid + "\")' >"
+				+ "					<i class='fas fa-comments'></i>"
+				+ "				</a>"
+            },
+        },{
             title: 'Enlace_perfil',
             align: 'center',
             width: 25,
@@ -1041,7 +1050,7 @@ async function load_amigos_table() {
                 // establecemos la sesión con el uid del amigo
                 sessionStorage.clear(); // limpiamos sesión
                 sessionStorage.setItem("uid_busqueda", value.uid);                
-                return '<a href="https://pcsocialfly.web.app/pages/perfil.html">Enlace a perfil</a>'
+                return '<a href="https://pcsocialfly.web.app/pages/perfil.html"><i class="fas fa-user"></i></a>'
             },
         }
         ]
@@ -1083,6 +1092,10 @@ async function load_amigos_table() {
     //     })
     //     $remove.prop('disabled', true)
     // })
+}
+
+function cambiarDataIdModalMensajeria(varUidAmigo){
+	$('#modalMensajeria').attr('data-id',varUidAmigo);
 }
 
 /**
