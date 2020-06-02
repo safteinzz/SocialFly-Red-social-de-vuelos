@@ -1726,7 +1726,8 @@ async function bbdd_existe_relacion(table_name, campo_bd, valor_bd, campo2_bd, v
 		var snap = await query.once("value");		
 		if (snap.val() != null)
 		{
-			if(snap.val()[campo2_bd] == valor2_bd)
+			var val = Object.values(snap.val())[0]; 
+			if(val[campo2_bd] == valor2_bd)
 			{
 				return true;
 			}
