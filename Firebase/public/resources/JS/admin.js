@@ -1696,7 +1696,7 @@ $('.datepicker').datepicker({
                            BBDD
 ============================================================*/
 // <!------------------- Get key relacion ---------------------->
-async function getKeyRelacion(table_name, campo_bd, valor_bd, campo2_bd, valor2_bd)						
+async function bbdd_getKeyRelacion(table_name, campo_bd, valor_bd, campo2_bd, valor2_bd)						
 {
 	try {
 		var query = dbRef.child("/" + table_name + "/")
@@ -1707,7 +1707,8 @@ async function getKeyRelacion(table_name, campo_bd, valor_bd, campo2_bd, valor2_
 		
 		if (snap.val() != null)
 		{
-			return snap.getKey();
+			var key = Object.keys(snap.val())[0];
+			return key;
 		}								
 	}
 	catch (error) {
@@ -1723,7 +1724,14 @@ async function bbdd_existe_relacion(table_name, campo_bd, valor_bd, campo2_bd, v
 			.equalTo(valor_bd);
 
 		var snap = await query.once("value");		
-		return (snap.val()[campo2_bd] == valor2_bd ? false : true);
+		if (snap.val() != null)
+		{
+			if(snap.val()[campo2_bd] == valor2_bd)
+			{
+				return true;
+			}
+		}	
+		return false;
 	}
 	catch (error) {
 		alert("Se ha producido un error de en la gestión de " + table_name);

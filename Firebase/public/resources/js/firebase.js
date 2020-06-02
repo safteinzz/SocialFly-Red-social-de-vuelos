@@ -242,18 +242,17 @@ function agregarAmigo(uid_usuario, uid_amigo){
 		uid_amigo: uid_amigo
 	};
 
-	if (bbdd_insert("amigos", new_row) == true) {
-		alert("Agregado a amigos");							
-	}
+	bbdd_insert("amigos", new_row);	
 }
 
 	
 // <!------------------- Borrar Amigos ---------------------->
-function borrarAmigo(uid_usuario, uid_amigo){
+async function borrarAmigo(uid_usuario, uid_amigo){
 	//tengo que sacar la key de la relacion
-	var llave = getKeyRelacion('amigos', 'uid', uid_usuario, 'uid_amigo', uid_amigo);					
+	var llave = await bbdd_getKeyRelacion('amigos', 'uid', uid_usuario, 'uid_amigo', uid_amigo);					
 	//borrar la key
 	bbdd_delete('amigos', llave);
+	
 }
 
 // <!------------------- Quitar actividad al user ---------------------->
