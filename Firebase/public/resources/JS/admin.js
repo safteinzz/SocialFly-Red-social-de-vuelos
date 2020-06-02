@@ -1719,20 +1719,36 @@ async function bbdd_getKeyRelacion(table_name, campo_bd, valor_bd, campo2_bd, va
 // <!------------------- check relacion ---------------------->
 async function bbdd_existe_relacion(table_name, campo_bd, valor_bd, campo2_bd, valor2_bd) {
 	try {
+		var ret = false;
 		var query = dbRef.child("/" + table_name + "/")
 			.orderByChild(campo_bd)
 			.equalTo(valor_bd);
 
 		var snap = await query.once("value");		
 		if (snap.val() != null)
-		{
-			var val = Object.values(snap.val())[0]; 
-			if(val[campo2_bd] == valor2_bd)
-			{
-				return true;
-			}
-		}	
-		return false;
+		{			
+			await snap.forEach((child) => {
+				val = child.val();
+				if (val[campo2_bd] == valor2_bd)
+				{
+					ret = true;
+				}
+				// var fila_json = {
+					// key: child.key,
+					// nombre: child.val().nombre,
+					// ciudad: child.val().ciudad,
+					// isVuelo: child.val().isVuelo
+				// };
+				// mydataSet.push(fila_json);
+			});
+				
+			// var val = Object.values(snap.val())[i]; 
+			// if(val[campo2_bd] == valor2_bd)
+			// {
+				// return true;
+			// }
+		}		
+		return ret;
 	}
 	catch (error) {
 		alert("Se ha producido un error de en la gestión de " + table_name);
