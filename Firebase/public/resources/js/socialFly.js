@@ -529,7 +529,6 @@
 			
 			$('.contenidoMensajes .comentarioPOST').last().after(stringComment);
 			
-			
 			// Hace que el scroll baje hasta abajo cada vez que se añada un comentario nuevo
 			$('#modalComent .contenidoMensajes').animate({
 				scrollTop: $('#modalComent .contenidoMensajes')[0].scrollHeight

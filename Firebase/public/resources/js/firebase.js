@@ -1046,6 +1046,7 @@ var varContadorPost = 0;
 //Metodo para agregar los post que hay en el array de post al final del muro
 async function agregarPost() {
 	var refLikes = dbRef.child("likes");
+	var refPost = dbRef.child("comentarios");
 
 	for (var x = 1; x <= mostrarPost && varContadorPost < mydataSet_post.length; x++) {
 		console.log("Contenido: " + mydataSet_post[varContadorPost].val().contenido);
@@ -1080,6 +1081,12 @@ async function agregarPost() {
 					varIdLikeUsuario = child.key;
 				}
 			});
+		}
+		
+		var snap_coment = await refPost.orderByChild("id_post").equalTo(id_post_buscar).once("value");
+
+		if (snap_coment.val() != null) {
+			varContComent = Object.values(snap_coment.val()).length;
 		}
 
 		console.log("LIKE: " + varMeGustaUsuarioLogeado + ", ID: " + varIdLikeUsuario);
@@ -1151,6 +1158,12 @@ function crearComentario(varTextoComentario) {
 		console.log(result);
 
 		crearComentarioHTML(newComentario, varTextoComentario, usuarioLogeado.uid, varNomUser, varUrlImgPerfil, varFechaComentario);
+		
+		//Sumar uno al contador de comentarios
+		var spanContador = $('#' + idPostComentarios + ' .contadorComentarios');
+		var numeroContador = parseInt(spanContador.text()) + 1;
+		spanContador.text(numeroContador);
+		
 	}
 }
 
