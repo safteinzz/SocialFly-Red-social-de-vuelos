@@ -10,15 +10,19 @@
 			if(contadorNotificacion > 0){
 				$('#navNotificacion').css('display','block');
 				$('#navNotificacion').text(contadorNotificacion);
+				$('#notifacionesSubMenu').css('display','block');
+				$('#notifacionesSubMenu').text(contadorNotificacion);
 				
 				if(contadorNotificacion > 9){
 					$('#navNotificacion').text("+9");
+					$('#notifacionesSubMenu').text("+9");
 				}
 			} else {
 				$('#navNotificacion').css('display','none');
+				$('#notifacionesSubMenu').css('display','none');
 			}
 		  
-		}, 2000);
+		}, 1000);
 		
 		function incrementarNotificacion(){
 			contadorNotificacion++;

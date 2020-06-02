@@ -12,19 +12,39 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-	<!-- CSS -->
-	<link rel="stylesheet" type="text/css" href="resources/CSS/socialFly.css" />
 	
-	
-	<script src="https://www.gstatic.com/firebasejs/7.10.0/firebase-app.js"></script>
-	  
-	<script defer src="https://www.gstatic.com/firebasejs/7.10.0/firebase.js"></script>
 
-	<script defer src="resources/JS/firebase.js"></script>
-  
+    <!-- ESTILO TABLAS -->
+    <link href="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.css" rel="stylesheet">
+
+    <script src="https://unpkg.com/tableexport.jquery.plugin/tableExport.min.js"></script>
+    <script src="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.js"></script>
+    <script src="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table-locale-all.min.js"></script>
+    <script
+        src="https://unpkg.com/bootstrap-table@1.16.0/dist/extensions/export/bootstrap-table-export.min.js"></script>
+    <script src="https://unpkg.com/bootstrap-table@1.16.0/dist/locale/bootstrap-table-es-ES.js"></script>
+
+
+    <!-- FIREBASE -->
+    <script src="https://www.gstatic.com/firebasejs/7.10.0/firebase-app.js"></script>
+
+    <script defer src="https://www.gstatic.com/firebasejs/7.10.0/firebase.js"></script>
 	
-	<!-- JS -->
-	<script src="resources/JS/socialFly.js"></script>
+    <!-- LOCAL -->
+
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="../resources/CSS/socialFly.css" />
+    <link rel="stylesheet" type="text/css" href="../resources/CSS/roberto.css" />
+    <!-- JS -->
+    <script defer src="../resources/JS/firebase.js"></script>
+    <script src="../resources/JS/socialFly.js"></script>
+	<script defer src="../resources/JS/admin.js"></script>
+	
+	<!--datepicker-->
+    
+    <link id="bsdp-css" href="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/css/bootstrap-datepicker3.min.css"
+        rel="stylesheet">
+    <script src="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/js/bootstrap-datepicker.min.js"></script>
 	
 	<script>
 		//recibir user
@@ -55,81 +75,9 @@
 	</script>
 	
 	<script>
-		function initPantalla(){			
-			
-			/** INICIO EVENTOS PARA EL TEXT AREA DE NUEVO COMENTARIO EN EL POST */
-			// Cada vez que se deje de pulsar una tecla, este evento será lanzado y mirará el tamaño del texto de su interior
-			//si es mayor que 0 me muestra el resto de elementos (botones, select, etc) si es 0 me los oculta
-			$("#textAreaNuevoComentario").keyup(function() {
-				if($(this).val().length > 0){
-					$('#elementosComentario').removeClass('ocultarDiv');
-					$('#elementosComentario').addClass('mostrarDiv');
-				} else {
-					$('#elementosComentario').removeClass('mostrarDiv');
-					$('#elementosComentario').addClass('ocultarDiv');
-				}
-            }); 
-			
-			// Si tengo el focus en el textarea este se me hará más grande
-			$("#textAreaNuevoComentario").focus(function(){
-				$("#textAreaNuevoComentario").attr('rows', '4');		
-			});
-			
-			// Si pierdo el focus en el textArea y no tiene contenido, este se volverá pequeño
-			$("#textAreaNuevoComentario").blur(function(){
-				if($(this).val().length == 0){
-					$("#textAreaNuevoComentario").attr('rows', '1');	
-				}
-			});
-			/** FIN EVENTOS PARA EL TEXT AREA DE NUEVO COMENTARIO EN EL POST */
-			
-			/** INICIO CREAR POST SEGÚN EL CONTENIDO */
-			$("#btnCrearPost").on('click', function(event){
-				crearPost($('#textAreaNuevoComentario').val());
-				$('#textAreaNuevoComentario').val("")
-			});
-			/** FIN CREAR POST SEGÚN EL CONTENIDO */
-			
-			/** INICIO CREAR COMENTARIO EN EL MODAL DE COMENTARIOS DE UN POST */
-			$("#btnCrearComentario").on('click', function(event){
-				crearComentario($('#textAreaNuevaRespuesta').val());
-				$('#textAreaNuevaRespuesta').val("")
-			});
-			/** FIN CREAR COMENTARIO EN EL MODAL DE COMENTARIOS DE UN POST */
-			
-			/** INICIO EVENTO PARA EL MENU MOSTRAR OPCIONES - SOLO DISPONIBLE PARA VERSION MOVIL */
-			$("#mostrarOpciones").on('click', function(event){
-			
-				// Comprobamos el value del display del boton reload
-				//entendemos que este boton siempre se va a mostrar
-				var varValueDisplayReload = $('#btnReload').css('display');
-				
-				if(varValueDisplayReload == "none"){
-					// Si estaba oculto lo mostramos
-					$('#btnReload').css('display', 'block');
-				} else {
-					// Si se mostraba lo ocultamos
-					$('#btnReload').css('display', 'none');
-				}
-				
-				// Para el boton de subir el scrol hacia arriba primero tenemos que comprobar
-				//que el scroll sea superior a 60 ya que es cuando empieza a mostrarse
-				if($(window).scrollTop() > 60){
-					// Comprobamos el value del display del boton ir arriba
-					var varValueDisplayArriba = $('#irArriba').css('display');
-					
-					if(varValueDisplayArriba == "none"){
-						// Si estaba oculto lo mostramos
-						$('#irArriba').css('display', 'block');
-					} else {
-						// Si se mostraba lo ocultamos
-						$('#irArriba').css('display', 'none');
-					}
-				}
-			});
-			/** FIN EVENTO PARA EL MENU MOSTRAR OPCIONES - SOLO DISPONIBLE PARA VERSION MOVIL */
-			
-		}
+		function initPantalla() {
+
+        }
 	</script>
 </head>
 
@@ -137,7 +85,7 @@
 	<!--------------------------------------- NAV BAR -------------------------------------->
     <nav class="navbar navbar-dark navbarMenu-green navbar-expand-sm">
 		<a class="navbar-brand" href="https://pcsocialfly.web.app/">
-			<img src="resources/images/iconAvion.png" width="30" height="30" alt="logo">
+			<img src="../resources/images/iconAvion.png" width="30" height="30" alt="logo">
 			SocialFly
 		</a>
 		<nav class="shift">
@@ -213,83 +161,36 @@
 						<i class="fas fa-users"></i>
 					</a>
 				</div>
+				<div style="margin-bottom: 10px;">
+					<a href="https://pcsocialfly.web.app/pages/vuelos.html" class="iconReload">
+						<i class="fas fa-plane"></i>
+					</a>
+				</div>            
 			</div>
 		</div>
-		<div class="col-md-9 float-left contenedorCentral">
-			<div class="muroComentario">
-				<div id="divComentario">
-					<h2>Escribe tu comentario</h2>
-					<div class="row" style="margin-bottom: 10px;">
-						<div class="col-md-12 colFormulario">
-							<div class="input-group">
-								<textarea class="input--style-4" id="textAreaNuevoComentario" placeholder="Introduce un comentario" rows="1"></textarea>
-							</div>
-						</div>
-					</div>
-					<div id="elementosComentario" class="ocultarDiv">
-						<div class="row" style="margin-bottom: 10px;">
-							<div class="col-md-6 colFormulario">
-								<!-- INICIO SELECT PAIS -->
-								<div class="input-group">
-									<label class="label">Vuelos asociados</label>
-									<select id="selectVuelosComentario" name="vuelos" class="custom-select input--style-4">
-									  <option selected>Ninguno</option>
-									</select>
-								</div>
-								<!-- FIN SELECT PAIS -->
-							</div>
-							<div class="col-md-6 colFormulario">
-								<!-- INICIO SUBIR ARCHIVOS -->
-								<div class="input-group divSubirArchivo">
-									<label class="label">Adjuntar imagenes / videos</label>
-									<div class="input-group input-file" name="Fichier1">
-										<span class="input-group-btn">
-											<button class="btn btn-default btn-choose" type="button">Adjuntar <i class="fas fa-paperclip"></i></button>
-										</span>
-										<input id="inputImagenes" type="text" class="form-control inputSubirArchivo" placeholder='Selecciona algún archivo...' multiple />
-										<span class="input-group-btn">
-											<button class="btn btn-warning btn-reset" type="button">Borrar <i class="fas fa-times"></i></button>
-										</span>
-									</div>
-								</div>
-								<!-- FIN SUBIR ARCHIVOS -->
-							</div>
-						</div>
-						
-						<!-- INICIO DIV MENSAJE ALERTA -->
-						<div id="messagesComentario" class="alert alert-danger alert-dismissible" style="display:none;">
-							<button type="button" class="close" onclick="ocultarDiv('#messagesComentario');">&times;</button>
-							<div id="contenidoMensaje"></div>
-						</div>
-						<!-- FIN DIV MENSAJE ALERTA -->
-						
-						<div class="row" style="margin-bottom:10px;padding-right: 15px;padding-left: 15px;">
-							<button id="btnCrearPost" class=" btn-principal btn btn-rounded btn-md ml-4" data-dismiss="modal" type="button" style="width:100%;">Enviar</button>
-						</div>
-					</div>
+
+		<div class="col-md-12" id="contenedorFormulario">        
+
+			<div id="tablaVuelos" style="margin-left: 10px">
+				<div class="headerTabla">
+					Notificaciones
 				</div>
-			</div>
-		
-			<div class="muro">
-				<div class="post" style="border: 0px;"></div>
-			</div>
-			<div class="muro" id="muroCargarMas" onclick="agregarPost();">
-				<div id="buttonCargarMas"><i class="fas fa-arrow-down" style="margin-right: 20px;"></i>CARGAR MÁS<i class="fas fa-arrow-down" style="margin-left: 20px;"></i></div>
-				
+
+				<div class="recuadroTabla">
+
+					<table id="table_noti" data-toolbar="#toolbar" data-search="true" data-show-refresh="true"
+						data-show-toggle="true" data-show-fullscreen="true" data-show-columns="true"
+						data-show-columns-toggle-all="true" data-detail-view="true" data-show-export="true"
+						data-click-to-select="true" data-detail-formatter="detailFormatter" data-minimum-count-columns="2"
+						data-show-pagination-switch="true" data-pagination="true" data-id-field="id"
+						data-page-list="[10, 25, 50, 100, all]" data-show-footer="true"
+						data-response-handler="responseHandler">
+
+					</table>
+				</div>
+
 			</div>
 		</div>
-		
-		
-		<!-- INICIO MURO DERECHA / PUBLICIDAD -->
-		<div class="col-md-2 float-left muroDerecha">
-			<div class="post" style="border: 0px;padding: 0px;">
-			
-			</div>
-			
-		
-		</div>
-		<!-- FIN MURO DERECHA / PUBLICIDAD -->
-		
 		
 		
 	</div>

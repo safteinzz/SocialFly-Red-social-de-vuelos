@@ -64,9 +64,8 @@ firebase.auth().onAuthStateChanged(async function(user) {
 		//<!----------------------------------------->		
 		
 		
-		
-		//const query = dbRef.child('users').orderByChild('uid').equalTo("jKJklhgKFyVeeopT3GRQhDeFZhc2");
 		usuarioLogeado = await getUsuarioPorUid(user.uid);
+		//usuarioLogeado = await getUsuarioPorUid("jKJklhgKFyVeeopT3GRQhDeFZhc2");
 		
 		waitForGlobal("usuarioLogeado", function() {	
 			// usuarioLogeado.fecha_visita = now;
@@ -515,6 +514,9 @@ async function cargarPantalla(){
 			break;
 		case 'publicidad.html':
 			load_publicidad();
+			break;
+		case 'notificaciones.html':
+			load_notificaciones();
 			break;
 		default:
 			initPrincipal();
@@ -1395,4 +1397,166 @@ async function agregarVoto(varPuntuacion){
 			}
 		});
 	}
+}
+
+
+/** INICIO NOTIFICACIONES */
+//Funcion de escuchar nuevas notificaciones
+dbRef.child("notificaciones").on("child_added", snap => {
+	if (snap.val() != null) {
+		if(!snap.val().leido){
+			incrementarNotificacion();
+		}
+	}
+
+});
+
+function createNotificacion(varMensaje){
+	var dt = new Date();
+
+	var notificacion = {
+		id_usuario: usuarioLogeado.uid,
+		mensaje: varMensaje,
+		leido: false,
+		fecha: getFechatoBD(dt)
+	};
+
+	var newNoti = dbRef.child("notificaciones").push().key;
+
+	var updates = {};
+	updates["/notificaciones/" + newNoti] = notificacion;
+
+	var result = dbRef.update(updates);
+	console.log(result);
+}
+
+function operateLeido(value, row, index) {
+	var varString = [];
+	if(value){
+		varString = ['<div class="operationLeido" title="Leido">',
+			'<i class="far fa-eye" onclick="cambiarLeido(' + index + ', true);"></i>',
+        '</div>'];
+	} else {
+		varString = ['<div class="operationLeido" title="No leido">',
+			'<i class="far fa-eye-slash" onclick="cambiarLeido(' + index + ', false);"></i>',
+        '</div>'];
+	}
+    return varString.join('');
+}
+
+function operateBorrar(value, row, index) {
+	var varString = ['<div class="operationBorrar" title="Leido">',
+			'<i class="fa fa-trash" onclick="deleteNotificacion(' + index + ', false);" aria-hidden="true"></i>',
+        '</div>'];
+    return varString.join('');
+}
+
+function deleteNotificacion(varIndex){
+	var ref = dbRef.child("/notificaciones/" + mydataSet_notificaciones[varIndex].key);
+
+	ref
+	.remove()
+	.then(function() {
+		//Borrar de la tabla
+		load_notificaciones();
+	});
+}
+
+function cambiarLeido(varIndex, varEstado){
+	console.log("Index: " + varIndex + ", estado: " + varEstado);
+	console.log($('[data-index=' + varIndex + '] .operationLeido').html());
+	if(cambiarEstadoNotificacion(varIndex, varEstado)){
+		if(varEstado){
+			$('[data-index=' + varIndex + '] .operationLeido').html('<i class="far fa-eye-slash" onclick="cambiarLeido(' + varIndex + ', false);"></i>');
+			incrementarNotificacion();
+		} else {
+			$('[data-index=' + varIndex + '] .operationLeido').html('<i class="far fa-eye" onclick="cambiarLeido(' + varIndex + ', true);"></i>');
+			decrementarNotificacion();
+		}
+	}
+	
+}
+
+async function cambiarEstadoNotificacion(varIndex, varEstado){
+	console.log("KEY: " + mydataSet_notificaciones[varIndex].key);
+	
+	var query = dbRef.child('/notificaciones/').orderByKey().equalTo(mydataSet_notificaciones[varIndex].key);
+	
+	var notificacionTemporal = {
+		id_usuario: mydataSet_notificaciones[varIndex].id_usuario,
+		mensaje: mydataSet_notificaciones[varIndex].mensaje,
+		leido: !varEstado,
+		fecha: mydataSet_notificaciones[varIndex].fecha
+	};
+	
+	await query.once ('value', snapshot =>
+	{
+		if (snapshot.val() != null)
+		{
+			var key = Object.keys(snapshot.val())[0];
+			snapshot.ref.child(key).set(notificacionTemporal);
+		}
+	});
+	
+	return true;
+}
+
+var mydataSet_notificaciones = [];
+async function load_notificaciones(){
+	
+	var queryNotificaciones = dbRef.child("notificaciones").orderByChild("id_usuario").equalTo(usuarioLogeado.uid);
+	var snap_noti = await queryNotificaciones.once("value");
+	
+	mydataSet_notificaciones = [];
+	if (snap_noti.val() != null) {
+		snap_noti.forEach((child) => {
+			var fila_json = {
+				key: child.key,
+				mensaje: child.val().mensaje,
+				leido: child.val().leido,
+				fecha: child.val().fecha,
+				id_usuario: child.val().id_usuario
+			};
+			mydataSet_notificaciones.push(fila_json);
+		});
+	}
+	
+	var $table_noti = $('#table_noti');
+	
+	//Columnas
+	var config_cols = [
+                [{
+                    field: 'fecha',
+                    title: 'Fecha',
+                    sortable: true,
+                    footerFormatter: totalNameFormatter,
+                    align: 'center'
+                }, {
+                    field: 'mensaje',
+                    title: 'Mensaje',
+                    sortable: true,
+                    footerFormatter: totalNameFormatter,
+                    align: 'center'
+                }, {
+                    field: 'leido',
+                    title: 'Leido',
+                    sortable: true,
+                    formatter: operateLeido,
+                    align: 'center'
+                }, {
+                    field: 'operate',
+                    title: 'Eliminar',
+                    align: 'center',
+                    clickToSelect: false,
+                    formatter: operateBorrar
+                }]
+            ];
+	
+	// seteamos en la tabla
+    $table_noti.bootstrapTable('destroy').bootstrapTable({//   height: 500,
+        data: mydataSet_notificaciones,
+        pagination: true,
+        search: true,
+        columns: config_cols
+    })
 }

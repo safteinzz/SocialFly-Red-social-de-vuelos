@@ -36,7 +36,7 @@
 	
 	#navNotificacion{
 		position: absolute;
-		top: -1px;
+		top: 0px;
 		right: 11px;
 		padding: 5px 10px;
 		border-radius: 50%;
@@ -47,6 +47,14 @@
 		font-weight: bold;
 		display:none;
 		border: 1px solid #a62e2e;
+	}
+	
+	#notifacionesSubMenu{
+		color: red;
+		display:none;
+		float: right;
+		font-weight: bold;
+		margin-left: 5px;
 	}
 	
 	#navbarDropdownMenuLink{
@@ -1000,7 +1008,9 @@ nav.shift ul li a:hover:after {
 	}
 	
 	
-	
+	.operationLeido i{
+		cursor: pointer;
+	}
 	
 	/* RATING ESTRELLAS */
 	@import url(//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css);
