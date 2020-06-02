@@ -220,7 +220,7 @@ function comprobarRolNavbar()
 	// }
 // }
 
-//ORDENANDO ARRAY
+// <!------------------- Meter actividades al usuario ---------------------->
 async function meterActividad(idActividad)
 {
 	if (usuarioLogeado.actividades != null)
@@ -245,6 +245,27 @@ async function meterActividad(idActividad)
 			0: idActividad
 		};
 	}
+}
+
+// <!------------------- Agregar amigos ---------------------->
+function agregarAmigo(uid_usuario, uid_amigo){
+	var new_row = {
+		uid: uid_usuario,
+		uid_amigo: uid_amigo
+	};
+
+	if (bbdd_insert("amigos", new_row) == true) {
+		alert("Agregado a amigos");							
+	}
+}
+
+	
+// <!------------------- Borrar Amigos ---------------------->
+function borrarAmigo(uid_usuario, uid_amigo){
+	//tengo que sacar la key de la relacion
+	var llave = getKeyRelacion('amigos', 'uid', uid_usuario, 'uid_amigo', uid_amigo);					
+	//borrar la key
+	bbdd_delete('amigos', llave);
 }
 
 // <!------------------- Quitar actividad al user ---------------------->
