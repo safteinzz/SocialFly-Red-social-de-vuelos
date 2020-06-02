@@ -1695,41 +1695,6 @@ $('.datepicker').datepicker({
 /**============================================================
                            BBDD
 ============================================================*/
-// <!------------------- Get key relacion ---------------------->
-async function getKeyRelacion(table_name, campo_bd, valor_bd, campo2_bd, valor2_bd)						
-{
-	try {
-		var query = dbRef.child("/" + table_name + "/")
-			.orderByChild(campo_bd)
-			.equalTo(valor_bd);
-
-		var snap = await query.once("value");	
-		
-		if (snap.val() != null)
-		{
-			return snap.getKey();
-		}								
-	}
-	catch (error) {
-		alert("Se ha producido un error de en la gestión de " + table_name);
-		console.error(error);
-	}
-}
-// <!------------------- check relacion ---------------------->
-async function bbdd_existe_relacion(table_name, campo_bd, valor_bd, campo2_bd, valor2_bd) {
-	try {
-		var query = dbRef.child("/" + table_name + "/")
-			.orderByChild(campo_bd)
-			.equalTo(valor_bd);
-
-		var snap = await query.once("value");		
-		return (snap.val()[campo2_bd] == valor2_bd ? false : true);
-	}
-	catch (error) {
-		alert("Se ha producido un error de en la gestión de " + table_name);
-		console.error(error);
-	}
-}
 // <----------------- check existencia ------------------------->
 async function bbdd_existe_registro(table_name, campo_bd, valor_bd) {
     try {
