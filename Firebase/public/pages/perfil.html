@@ -13,6 +13,11 @@
         <link rel="stylesheet" href="../resources/lib/bootstrap/css/bootstrap.min.css" />
         <script src="../resources/lib/jquery-3.4.1.js"></script>
         <script src="../resources/lib/bootstrap/js/bootstrap.min.js"></script>
+		<!--datepicker-->
+    
+		<link id="bsdp-css" href="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/css/bootstrap-datepicker3.min.css"
+			rel="stylesheet">
+		<script src="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/js/bootstrap-datepicker.min.js"></script>
 
         <!--------------------------------------- SCRIPTS ------------------------------------------>
         <!-- update the version number as needed -->
@@ -34,7 +39,9 @@
         <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-analytics.js"></script>
 
 		<!--------------------------------------- JS ------------------------------------------>
-        <script defer src="../resources/JS/firebase.js"></script>
+		<script defer src="../resources/JS/socialFly.js"></script>
+		<script defer src="../resources/JS/firebase.js"></script>
+		<script defer src="../resources/JS/admin.js"></script>
 
         <!--------------------------------------- CSS ------------------------------------------>
         <link rel="stylesheet" type="text/css" href="../resources/CSS/socialFly.css" />
@@ -158,6 +165,23 @@
             	<!-- var x = document.getElementsByTagName("H1")[0].getAttribute("class");  -->
             }
 			
+			function btn_agregarAmigos()
+					{		
+						if (sonAmigos)
+						{		
+							borrarAmigo(usuarioLogeado.uid,usuarioRellenar.uid);
+							$('.follow').removeClass("btn-danger");
+							$('.follow').addClass("btn-outline-success");							
+							$('.follow').html("Agregar Amigo");
+						}
+						else
+						{
+							agregarAmigo(usuarioLogeado.uid,usuarioRellenar.uid);
+							$('.follow').removeClass("btn-outline-success");
+							$('.follow').addClass("btn-danger");
+							$('.follow').html("&cross; Borrar amigo");
+						}				
+					}
 			
 			//RELLENADO
 			var usuarioRellenar;
@@ -173,23 +197,9 @@
 				
 					usuarioRellenar = await getUsuarioPorUid(sessionStorage.getItem("uid_busqueda"));	
 					
-					function btn_agregarAmigos()
-					{		
-						if (sonAmigos)
-						{		
-							borrarAmigo(usuarioLogeado.uid,usuarioRellenar.uid);
-							$('.follow').removeClass("btn-outline-success");
-							$('.follow').addClass("btn-danger");
-							$('.follow').html("&cross; Borrar amigo");
-						}
-						else
-						{
-							agregarAmigo(usuarioLogeado.uid,usuarioRellenar.uid);
-							$('.follow').removeClass("btn-danger");
-							$('.follow').addClass("btn-outline-successr");
-							$('.follow').html("&cross; Borrar amigo");
-						}				
-					}
+					
+					
+					
 					
 					//meter el boton agregar si estamos buscando un usuario
 					$( "#rowAgregarAmigos" ).append( '<a href="#" class="follow btn btn-outline-success" onclick="btn_agregarAmigos();"> <i class="fas fa-user-friends"></i> Añadir amigo</a>' );
@@ -201,11 +211,17 @@
 					//comprobar si son amigos si son amigos poner boton de dejar de serlo, si no lo son poner boton agregar
 					if (bbdd_existe_relacion('amigos', 'uid', usuarioLogeado.uid, 'uid_amigo', usuarioRellenar.uid))
 					{
-						sonAmigos = true;						
+						sonAmigos = true;	
+						$('.follow').removeClass("btn-outline-success");
+						$('.follow').addClass("btn-danger");
+						$('.follow').html("&cross; Borrar amigo");
 					}
 					else
 					{
 						sonAmigos = false;
+						$('.follow').removeClass("btn-danger");
+						$('.follow').addClass("btn-outline-success");							
+						$('.follow').html("Agregar Amigo");
 					}	
 				}
 				//si no estamos buscando rellenamos por el usuario del auth
@@ -279,15 +295,6 @@
             <!-- $(window).on('load', function() { -->
             	<!-- document.getElementById("nombreMasApellidos").innerHTML = usuarioLogeado.nombre + ' ' + usuarioLogeado.apellidos; -->
             <!-- });		 -->
-        </script>
-        <script>
-                  
-
-
-
-                  <!-- $(window).on("load", function() { -->
-                      <!-- console.log("window loaded"); -->
-                  <!-- }); -->
         </script>
     </head>
 
