@@ -1696,7 +1696,7 @@ $('.datepicker').datepicker({
                            BBDD
 ============================================================*/
 // <!------------------- Get key relacion ---------------------->
-function getKeyRelacion(table_name, campo_bd, valor_bd, campo2_bd, valor2_bd)						
+async function getKeyRelacion(table_name, campo_bd, valor_bd, campo2_bd, valor2_bd)						
 {
 	try {
 		var query = dbRef.child("/" + table_name + "/")

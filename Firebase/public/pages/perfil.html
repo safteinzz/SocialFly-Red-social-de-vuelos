@@ -166,22 +166,22 @@
             }
 			
 			function btn_agregarAmigos()
-					{		
-						if (sonAmigos)
-						{		
-							borrarAmigo(usuarioLogeado.uid,usuarioRellenar.uid);
-							$('.follow').removeClass("btn-danger");
-							$('.follow').addClass("btn-outline-success");							
-							$('.follow').html("Agregar Amigo");
-						}
-						else
-						{
-							agregarAmigo(usuarioLogeado.uid,usuarioRellenar.uid);
-							$('.follow').removeClass("btn-outline-success");
-							$('.follow').addClass("btn-danger");
-							$('.follow').html("&cross; Borrar amigo");
-						}				
-					}
+			{		
+				if (sonAmigos)
+				{		
+					borrarAmigo(usuarioLogeado.uid,usuarioRellenar.uid);
+					$('.follow').removeClass("btn-danger");
+					$('.follow').addClass("btn-outline-success");							
+					$('.follow').html("Agregar Amigo");
+				}
+				else
+				{
+					agregarAmigo(usuarioLogeado.uid,usuarioRellenar.uid);
+					$('.follow').removeClass("btn-outline-success");
+					$('.follow').addClass("btn-danger");
+					$('.follow').html("&cross; Borrar amigo");
+				}				
+			}
 			
 			//RELLENADO
 			var usuarioRellenar;
@@ -387,11 +387,17 @@
 							};
 
 							if (bbdd_insert("amigos", new_row) == true) {
-								alert("Agregado a amigos");
+								alert("Agregado a amigos");							
 							}
 						}
-						function borrarAmigo(uid_usuario, uid_amigo){
+						
 							
+						
+						function borrarAmigo(uid_usuario, uid_amigo){
+							//tengo que sacar la key de la relacion
+							var llave = getKeyRelacion('amigos', 'uid', uid_usuario, 'uid_amigo', uid_amigo);					
+							//borrar la key
+							bbdd_delete('amigos', llave);
 						}
 					</script>
 				</div>
