@@ -76,8 +76,14 @@
     <script src="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/js/bootstrap-datepicker.min.js"></script>
     <script>
         function initPantalla() {
-
+			
         }
+		
+		function enviarMensaje(){
+			var stringMensaje = "El usuario " + usuarioLogeado.nombrePerfil + " te envía el siguiente mensaje: \n" +  $('#textAreaNuevaRespuesta').val() ;
+			createNotificacion(stringMensaje, $('#modalMensajeria').attr("data-id"));
+			$('#textAreaNuevaRespuesta').val("");
+		}
     </script>
 
     <style>
@@ -137,6 +143,7 @@
 					<a class="dropdown-item" href="https://pcsocialfly.web.app/pages/amigos.html">Mis amigos</a>
 					<a class="dropdown-item" href="https://pcsocialfly.web.app/pages/vuelos.html">Mis vuelos</a>
 					<a class="dropdown-item" href="https://pcsocialfly.web.app/pages/perfil.html">Mi perfil</a>
+					<a class="dropdown-item" href="https://pcsocialfly.web.app/pages/notificaciones.html">Notificaciones <span id="notifacionesSubMenu">0</span></a>
 					<a class="logOut dropdown-item desconectar" href="#">Desconectar</a>
 				</div>
 			</li>   
@@ -240,6 +247,42 @@
             </div>
         </div>
         <!-- FIN MODAL IMAGEN -->
+		
+		<!-- INICIO MODAL MENSAJERIA -->
+        <div aria-hidden="true" aria-labelledby="myModalMensajeria" class="modal fade" id="modalMensajeria" role="dialog"
+            tabindex="-1">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+				
+					<div style="border-top: 1px solid #e9ecef;padding: 5px 10px;">
+						<div style="margin-bottom: 10px;">
+							<div class="col-md-12">
+								Enviar mensaje:
+							</div>
+						</div>
+						<div style="margin-bottom: 10px;">
+							<div class="col-md-12">
+								<div class="input-group">
+									<textarea class="input--style-4" id="textAreaNuevaRespuesta" placeholder="Introduce un comentario" rows="1"></textarea>
+								</div>
+							</div>
+						</div>
+						<!-- INICIO DIV MENSAJE ALERTA -->
+						<div id="messagesComentario" class="alert alert-danger alert-dismissible" style="display:none;">
+							<button type="button" class="close" onclick="ocultarDiv('#modalComent #messagesComentario');">&times;</button>
+							<div id="contenidoMensaje"></div>
+						</div>
+						<!-- FIN DIV MENSAJE ALERTA -->
+						
+					</div>
+					<div class="modal-footer">
+						<button class="btn btn-outline-primary btn-rounded btn-md ml-4 text-center btn-close" data-dismiss="modal" type="button">Close</button>
+						<button id="btnEnviarMensajeAmigo" class=" btn-principal btn btn-rounded btn-md ml-4" onclick="enviarMensaje();" type="button" >Enviar</button>
+					</div>
+				</div>
+            </div>
+        </div>
+        <!-- FIN MODAL MENSAJERIA -->
 
 
         <!-- INICIO PIE DE PAGINA -->

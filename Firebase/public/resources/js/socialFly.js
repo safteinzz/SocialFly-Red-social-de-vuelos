@@ -220,6 +220,11 @@
 			cargarComentarios(idPost);
 		}
 		
+		var uidUsuarioMensaje;
+		function clickIconMensaje(uidUsuario){
+			uidUsuarioMensaje = uidUsuario;
+		}
+		
 		
 		function clickIconoMeGusta(idPost){
 			var divTeGusta = $("#" + idPost + " .teGustaPost");
