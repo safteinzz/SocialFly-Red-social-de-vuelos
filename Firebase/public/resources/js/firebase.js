@@ -33,7 +33,6 @@ var usuarioLogeado; //variable que almacena todos los datos del usuario logeado
 
 //variables de querys
 var queryUser = dbRef.child("users");
-var queryVuelosPers = dbRef.child("vuelos_personas");
 var queryVuelos = dbRef.child("vuelos");
 var queryAmigos = dbRef.child("amigos");
 
@@ -906,7 +905,7 @@ async function getUsuario() {
 
 async function carga_principal_muro() {
 
-	var queryVuelosPers = dbRef.child("vuelos_personas");
+	var queryVuelosPers = dbRef.child("vuelos_users");
 	var queryVuelos = dbRef.child("vuelos");
 
 	if (usuarioLogeado.uid != null) {
@@ -917,7 +916,7 @@ async function carga_principal_muro() {
 		$('#nombrePerfil').text(usuarioLogeado.nombrePerfil);
 
 		//Cargar los vuelos_personas del usuario logeado
-		var snap_vuePer = await queryVuelosPers.orderByChild("dni_persona").equalTo(usuarioLogeado.uid).once("value");
+		var snap_vuePer = await queryVuelosPers.orderByChild("uid").equalTo(usuarioLogeado.uid).once("value");
 
 		if (snap_vuePer.val() != null) {
 			var mydataSet_vuePer = [];
