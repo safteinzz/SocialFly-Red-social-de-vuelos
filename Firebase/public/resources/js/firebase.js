@@ -327,6 +327,14 @@ async function getRol(id)
 	return nombreRolReturn;
 }
 
+// <!------------------- funcion irPerfilUid ---------------------->
+function irPerfilUid(uidPar)
+{
+	sessionStorage.clear();
+	sessionStorage.setItem("uid_busqueda", uidPar);
+	window.location.href = "https://pcsocialfly.web.app/pages/perfil.html";
+}
+
 
 // <!------------------- Subir avatar de usuario ---------------------->
 function subirAvatar(file, user)
