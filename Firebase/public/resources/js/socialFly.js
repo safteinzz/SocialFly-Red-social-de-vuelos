@@ -226,7 +226,7 @@
 		}
 		
 		
-		function clickIconoMeGusta(idPost){
+		function clickIconoMeGusta(idPost, uidUsuario){
 			var divTeGusta = $("#" + idPost + " .teGustaPost");
 			var divIconoMeGusta = $("#" + idPost + " .iconoMeGusta");
 			var spanContadorMegusta = $("#" + idPost + " .contadorMegusta");
@@ -247,7 +247,7 @@
 				var numeroContador = parseInt(spanContadorMegusta.text()) + 1;
 				spanContadorMegusta.text(numeroContador);
 				
-				agregarMeGusta(idPost);
+				agregarMeGusta(idPost, uidUsuario);
 			} else {
 				//Si no tiene la clase es porque ya le gustaba el post
 				divTeGusta.removeClass("like");
@@ -381,17 +381,10 @@
 				+ "			<div class='informacionMG float-left'>"
 				+ "				<span class='contadorMegusta'>" + varContMG + "</span> me gusta/s, <span class='contadorComentarios'>" + varContComent + "</span> comentario/s"
 				+ "			</div>";
-				+ "			<div class='botones float-right'>"
-				+ "				<a class='iconoMeGusta' style='margin-right:15px;' onclick='clickIconoMeGusta(\"" + varIdPOST + "\");'><i class='fas fa-thumbs-up'></i></a>"
-				+ "				<a href='#' data-target='#modalComent' data-toggle='modal' data-id='" + varIdPOST + "' >"
-				+ "					<i class='fas fa-comments'></i>"
-				+ "				</a>"
-								
-				+ "			</div>";
 				
 				if(varMeGustaUsuarioLogeado){
 					stringPOST+=  "			<div class='botones float-right'>"
-								+ "				<a class='iconoMeGusta' style='margin-right:15px; color:#4dde76;' onclick='clickIconoMeGusta(\"" + varIdPOST + "\");'><i class='fas fa-thumbs-up'></i></a>"
+								+ "				<a class='iconoMeGusta' style='margin-right:15px; color:#4dde76;' onclick='clickIconoMeGusta(\"" + varIdPOST + "\", \"" + varIdUsuario + "\");'><i class='fas fa-thumbs-up'></i></a>"
 								+ "				<a href='#' data-target='#modalComent' data-toggle='modal' onclick='clickIconoComent(\"" + varIdPOST + "\");' >"
 								+ "					<i class='fas fa-comments'></i>"
 								+ "				</a>"
@@ -400,7 +393,7 @@
 								+ "			<div class='teGustaPost like'><input type='hidden' id='inputIdLike' value='" + varIdLikeUsuario + "'></div>";
 				} else {
 					stringPOST+=  "			<div class='botones float-right'>"
-								+ "				<a class='iconoMeGusta' style='margin-right:15px;' onclick='clickIconoMeGusta(\"" + varIdPOST + "\");'><i class='fas fa-thumbs-up'></i></a>"
+								+ "				<a class='iconoMeGusta' style='margin-right:15px;' onclick='clickIconoMeGusta(\"" + varIdPOST + "\", \"" + varIdUsuario + "\");'><i class='fas fa-thumbs-up'></i></a>"
 								+ "				<a href='#' data-target='#modalComent' data-toggle='modal' onclick='clickIconoComent(\"" + varIdPOST + "\");' >"
 								+ "					<i class='fas fa-comments'></i>"
 								+ "				</a>"

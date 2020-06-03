@@ -1217,6 +1217,7 @@ function crearComentario(varTextoComentario) {
 		var numeroContador = parseInt(spanContador.text()) + 1;
 		spanContador.text(numeroContador);
 		
+		createNotificacion(usuarioLogeado.nombrePerfil + " ha comentado en una de tus publicaciones", $("#modalComent").attr("data-user"));
 	}
 }
 
@@ -1244,11 +1245,13 @@ async function cargarComentarios(idPost) {
 		console.log("Contenido comentario: " + varTextoComentario);
 
 		crearComentarioHTML(idComent, varTextoComentario, varIdUsuario, varNomUser, varUrlImgPerfil, varFechaComentario);
+		
+		$("#modalComent").attr("data-user", varIdUsuario);
 	}
 }
 
 
-function agregarMeGusta(idPost) {
+function agregarMeGusta(idPost, uidUsuario) {
 
 	var dt = new Date();
 
@@ -1266,6 +1269,8 @@ function agregarMeGusta(idPost) {
 
 	var result = dbRef.update(updates);
 	console.log(result);
+	
+	createNotificacion("A " + usuarioLogeado.nombrePerfil + " le gusta una de tus publicaciones", uidUsuario);
 }
 
 function eliminarMeGusta(idLike) {
@@ -1452,11 +1457,6 @@ async function agregarVoto(varPuntuacion){
 
 
 /** INICIO NOTIFICACIONES */
-//Funcion de escuchar nuevas notificaciones
-function cargarNotificaciones() {
-	
-}
-
 function createNotificacion(varMensaje, varUidAmigo){
 	var dt = new Date();
 
