@@ -309,39 +309,42 @@
 					<li><a href="https://pcsocialfly.web.app/">Muro</a></li>
 					<li><a href="https://pcsocialfly.web.app/pages/perfil.html">Mi perfil</a></li>
 					<li><a href="https://pcsocialfly.web.app/pages/amigos.html">Mis amigos</a></li>
+					<li><a href="https://pcsocialfly.web.app/pages/vuelos.html">Mis vuelos</a></li>
 				</ul>
 			</nav>
-
-            <div class="box">
-                <div class="buscadorMenu">
-                    <input type="search" id="search" placeholder="Search..." />
-                    <span class="icon"><i class="fa fa-search"></i></span>
-                </div>
-            </div>
-
-            <ul class="navbar-nav">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <label class="nombreMasApellidos"></label>
-                        <img src="" width="40" height="40" class="rounded-circle imagenPerfil" />
-                        <span class="badge" id="navNotificacion">5</span>
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <a href="#" data-target="#modalIMG" data-toggle="modal" data-id="resources/images/yo.jpg" class="color-gray-darker c6 td-hover-none abrirModalIMG">
-                            <img src="" width="150" height="150" class="rounded-circle imagenPerfil" style="margin: 8px;" />
-                        </a>
-                        <div class="form-group has-search">
-                            <span class="fa fa-search form-control-feedback"></span>
-                            <input type="text" class="form-control" placeholder="Buscar" />
-                        </div>
-                        <a class="adminitracionEnlace dropdown-item" href="https://pcsocialfly.web.app/pages/admin.html">Adminitración</a>
-                        <a class="publiEnlace dropdown-item" href="https://pcsocialfly.web.app/pages/publi.html">Publicidad</a>
-                        <a class="dropdown-item" href="https://pcsocialfly.web.app/pages/amigos.html">Mis amigos</a>
-                        <a class="dropdown-item" href="https://pcsocialfly.web.app/pages/perfil.html">Mi perfil</a>
-                        <a class="logOut dropdown-item desconectar" href="#">Desconectar</a>
-                    </div>
-                </li>
-            </ul>
+			
+			<div class="box">
+				<div class="buscadorMenu">
+					<input type="search" id="search" placeholder="Search..." />
+					<span class="icon" onclick="buscadorMenu();"><i class="fa fa-search"></i></span>
+				</div>
+			</div>
+			
+			<ul class="navbar-nav">
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<label class="nombreMasApellidos"></label>
+						<img src="" width="40" height="40" class="rounded-circle imagenPerfil">
+						<span class="badge" id="navNotificacion">5</span>
+					</a>
+					<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+						<a href="#" data-target="#modalIMG" data-toggle="modal" data-id="resources/images/yo.jpg" class="color-gray-darker c6 td-hover-none abrirModalIMG">
+							<img src="" width="150" height="150" class="rounded-circle imagenPerfil" style="margin:8px;">
+						</a>
+						<div class="form-group has-search">
+							<span class="fa fa-search form-control-feedback"></span>
+							<input id="inputSearchMovil" type="text" class="form-control" placeholder="Buscar">
+						</div>
+						<a class="adminitracionEnlace dropdown-item" href="https://pcsocialfly.web.app/pages/admin.html">Adminitración</a>
+						<a class="publiEnlace dropdown-item" href="https://pcsocialfly.web.app/pages/publi.html">Publicidad</a>
+						<a class="dropdown-item" href="https://pcsocialfly.web.app/pages/amigos.html">Mis amigos</a>
+						<a class="dropdown-item" href="https://pcsocialfly.web.app/pages/vuelos.html">Mis vuelos</a>
+						<a class="dropdown-item" href="https://pcsocialfly.web.app/pages/perfil.html">Mi perfil</a>
+						<a class="dropdown-item" href="https://pcsocialfly.web.app/pages/notificaciones.html">Notificaciones <span id="notifacionesSubMenu">0</span></a>
+						<a class="logOut dropdown-item desconectar" href="#">Desconectar</a>
+					</div>
+				</li>   
+			</ul>
         </nav>
 
         <!--------------------------------------- BODY ---------------------------------------->

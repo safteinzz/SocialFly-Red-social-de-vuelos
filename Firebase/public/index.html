@@ -145,14 +145,14 @@
 				<li><a href="https://pcsocialfly.web.app/">Muro</a></li>
 				<li><a href="https://pcsocialfly.web.app/pages/perfil.html">Mi perfil</a></li>
 				<li><a href="https://pcsocialfly.web.app/pages/amigos.html">Mis amigos</a></li>
+				<li><a href="https://pcsocialfly.web.app/pages/vuelos.html">Mis vuelos</a></li>
 			</ul>
 		</nav>
 		
 		<div class="box">
 			<div class="buscadorMenu">
-				
 				<input type="search" id="search" placeholder="Search..." />
-				<span class="icon"><i class="fa fa-search"></i></span>
+				<span class="icon" onclick="buscadorMenu();"><i class="fa fa-search"></i></span>
 			</div>
 		</div>
 		
@@ -169,11 +169,12 @@
 					</a>
 					<div class="form-group has-search">
 						<span class="fa fa-search form-control-feedback"></span>
-						<input type="text" class="form-control" placeholder="Buscar">
+						<input id="inputSearchMovil" type="text" class="form-control" placeholder="Buscar">
 					</div>
 					<a class="adminitracionEnlace dropdown-item" href="https://pcsocialfly.web.app/pages/admin.html">Adminitración</a>
 					<a class="publiEnlace dropdown-item" href="https://pcsocialfly.web.app/pages/publi.html">Publicidad</a>
 					<a class="dropdown-item" href="https://pcsocialfly.web.app/pages/amigos.html">Mis amigos</a>
+					<a class="dropdown-item" href="https://pcsocialfly.web.app/pages/vuelos.html">Mis vuelos</a>
 					<a class="dropdown-item" href="https://pcsocialfly.web.app/pages/perfil.html">Mi perfil</a>
 					<a class="dropdown-item" href="https://pcsocialfly.web.app/pages/notificaciones.html">Notificaciones <span id="notifacionesSubMenu">0</span></a>
 					<a class="logOut dropdown-item desconectar" href="#">Desconectar</a>
@@ -213,6 +214,11 @@
 						<i class="fas fa-users"></i>
 					</a>
 				</div>
+				<div style="margin-bottom: 10px;">
+					<a href="https://pcsocialfly.web.app/pages/vuelos.html" class="iconReload">
+						<i class="fas fa-plane"></i>
+					</a>
+				</div> 
 			</div>
 		</div>
 		<div class="col-md-9 float-left contenedorCentral">

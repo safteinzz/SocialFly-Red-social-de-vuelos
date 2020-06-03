@@ -84,6 +84,22 @@ firebase.auth().onAuthStateChanged(async function(user) {
 				}
 
 			});
+			
+			//Evento para el buscador
+			$('#search').on('keypress', function(e) {
+				if(e.which == 13) {           
+					buscadorMenu();
+				}
+			});
+			
+			//Evento para el buscador movil
+			$('#inputSearchMovil').on('keypress', function(e) {
+				if(e.which == 13) {           
+					buscadorMenuMovil();
+				}
+			});
+			
+			
 		});
 	}
 });
@@ -549,6 +565,9 @@ async function cargarPantalla(){
 			break;
 		case 'notificaciones.html':
 			load_notificaciones();
+			break;
+		case 'busqueda.html':
+			load_busqueda();
 			break;
 		default:
 			initPrincipal();
@@ -1591,3 +1610,39 @@ async function load_notificaciones(){
         columns: config_cols
     })
 }
+
+
+/** INICIO BUSCADOR MENU */
+function buscadorMenu(){
+	var varStringBusqueda = $('#search').val();
+	if(varStringBusqueda != ""){
+		sessionStorage.clear(); // limpiamos sesión
+		sessionStorage.setItem("string_busqueda", varStringBusqueda);
+		window.location.href =
+		  "https://pcsocialfly.web.app/pages/busqueda.html";
+	}
+}
+
+
+//Version movil
+function buscadorMenuMovil(){
+	var varStringBusqueda = $('#inputSearchMovil').val();
+	if(varStringBusqueda != ""){
+		sessionStorage.clear(); // limpiamos sesión
+		sessionStorage.setItem("string_busqueda", varStringBusqueda);
+		window.location.href =
+		  "https://pcsocialfly.web.app/pages/busqueda.html";
+	}
+}
+/** FIN BUSCADOR MENU */
+
+/** INICIO PANTALLA BUSQUEDA */
+function load_busqueda(){
+	if(sessionStorage.getItem("string_busqueda") != null){
+		console.log("LA BUSQUEDA: " + sessionStorage.getItem("string_busqueda"));
+		$('#input_busqueda').val(sessionStorage.getItem("string_busqueda"));
+		barra_buscar_click();
+		sessionStorage.clear(); // limpiamos sesión
+	}
+}
+/** FIN PANTALLA BUSQUEDA */
