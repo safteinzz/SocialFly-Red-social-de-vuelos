@@ -330,8 +330,10 @@ async function getRol(id)
 // <!------------------- funcion irPerfilUid ---------------------->
 function irPerfilUid(uidPar)
 {
-	sessionStorage.clear();
-	sessionStorage.setItem("uid_busqueda", uidPar);
+	if(uidPar != usuarioLogeado.uid){
+		sessionStorage.clear();
+		sessionStorage.setItem("uid_busqueda", uidPar);
+	}
 	window.location.href = "https://pcsocialfly.web.app/pages/perfil.html";
 }
 

@@ -330,7 +330,7 @@
 			stringPOST += "		<a onclick='abrirModalIMG(\"" + varUrlImgPerfil + "\");' data-target='#modalIMG' data-toggle='modal' class='color-gray-darker c6 td-hover-none abrirModalIMG' style='text-decoration: none;float:left;'>"
 				+ "			<img src='" + varUrlImgPerfil + "' width='60' height='60' class='rounded-circle'>"
 				+ "		</a>"
-				+ "		<a href='#' class='usuarioPost'>"
+				+ "		<a onclick='irPerfilUid(\"" + varIdUsuario + "\");' class='usuarioPost'>"
 							+ varNomUser 
 				+ "		</a>";
 			
