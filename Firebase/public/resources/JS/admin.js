@@ -1147,10 +1147,11 @@ function tab_table_config_cols(tab_control) {
             clickToSelect: false,
             events: window.operateEvents,// formatter: operateFormatter,
             formatter: function (e, value) {
-            // establecemos la sesión con el uid del amigo
-            sessionStorage.clear(); // limpiamos sesión
-            sessionStorage.setItem("uid_busqueda", value.uid);
-            return '<a href="https://pcsocialfly.web.app/pages/perfil.html"><i class="fas fa-user"></i></a>'
+				// establecemos la sesión con el uid del amigo
+				// sessionStorage.clear(); // limpiamos sesión
+				// sessionStorage.setItem("uid_busqueda", value.uid);
+				return '<a onclick="irPerfilUid(\'' + value.uid + '\');""><i class="fas fa-user"></i></a>';
+				// return '<a href="https://pcsocialfly.web.app/pages/perfil.html"><i class="fas fa-user"></i></a>'
             }
           }
         ],
@@ -1519,9 +1520,10 @@ async function load_amigos_table() {
         width: 25,
         formatter: function (e, value) {
           // establecemos la sesión con el uid del amigo
-          sessionStorage.clear(); // limpiamos sesión
-          sessionStorage.setItem("uid_busqueda", value.uid);
-          return '<a href="https://pcsocialfly.web.app/pages/perfil.html"><i class="fas fa-user"></i></a>';
+          // sessionStorage.clear(); // limpiamos sesión
+          // sessionStorage.setItem("uid_busqueda", value.uid);
+          // return '<a href="https://pcsocialfly.web.app/pages/perfil.html"><i class="fas fa-user"></i></a>';
+		  return '<a onclick="irPerfilUid(\'' + value.uid + '\');""><i class="fas fa-user"></i></a>';
         },
       },
     ],
