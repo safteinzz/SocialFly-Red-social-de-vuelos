@@ -650,7 +650,7 @@ async function getPublicidad() {
 
 /** INICIO CREAR PUBLICIDAD MURO DERECHA - VERSION ORDENADOR */
 function cargarMuroPublicidadDerecha() {
-	for (var x = 0; x < 2 && x < varArrayPublicidad.length; x++) {
+	for (var i = 0; i < 2 && i < varArrayPublicidad.length; i++) {
 		var continuarWhile = true;
 		do {
 			var numAleatorio = Math.floor(Math.random() * varArrayPublicidad.length);
