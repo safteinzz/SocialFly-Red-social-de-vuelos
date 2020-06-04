@@ -499,17 +499,20 @@ function registroUser()
 	if (document.getElementById("terminos").checked == false)
 	{
 		alert("Tienes que aceptar los terminos de registro");
+		return;
 	}
 	
 	//Comprobar pass repetida
 	if (!(document.getElementById("pass").value == document.getElementById("repitePass").value))
 	{
 		alert("Las contrase�as son diferentes");	
+		return;
 	}	
 
 	if (document.getElementById("pass").value.length < 6)
 	{
 		alert("Las contrase�as deben tener al menos 6 caracteres");	
+		return;
 	}
 	
 	
