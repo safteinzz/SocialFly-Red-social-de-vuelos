@@ -211,11 +211,12 @@
 		}
 		
 		var idPostComentarios;
-		function clickIconoComent(idPost){
+		function clickIconoComent(idPost, varIdUsuario){
 			idPostComentarios = idPost;
 			
 			$('.contenidoMensajes').html("<div class='comentarioPOST' id='comment1'></div>");
 			
+			$("#modalComent").attr("data-user", varIdUsuario);
 			
 			cargarComentarios(idPost);
 		}
@@ -385,7 +386,7 @@
 				if(varMeGustaUsuarioLogeado){
 					stringPOST+=  "			<div class='botones float-right'>"
 								+ "				<a class='iconoMeGusta' style='margin-right:15px; color:#4dde76;' onclick='clickIconoMeGusta(\"" + varIdPOST + "\", \"" + varIdUsuario + "\");'><i class='fas fa-thumbs-up'></i></a>"
-								+ "				<a href='#' data-target='#modalComent' data-toggle='modal' onclick='clickIconoComent(\"" + varIdPOST + "\");' >"
+								+ "				<a href='#' data-target='#modalComent' data-toggle='modal' onclick='clickIconoComent(\"" + varIdPOST + "\", \"" + varIdUsuario + "\");' >"
 								+ "					<i class='fas fa-comments'></i>"
 								+ "				</a>"
 												
@@ -394,7 +395,7 @@
 				} else {
 					stringPOST+=  "			<div class='botones float-right'>"
 								+ "				<a class='iconoMeGusta' style='margin-right:15px;' onclick='clickIconoMeGusta(\"" + varIdPOST + "\", \"" + varIdUsuario + "\");'><i class='fas fa-thumbs-up'></i></a>"
-								+ "				<a href='#' data-target='#modalComent' data-toggle='modal' onclick='clickIconoComent(\"" + varIdPOST + "\");' >"
+								+ "				<a href='#' data-target='#modalComent' data-toggle='modal' onclick='clickIconoComent(\"" + varIdPOST + "\", \"" + varIdUsuario + "\");' >"
 								+ "					<i class='fas fa-comments'></i>"
 								+ "				</a>"
 												

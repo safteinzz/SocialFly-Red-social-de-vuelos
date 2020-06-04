@@ -1259,8 +1259,6 @@ async function cargarComentarios(idPost) {
 		console.log("Contenido comentario: " + varTextoComentario);
 
 		crearComentarioHTML(idComent, varTextoComentario, varIdUsuario, varNomUser, varUrlImgPerfil, varFechaComentario);
-		
-		$("#modalComent").attr("data-user", varIdUsuario);
 	}
 }
 
