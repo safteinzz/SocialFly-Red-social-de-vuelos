@@ -1047,9 +1047,9 @@ async function crearPost(varComentario) {
 			for (var x = 0; x < usuarioLogeado.vuelosAsociados.length; x++) {
 				if (id_vuelo == usuarioLogeado.vuelosAsociados[x].id_vuelo) {
 					varSalida = usuarioLogeado.vuelosAsociados[x].origen + " " + usuarioLogeado.vuelosAsociados[x].fecha_salida;
-					varRetrasoSalida = usuarioLogeado.vuelosAsociados[x].retrasoSalida;
+					varRetrasoSalida = (usuarioLogeado.vuelosAsociados[x].retrasoSalida != null) ? usuarioLogeado.vuelosAsociados[x].retrasoSalida : false;
 					varDestino = usuarioLogeado.vuelosAsociados[x].destino + " " + usuarioLogeado.vuelosAsociados[x].fecha_llegada;
-					varRetrasoDestino = usuarioLogeado.vuelosAsociados[x].retrasoLlegada;
+					varRetrasoDestino = (usuarioLogeado.vuelosAsociados[x].retrasoLlegada != null) ? usuarioLogeado.vuelosAsociados[x].retrasoLlegada : false;
 				}
 			}
 		}

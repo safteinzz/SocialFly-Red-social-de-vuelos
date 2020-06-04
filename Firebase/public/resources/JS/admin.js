@@ -2072,7 +2072,9 @@ async function modal_save_data() {
     case "tab_vuelos":
       var numero_vuelo = document.getElementById("input_numerovuelo").value;
       var fecha_salida = document.getElementById("input_fechaSalida").value;
+	  var retrasoSalida = document.getElementById("customRadioRetrasoSalida").checked;
       var fecha_llegada = document.getElementById("input_fechaLlegada").value;
+	  var retrasoLlegada = document.getElementById("customRadioRetrasoLlegada").checked;
       var origen = document.getElementById("OrigenList").value;
       var destino = document.getElementById("DestinoList").value;
 
@@ -2151,6 +2153,8 @@ async function modal_save_data() {
           fecha_llegada: fecha_llegada,
           origen: origen,
           destino: destino,
+		  retrasoSalida: retrasoSalida,
+		  retrasoLlegada: retrasoLlegada
         };
         if (bbdd_insert("vuelos", new_row) == true) {
           alert("Vuelo creado correctamente");
