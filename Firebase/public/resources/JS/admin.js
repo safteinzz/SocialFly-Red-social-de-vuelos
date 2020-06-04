@@ -1442,10 +1442,7 @@ async function load_amigos_table() {
 
       if (snap_users != null) {
         snap_users.forEach((child) => {
-          var foto_perfil = getImagenStorage(
-            child.val().uid + "/",
-            "perfil.png"
-          );
+          var foto_perfil = child.val().avatarURL;
           var fila_json = {
             key: child.key,
             foto_perfil: foto_perfil,
