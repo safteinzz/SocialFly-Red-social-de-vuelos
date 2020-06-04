@@ -276,7 +276,8 @@ function agregarAmigo(uid_usuario, uid_amigo){
 // <!------------------- Borrar Amigos ---------------------->
 async function borrarAmigo(uid_usuario, uid_amigo){
 	//tengo que sacar la key de la relacion
-	var llave = await bbdd_getKeyRelacion('amigos', 'uid', uid_usuario, 'uid_amigo', uid_amigo);					
+	var llave = await bbdd_getKeyRelacion('amigos', 'uid', uid_usuario, 'uid_amigo', uid_amigo);
+	await sleep(100);
 	//borrar la key
 	bbdd_delete('amigos', llave);
 	

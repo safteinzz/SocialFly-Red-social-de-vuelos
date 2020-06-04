@@ -2243,8 +2243,24 @@ async function bbdd_getKeyRelacion(table_name, campo_bd, valor_bd, campo2_bd, va
 		
 		if (snap.val() != null)
 		{
-			var key = Object.keys(snap.val())[0];
-			return key;
+			var key;
+			var intero = 0;
+			await snap.forEach((child) => {
+				val = child.val();
+				if (val[campo2_bd] == valor2_bd)
+				{
+					key = Object.keys(snap.val())[intero];					
+				}
+				intero++;
+				// var fila_json = {
+					// key: child.key,
+					// nombre: child.val().nombre,
+					// ciudad: child.val().ciudad,
+					// isVuelo: child.val().isVuelo
+				// };
+				// mydataSet.push(fila_json);
+			});	
+			return key;			
 		}								
 	}
 	catch (error) {
