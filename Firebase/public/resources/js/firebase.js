@@ -424,6 +424,7 @@ function login(tipo) {
 			
 			await crearUser(newUser);
 			// await sleep(1000);
+			sessionStorage.clear(); //por si la ha liado y tiene una busqueda
 			alert('Login confirmado'); //esto esta para esperar la creaci�n mas que otra cosa
 			window.location.href = "https://pcsocialfly.web.app/pages/perfil.html";
 		}
